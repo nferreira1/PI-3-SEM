@@ -37,7 +37,7 @@ public class Usuario {
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @Column(nullable = false)
-  @NotBlank
+  @NotBlank(groups = { CriarUsuario.class, AtualizarUsuario.class })
   @Size(groups = { CriarUsuario.class, AtualizarUsuario.class }, min = 6, max = 50)
   private String senha;
 
