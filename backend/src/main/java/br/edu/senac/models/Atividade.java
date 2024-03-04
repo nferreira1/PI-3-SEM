@@ -1,10 +1,14 @@
 package br.edu.senac.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -28,11 +32,6 @@ public class Atividade {
   @Size(min = 3, max = 255)
   private String nome;
 
-  @Column(nullable = false, length = 50)
-  @NotBlank
-  @Size(max = 50)
-  private String departamento;
-
   @Column(nullable = false)
   @NotBlank
   @Size(max = 255)
@@ -48,5 +47,8 @@ public class Atividade {
   @Column(nullable = false)
   @NotBlank
   private boolean status;
+
+  @OneToMany(mappedBy = "atividade")
+  private List<Servico> servicos = new ArrayList<Servico>();
 
 }
