@@ -45,7 +45,7 @@ public class Usuario {
   @Size(groups = { CriarUsuario.class, AtualizarUsuario.class }, min = 6, max = 50)
   private String senha;
 
-  private String imageUrl;
+  private String imagem;
 
   @Column(nullable = false)
   private boolean status;

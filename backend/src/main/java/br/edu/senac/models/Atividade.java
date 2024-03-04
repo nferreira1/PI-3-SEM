@@ -38,7 +38,7 @@ public class Atividade {
   @Size(max = 255)
   private String local;
 
-  private String image;
+  private String imagem;
 
   @Column(nullable = false, length = 15)
   @NotBlank
