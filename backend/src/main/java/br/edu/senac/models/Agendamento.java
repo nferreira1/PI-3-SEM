@@ -43,4 +43,21 @@ public class Agendamento {
   @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
   private Usuario usuario;
 
+  public static enum Status {
+    CONFIRMADO("Confirmado"),
+    FINALIZADO("Finalizado"),
+    CANCELADO("Cancelado"),
+    AGUARDANDO_CONFIRMACAO("Aguardando confirmação");
+
+    private final String descricao;
+
+    Status(String descricao) {
+      this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+      return descricao;
+    }
+  }
+
 }
