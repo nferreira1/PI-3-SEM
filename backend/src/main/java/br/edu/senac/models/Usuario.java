@@ -29,9 +29,6 @@ public class Usuario {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToMany(mappedBy = "usuario")
-  private List<Agendamento> agendamentos = new ArrayList<Agendamento>();
-
   @Column(nullable = false)
   @NotBlank
   @Size(groups = CriarUsuario.class, min = 3, max = 255)
@@ -52,6 +49,9 @@ public class Usuario {
 
   @Column(nullable = false)
   private boolean status;
+
+  @OneToMany(mappedBy = "usuario")
+  private List<Agendamento> agendamentos = new ArrayList<Agendamento>();
 
   public interface CriarUsuario {
 

@@ -27,10 +27,6 @@ public class Agendamento {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
-  private Usuario usuario;
-
   @Column(nullable = false)
   @NotBlank
   private LocalDate dataAgendamento;
@@ -42,5 +38,9 @@ public class Agendamento {
   @Column(nullable = false)
   @NotBlank
   private boolean status;
+
+  @ManyToOne
+  @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
+  private Usuario usuario;
 
 }
