@@ -37,7 +37,7 @@ public class Agendamento {
 
   @Column(nullable = false)
   @NotBlank
-  private boolean status;
+  private Status status;
 
   @ManyToOne
   @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
