@@ -1,5 +1,6 @@
 package br.edu.senac.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class UsuarioService {
 
     return usuario
         .orElseThrow(() -> new RuntimeException("Usuário não encontrado" + id + ",  tipo: " + Usuario.class.getName()));
+  }
+
+  public List<Usuario> findAll() {
+    return this.usuarioRepository.findAll();
   }
 
   @Transactional
