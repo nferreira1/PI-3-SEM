@@ -35,26 +35,26 @@ public class UsuarioController {
   private UsuarioService usuarioService;
 
   @GetMapping
-  public ResponseEntity<List<Usuario>> findAll() {
+  public ResponseEntity<List<Usuario>> buscarTodos() {
 
-    List<Usuario> list = this.usuarioService.findAll();
+    List<Usuario> list = this.usuarioService.buscarTodos();
 
     return ResponseEntity.ok().body(list);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Usuario> findById(@PathVariable @NonNull Long id) {
+  public ResponseEntity<Usuario> buscarPorId(@PathVariable @NonNull Long id) {
 
-    Usuario usuario = this.usuarioService.findById(id);
+    Usuario usuario = this.usuarioService.buscarPorId(id);
 
     return ResponseEntity.ok().body(usuario);
   }
 
   @PostMapping
   @Validated(CriarUsuario.class)
-  public ResponseEntity<Void> create(@Valid @RequestBody Usuario obj) {
+  public ResponseEntity<Void> criar(@Valid @RequestBody Usuario obj) {
 
-    this.usuarioService.create(obj);
+    this.usuarioService.criar(obj);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
     return ResponseEntity.created(uri).build();
@@ -62,18 +62,24 @@ public class UsuarioController {
 
   @PutMapping("/{id}")
   @Validated(AtualizarUsuario.class)
-  public ResponseEntity<Void> update(@Valid @RequestBody Usuario obj, @PathVariable Long id) {
+  public ResponseEntity<Void> atualizar(@Valid @RequestBody Usuario obj, @PathVariable Long id) {
 
     obj.setId(id);
-    this.usuarioService.update(obj);
+    this.usuarioService.atualizar(obj);
 
     return ResponseEntity.noContent().build();
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable @NonNull Long id) {
+  @PutMapping("/alternar-status/{id}")
+  public String alternarStatus(@PathVariable String id, @RequestBody String entity) {
 
-    this.usuarioService.delete(id);
+    return entity;
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> excluir(@PathVariable @NonNull Long id) {
+
+    this.usuarioService.excluir(id);
 
     return ResponseEntity.noContent().build();
   }

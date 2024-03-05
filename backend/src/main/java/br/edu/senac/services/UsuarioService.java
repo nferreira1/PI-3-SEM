@@ -17,7 +17,7 @@ public class UsuarioService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-  public Usuario findById(@NonNull Long id) {
+  public Usuario buscarPorId(@NonNull Long id) {
 
     Optional<Usuario> usuario = this.usuarioRepository.findById(id);
 
@@ -25,12 +25,12 @@ public class UsuarioService {
         .orElseThrow(() -> new RuntimeException("Usuário não encontrado" + id + ",  tipo: " + Usuario.class.getName()));
   }
 
-  public List<Usuario> findAll() {
+  public List<Usuario> buscarTodos() {
     return this.usuarioRepository.findAll();
   }
 
   @Transactional
-  public Usuario create(Usuario obj) {
+  public Usuario criar(Usuario obj) {
     obj.setId(null);
     obj.setEmail(obj.getEmail().toLowerCase());
     obj.setNome(obj.getNome().toUpperCase());
@@ -41,9 +41,9 @@ public class UsuarioService {
   }
 
   @Transactional
-  public Usuario update(@NonNull Usuario obj) {
+  public Usuario atualizar(@NonNull Usuario obj) {
 
-    Usuario novoObj = findById(obj.getId());
+    Usuario novoObj = buscarPorId(obj.getId());
     novoObj.setNome(obj.getNome().toUpperCase());
     novoObj.setSenha(obj.getSenha());
     novoObj.setEmail(obj.getEmail().toLowerCase());
@@ -52,9 +52,9 @@ public class UsuarioService {
     return this.usuarioRepository.save(novoObj);
   }
 
-  public void delete(@NonNull Long id) {
+  public void excluir(@NonNull Long id) {
 
-    findById(id);
+    buscarPorId(id);
 
     this.usuarioRepository.alterarStatus(id);
 

@@ -18,7 +18,7 @@ public class AgendamentoService {
   @Autowired
   private UsuarioService usuarioService;
 
-  public Agendamento findById(@NonNull Long id) {
+  public Agendamento buscarPorId(@NonNull Long id) {
     Optional<Agendamento> agendamento = this.agendamentoRepository.findById(id);
 
     return agendamento
@@ -27,9 +27,9 @@ public class AgendamentoService {
   }
 
   @Transactional
-  public Agendamento create(@NonNull Agendamento obj) {
+  public Agendamento criar(@NonNull Agendamento obj) {
 
-    Usuario usuario = this.usuarioService.findById(obj.getUsuario().getId());
+    Usuario usuario = this.usuarioService.buscarPorId(obj.getUsuario().getId());
     obj.setId(null);
     obj.setUsuario(usuario);
     obj = this.agendamentoRepository.save(obj);
@@ -38,9 +38,9 @@ public class AgendamentoService {
   }
 
   @Transactional
-  public void update(@NonNull Long id, @NonNull Agendamento.Status status) {
+  public void atualizar(@NonNull Long id, @NonNull Agendamento.Status status) {
 
-    findById(id);
+    buscarPorId(id);
 
     this.agendamentoRepository.alterarStatus(id, status);
 
