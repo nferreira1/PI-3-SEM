@@ -71,9 +71,11 @@ public class UsuarioController {
   }
 
   @PutMapping("/alternar-status/{id}")
-  public String alternarStatus(@PathVariable String id, @RequestBody String entity) {
+  public ResponseEntity<Void> alternarStatus(@PathVariable @NonNull Long id) {
 
-    return entity;
+    this.usuarioService.alternarStatus(id);
+
+    return ResponseEntity.noContent().build();
   }
 
   @DeleteMapping("/{id}")

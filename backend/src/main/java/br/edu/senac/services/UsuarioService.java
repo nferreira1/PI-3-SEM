@@ -60,4 +60,11 @@ public class UsuarioService {
 
   }
 
+  public void alternarStatus(@NonNull Long id) {
+
+    Usuario obj = buscarPorId(id);
+    obj.setStatus(!obj.isStatus());
+
+    this.usuarioRepository.save(obj);
+  }
 }
