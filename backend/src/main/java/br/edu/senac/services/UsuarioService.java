@@ -31,8 +31,10 @@ public class UsuarioService {
 
   @Transactional
   public Usuario create(Usuario obj) {
-
     obj.setId(null);
+    obj.setEmail(obj.getEmail().toLowerCase());
+    obj.setNome(obj.getNome().toUpperCase());
+
     obj = this.usuarioRepository.save(obj);
 
     return obj;
