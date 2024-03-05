@@ -3,7 +3,6 @@ package br.edu.senac.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -27,7 +26,6 @@ public class Usuario {
   public static final String NOME_TABELA = "usuarios";
 
   @Id
-  @JsonIgnore
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
@@ -49,11 +47,9 @@ public class Usuario {
 
   private String imagem = null;
 
-  @JsonIgnore
   @Column(nullable = false)
   private boolean status = true;
 
-  @JsonIgnore
   @OneToMany(mappedBy = "usuario")
   private List<Agendamento> agendamentos = new ArrayList<Agendamento>();
 
