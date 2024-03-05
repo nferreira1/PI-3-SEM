@@ -56,7 +56,7 @@ public class UsuarioService {
 
     buscarPorId(id);
 
-    this.usuarioRepository.alterarStatus(id);
+    this.usuarioRepository.alternarStatus(id);
 
   }
 

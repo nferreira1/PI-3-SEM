@@ -15,6 +15,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
   @Modifying
   @Transactional
   @Query(nativeQuery = true, value = "UPDATE usuarios SET status = 0 WHERE id = :id")
-  void alterarStatus(@Param("id") Long id);
+  void alternarStatus(@Param("id") Long id);
 
 }

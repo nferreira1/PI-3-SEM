@@ -42,7 +42,7 @@ public class AgendamentoService {
 
     buscarPorId(id);
 
-    this.agendamentoRepository.alterarStatus(id, status);
+    this.agendamentoRepository.alternarStatus(id, status);
 
   }
 
