@@ -42,7 +42,10 @@ public class UsuarioService {
   public Usuario update(@NonNull Usuario obj) {
 
     Usuario novoObj = findById(obj.getId());
+    novoObj.setNome(obj.getNome());
     novoObj.setSenha(obj.getSenha());
+    novoObj.setEmail(obj.getEmail());
+    novoObj.setImagem(obj.getImagem());
 
     return this.usuarioRepository.save(novoObj);
   }
