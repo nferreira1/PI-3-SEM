@@ -1,5 +1,6 @@
 package br.edu.senac.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class AgendamentoService {
     return agendamento
         .orElseThrow(
             () -> new RuntimeException("Agendamento não encontrado" + id + ",  tipo: " + Agendamento.class.getName()));
+  }
+
+  public List<Agendamento> buscarTodosPorIdUsuario(@NonNull Long id) {
+    return this.agendamentoRepository.buscarTodosPorIdUsuario(id);
   }
 
   @Transactional

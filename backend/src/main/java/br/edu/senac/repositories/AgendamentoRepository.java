@@ -1,5 +1,7 @@
 package br.edu.senac.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +15,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
   @Query(nativeQuery = true, value = "UPDATE agendamentos SET status = :status WHERE id = :id")
   public void alternarStatus(@Param("id") Long id, @Param("status") Agendamento.Status status);
 
+  @Query(nativeQuery = true, value = "SELECT * FROM agendamentos WHERE usuario_id = :id")
+  public List<Agendamento> buscarTodosPorIdUsuario(@Param("id") Long id);
 }
