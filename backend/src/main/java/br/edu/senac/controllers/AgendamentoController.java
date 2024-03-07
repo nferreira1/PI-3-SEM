@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.services.AgendamentoService;
+import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -31,6 +32,9 @@ public class AgendamentoController {
   @Autowired
   private AgendamentoService agendamentoService;
 
+  @Autowired
+  private UsuarioService usuarioService;
+
   @GetMapping("/{id}")
   public ResponseEntity<Agendamento> buscarPorId(@PathVariable @NonNull Long id) {
     Agendamento agendamento = this.agendamentoService.buscarPorId(id);
@@ -40,6 +44,8 @@ public class AgendamentoController {
 
   @GetMapping("/usuario/{id}")
   public ResponseEntity<List<Agendamento>> buscarTodosPorIdUsuario(@PathVariable @NonNull Long id) {
+
+    this.usuarioService.buscarPorId(id);
     List<Agendamento> agendamentos = this.agendamentoService.buscarTodosPorIdUsuario(id);
 
     return ResponseEntity.ok().body(agendamentos);
