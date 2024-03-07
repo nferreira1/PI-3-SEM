@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.repositories.AgendamentoRepository;
+import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class AgendamentoService {
@@ -24,9 +25,7 @@ public class AgendamentoService {
   public Agendamento buscarPorId(@NonNull Long id) {
     Optional<Agendamento> agendamento = this.agendamentoRepository.findById(id);
 
-    return agendamento
-        .orElseThrow(
-            () -> new RuntimeException("Agendamento não encontrado" + id + ",  tipo: " + Agendamento.class.getName()));
+    return agendamento.orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado!"));
   }
 
   public List<Agendamento> buscarTodosPorIdUsuario(@NonNull Long id) {

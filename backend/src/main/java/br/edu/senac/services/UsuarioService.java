@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.senac.models.Usuario;
 import br.edu.senac.repositories.UsuarioRepository;
+import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -21,8 +22,8 @@ public class UsuarioService {
 
     Optional<Usuario> usuario = this.usuarioRepository.findById(id);
 
-    return usuario
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado" + id + ",  tipo: " + Usuario.class.getName()));
+    return usuario.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!"));
+
   }
 
   public List<Usuario> buscarTodos() {
