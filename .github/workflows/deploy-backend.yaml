@@ -1,0 +1,77 @@
+name: Publicação na Máquina Virtual Linux, na cloud da Azure
+
+on:
+  push:
+    paths-ignore:
+      - frontend/**
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Buildar com Maven
+        working-directory: ./backend/
+        run: mvn -B package --file pom.xml
+
+      - name: Copiar o arquivo JAR para a VM via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          source: "backend/target/*.jar"
+          target: "~/PI-3-SEM/"
+
+      - name: Atualizar serviço pi-3-sem-api na VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            mv ~/PI-3-SEM/backend/target/*.jar ~/PI-3-SEM/backend/
+            rm -d ~/PI-3-SEM/backend/target
+            JAR_PATH=$(find ~/PI-3-SEM/backend -type f -name "*.jar")
+            SERVICE_FILE=/etc/systemd/system/pi-3-sem-api.service
+            if [ ! -f $SERVICE_FILE ]; then
+              echo "Criando o serviço pi-3-sem-api..."
+              echo "[Unit]
+              Description=API com Java Spring, referente ao PI do 3º semestre do curso de Análise e Desenvolvimento de Sistemas
+              After=network.target
+
+              [Service]
+              User=nathan
+              WorkingDirectory=/home/nathan/PI-3-SEM/
+              ExecStart=/usr/bin/java -jar $JAR_PATH
+              SuccessExitStatus=143
+              TimeoutStopSec=10
+              Restart=on-failure
+              RestartSec=5
+              StandardOutput=journal
+              StandardError=inherit
+
+              [Install]
+              WantedBy=multi-user.target" | sudo tee $SERVICE_FILE
+
+              sudo systemctl daemon-reload
+              sudo systemctl start pi-3-sem-api.service
+            else
+              echo "Atualizando o caminho do ExecStart para o JAR atual..."
+              sudo sed -i "s|ExecStart=.*|ExecStart=/usr/bin/java -jar $JAR_PATH|g" $SERVICE_FILE
+              sudo systemctl daemon-reload
+              sudo systemctl restart pi-3-sem-api.service
+            fi
