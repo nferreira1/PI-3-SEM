@@ -8,6 +8,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.senac.dtos.UsuarioDTO;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
@@ -31,22 +32,20 @@ public class UsuarioService {
   }
 
   @Transactional
-  public Usuario criar(Usuario obj) {
-    obj.setId(null);
-    obj.setEmail(obj.getEmail().toLowerCase());
-    obj.setNome(obj.getNome().toUpperCase());
+  public Usuario criar(UsuarioDTO.Criar obj) {
 
-    obj = this.usuarioRepository.save(obj);
+    Usuario usuario = new Usuario(obj);
 
-    return obj;
+    this.usuarioRepository.save(usuario);
+
+    return usuario;
   }
 
   @Transactional
-  public Usuario atualizar(@NonNull Usuario obj) {
+  public Usuario atualizar(@NonNull UsuarioDTO.Atualizar obj, Long id) {
 
-    Usuario novoObj = buscarPorId(obj.getId());
+    Usuario novoObj = buscarPorId(id);
     novoObj.setNome(obj.getNome().toUpperCase());
-    novoObj.setSenha(obj.getSenha());
     novoObj.setEmail(obj.getEmail().toLowerCase());
     novoObj.setImagem(obj.getImagem());
 

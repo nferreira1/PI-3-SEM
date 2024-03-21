@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import br.edu.senac.dtos.UsuarioDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,18 +32,18 @@ public class Usuario {
 
   @Column(nullable = false)
   @NotBlank
-  @Size(groups = CriarUsuario.class, min = 3, max = 255)
+  @Size(min = 3, max = 255)
   private String nome;
 
   @Column(nullable = false, unique = true)
-  @NotBlank(groups = { CriarUsuario.class, AtualizarUsuario.class })
-  @Size(groups = CriarUsuario.class, min = 3, max = 255)
+  @NotBlank
+  @Size(min = 3, max = 255)
   private String email;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @Column(nullable = false)
-  @NotBlank(groups = { CriarUsuario.class, AtualizarUsuario.class })
-  @Size(groups = { CriarUsuario.class, AtualizarUsuario.class }, min = 6, max = 50)
+  @NotBlank
+  @Size(min = 6, max = 50)
   private String senha;
 
   private String imagem = null;
@@ -53,12 +54,17 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario")
   private List<Agendamento> agendamentos = new ArrayList<Agendamento>();
 
-  public interface CriarUsuario {
-
+  public Usuario(UsuarioDTO.Criar usuario) {
+    this.nome = usuario.getNome().toUpperCase();
+    this.senha = usuario.getSenha();
+    this.email = usuario.getEmail().toLowerCase();
+    this.imagem = usuario.getImagem();
   }
 
-  public interface AtualizarUsuario {
-
+  public Usuario(UsuarioDTO.Atualizar usuario) {
+    this.nome = usuario.getNome().toUpperCase();
+    this.email = usuario.getEmail().toLowerCase();
+    this.imagem = usuario.getImagem();
   }
 
 }

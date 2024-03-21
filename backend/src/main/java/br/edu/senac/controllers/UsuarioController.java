@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.edu.senac.dtos.UsuarioDTO;
 import br.edu.senac.models.Usuario;
-import br.edu.senac.models.Usuario.AtualizarUsuario;
-import br.edu.senac.models.Usuario.CriarUsuario;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -35,37 +34,37 @@ public class UsuarioController {
   private UsuarioService usuarioService;
 
   @GetMapping
-  public ResponseEntity<List<Usuario>> buscarTodos() {
+  public ResponseEntity<List<UsuarioDTO>> buscarTodos() {
 
-    List<Usuario> list = this.usuarioService.buscarTodos();
+    List<Usuario> usuarios = this.usuarioService.buscarTodos();
 
-    return ResponseEntity.ok().body(list);
+    return ResponseEntity.ok().body(new UsuarioDTO().converter(usuarios));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Usuario> buscarPorId(@PathVariable @NonNull Long id) {
+  public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable @NonNull Long id) {
 
     Usuario usuario = this.usuarioService.buscarPorId(id);
 
-    return ResponseEntity.ok().body(usuario);
+    return ResponseEntity.ok().body(new UsuarioDTO(usuario));
   }
 
   @PostMapping
-  @Validated(CriarUsuario.class)
-  public ResponseEntity<Void> criar(@Valid @RequestBody Usuario obj) {
+  @Validated
+  public ResponseEntity<Void> criar(@Valid @RequestBody UsuarioDTO.Criar obj) {
 
-    this.usuarioService.criar(obj);
-    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+    Usuario usuario = this.usuarioService.criar(obj);
+
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
 
     return ResponseEntity.created(uri).build();
   }
 
   @PutMapping("/{id}")
-  @Validated(AtualizarUsuario.class)
-  public ResponseEntity<Void> atualizar(@Valid @RequestBody Usuario obj, @PathVariable Long id) {
+  @Validated
+  public ResponseEntity<Void> atualizar(@Valid @RequestBody UsuarioDTO.Atualizar obj, @PathVariable Long id) {
 
-    obj.setId(id);
-    this.usuarioService.atualizar(obj);
+    this.usuarioService.atualizar(obj, id);
 
     return ResponseEntity.noContent().build();
   }
