@@ -74,5 +74,6 @@ jobs:
               echo "Atualizando o caminho do ExecStart para o JAR atual..."
               sudo sed -i "s|ExecStart=.*|ExecStart=/usr/bin/java -jar $JAR_PATH|g" $SERVICE_FILE
               sudo systemctl daemon-reload
+              sudo systemctl enable pi-3-sem-api.service
               sudo systemctl restart pi-3-sem-api.service
             fi
