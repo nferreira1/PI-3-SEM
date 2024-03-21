@@ -68,6 +68,7 @@ jobs:
               WantedBy=multi-user.target" | sudo tee $SERVICE_FILE
 
               sudo systemctl daemon-reload
+              sudo systemctl enable pi-3-sem-api.service
               sudo systemctl start pi-3-sem-api.service
             else
               echo "Atualizando o caminho do ExecStart para o JAR atual..."
