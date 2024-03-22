@@ -1,6 +1,5 @@
 package br.edu.senac.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.edu.senac.dtos.UsuarioDTO;
 import br.edu.senac.models.Usuario;
+import br.edu.senac.models.dtos.UsuarioDTO;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 
 @Service
 public class UsuarioService {
@@ -21,24 +21,18 @@ public class UsuarioService {
 
   public Usuario buscarPorId(@NonNull Long id) {
 
-    Optional<Usuario> usuario = this.usuarioRepository.findById(id);
+    Optional<Usuario> usuario = this.usuarioRepository.buscarPorId(id);
 
     return usuario.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!"));
-
-  }
-
-  public List<Usuario> buscarTodos() {
-    return this.usuarioRepository.findAll();
   }
 
   @Transactional
-  public Usuario criar(UsuarioDTO.Criar obj) {
+  public Usuario criar(Usuario obj) {
+    obj.setSenha(obj.getSenha());
+    obj.setEmail(obj.getEmail().toLowerCase());
+    obj.setNome(obj.getNome().toUpperCase());
 
-    Usuario usuario = new Usuario(obj);
-
-    this.usuarioRepository.save(usuario);
-
-    return usuario;
+    return this.usuarioRepository.save(obj);
   }
 
   @Transactional
@@ -56,15 +50,39 @@ public class UsuarioService {
 
     buscarPorId(id);
 
-    this.usuarioRepository.alternarStatus(id);
-
+    this.usuarioRepository.excluir(id);
   }
 
   public void alternarStatus(@NonNull Long id) {
 
-    Usuario obj = buscarPorId(id);
-    obj.setStatus(!obj.isStatus());
+    Optional<Usuario> obj = this.usuarioRepository.findById(id);
+    var usuario = obj.get();
+    usuario.setStatus(!usuario.isStatus());
 
-    this.usuarioRepository.save(obj);
+    this.usuarioRepository.save(usuario);
+  }
+
+  public Usuario fromDTO(@Valid UsuarioDTO.Criar obj) {
+
+    Usuario usuario = new Usuario();
+
+    usuario.setNome(obj.getNome().toUpperCase());
+    usuario.setEmail(obj.getEmail().toLowerCase());
+    usuario.setSenha(obj.getSenha());
+    usuario.setImagem(obj.getImagem());
+
+    return usuario;
+  }
+
+  public Usuario fromDTO(@Valid UsuarioDTO.Atualizar obj) {
+
+    Usuario usuario = new Usuario();
+
+    usuario.setId(obj.getId());
+    usuario.setNome(obj.getNome().toUpperCase());
+    usuario.setEmail(obj.getEmail().toLowerCase());
+    usuario.setImagem(obj.getImagem());
+
+    return usuario;
   }
 }

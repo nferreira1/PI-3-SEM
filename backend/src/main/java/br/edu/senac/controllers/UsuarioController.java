@@ -1,7 +1,6 @@
 package br.edu.senac.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.edu.senac.dtos.UsuarioDTO;
 import br.edu.senac.models.Usuario;
+import br.edu.senac.models.dtos.UsuarioDTO;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,14 +32,6 @@ public class UsuarioController {
   @Autowired
   private UsuarioService usuarioService;
 
-  @GetMapping
-  public ResponseEntity<List<UsuarioDTO>> buscarTodos() {
-
-    List<Usuario> usuarios = this.usuarioService.buscarTodos();
-
-    return ResponseEntity.ok().body(new UsuarioDTO().converter(usuarios));
-  }
-
   @GetMapping("/{id}")
   public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable @NonNull Long id) {
 
@@ -53,7 +44,7 @@ public class UsuarioController {
   @Validated
   public ResponseEntity<Void> criar(@Valid @RequestBody UsuarioDTO.Criar obj) {
 
-    Usuario usuario = this.usuarioService.criar(obj);
+    Usuario usuario = this.usuarioService.criar(this.usuarioService.fromDTO(obj));
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
 

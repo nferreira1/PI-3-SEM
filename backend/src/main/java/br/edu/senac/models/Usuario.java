@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.edu.senac.dtos.UsuarioDTO;
+import br.edu.senac.models.dtos.UsuarioDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,17 +54,10 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario")
   private List<Agendamento> agendamentos = new ArrayList<Agendamento>();
 
-  public Usuario(UsuarioDTO.Criar usuario) {
-    this.nome = usuario.getNome().toUpperCase();
-    this.senha = usuario.getSenha();
-    this.email = usuario.getEmail().toLowerCase();
-    this.imagem = usuario.getImagem();
+  public Usuario(UsuarioDTO obj) {
+    this.id = obj.getId();
+    this.nome = obj.getNome();
+    this.email = obj.getEmail();
+    this.imagem = obj.getImagem();
   }
-
-  public Usuario(UsuarioDTO.Atualizar usuario) {
-    this.nome = usuario.getNome().toUpperCase();
-    this.email = usuario.getEmail().toLowerCase();
-    this.imagem = usuario.getImagem();
-  }
-
 }

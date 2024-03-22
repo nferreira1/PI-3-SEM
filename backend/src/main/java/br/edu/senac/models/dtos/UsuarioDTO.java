@@ -1,7 +1,4 @@
-package br.edu.senac.dtos;
-
-import java.util.List;
-import java.util.stream.Collectors;
+package br.edu.senac.models.dtos;
 
 import br.edu.senac.models.Usuario;
 import lombok.AllArgsConstructor;
@@ -18,13 +15,6 @@ public class UsuarioDTO {
     private String email;
     private String imagem;
 
-    public UsuarioDTO(Usuario obj) {
-        this.id = obj.getId();
-        this.nome = obj.getNome();
-        this.email = obj.getEmail();
-        this.imagem = obj.getImagem();
-    }
-
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
@@ -39,13 +29,17 @@ public class UsuarioDTO {
     @NoArgsConstructor
     @Data
     public static class Atualizar {
+        private Long id;
         private String nome;
         private String email;
         private String imagem;
     }
 
-    public List<UsuarioDTO> converter(List<Usuario> usuarios) {
-        return usuarios.stream().map(UsuarioDTO::new).collect(Collectors.toList());
+    public UsuarioDTO(Usuario obj) {
+        this.id = obj.getId();
+        this.nome = obj.getNome();
+        this.email = obj.getEmail();
+        this.imagem = obj.getImagem();
     }
 
 }
