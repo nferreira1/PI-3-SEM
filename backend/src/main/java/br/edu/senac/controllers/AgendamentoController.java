@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Agendamento;
-import br.edu.senac.models.dtos.agendamento.AgendamentoDTO;
+import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
+import br.edu.senac.models.dtos.Agendamento.AgendamentoDTO;
 import br.edu.senac.services.AgendamentoService;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,10 +53,11 @@ public class AgendamentoController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> criar(@Valid @RequestBody @NonNull Agendamento obj) {
+  public ResponseEntity<Void> criar(@Valid @RequestBody @NonNull AgendamentoCriarDTO obj) {
 
-    this.agendamentoService.criar(obj);
-    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+    Agendamento agendamento = this.agendamentoService.criar(this.agendamentoService.fromDTO(obj));
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(agendamento.getId())
+        .toUri();
 
     return ResponseEntity.created(uri).build();
   }

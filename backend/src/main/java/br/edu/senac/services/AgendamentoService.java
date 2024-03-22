@@ -10,8 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.Usuario;
+import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
 import br.edu.senac.repositories.AgendamentoRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 
 @Service
 public class AgendamentoService {
@@ -41,6 +45,17 @@ public class AgendamentoService {
     obj = this.agendamentoRepository.save(obj);
 
     return obj;
+  }
+
+  public Agendamento fromDTO(@Valid AgendamentoCriarDTO obj) {
+
+    Agendamento agendamento = new Agendamento();
+
+    agendamento.setDataAgendamento(obj.getDataAgendamento());
+    agendamento.setHoraAgendamento(obj.getHoraAgendamento());
+    agendamento.setStatus(obj.getStatus());
+
+    return agendamento;
   }
 
 }

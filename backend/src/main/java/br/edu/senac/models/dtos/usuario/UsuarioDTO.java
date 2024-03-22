@@ -1,4 +1,4 @@
-package br.edu.senac.models.dtos.usuario;
+package br.edu.senac.models.dtos.Usuario;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

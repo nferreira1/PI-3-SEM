@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Usuario;
-import br.edu.senac.models.dtos.usuario.UsuarioAtualizarDTO;
-import br.edu.senac.models.dtos.usuario.UsuarioCriarDTO;
-import br.edu.senac.models.dtos.usuario.UsuarioDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioDTO;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

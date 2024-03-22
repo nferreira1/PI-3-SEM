@@ -1,4 +1,4 @@
-package br.edu.senac.models.dtos.agendamento;
+package br.edu.senac.models.dtos.Agendamento;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.AgendamentoStatus;
-import br.edu.senac.models.dtos.usuario.UsuarioDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
