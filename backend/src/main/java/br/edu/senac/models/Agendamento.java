@@ -10,7 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity(name = Agendamento.NOME_TABELA)
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = { "dataAgendamento", "horaAgendamento", "status_id", "usuario_id" })
+})
 public class Agendamento {
 
   public static final String NOME_TABELA = "agendamentos";
@@ -28,11 +33,11 @@ public class Agendamento {
   private Long id;
 
   @Column(nullable = false)
-  @NotBlank
+  @NotNull
   private LocalDate dataAgendamento;
 
   @Column(nullable = false, columnDefinition = "time")
-  @NotBlank
+  @NotNull
   private LocalTime horaAgendamento;
 
   @ManyToOne
@@ -42,5 +47,11 @@ public class Agendamento {
   @ManyToOne
   @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
   private Usuario usuario;
+
+  @Override
+  public String toString() {
+    return "Agendamento [dataAgendamento=" + dataAgendamento + ", horaAgendamento=" + horaAgendamento + ", id=" + id
+        + ", status=" + status + ", usuario=" + usuario.getNome() + "]";
+  }
 
 }
