@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.senac.models.Usuario;
-import br.edu.senac.models.dtos.UsuarioDTO;
+import br.edu.senac.models.dtos.usuario.UsuarioAtualizarDTO;
+import br.edu.senac.models.dtos.usuario.UsuarioCriarDTO;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
@@ -36,7 +37,7 @@ public class UsuarioService {
   }
 
   @Transactional
-  public Usuario atualizar(@NonNull UsuarioDTO.Atualizar obj, Long id) {
+  public Usuario atualizar(@NonNull UsuarioAtualizarDTO obj, Long id) {
 
     Usuario novoObj = buscarPorId(id);
     novoObj.setNome(obj.getNome().toUpperCase());
@@ -62,7 +63,7 @@ public class UsuarioService {
     this.usuarioRepository.save(usuario);
   }
 
-  public Usuario fromDTO(@Valid UsuarioDTO.Criar obj) {
+  public Usuario fromDTO(@Valid UsuarioCriarDTO obj) {
 
     Usuario usuario = new Usuario();
 
@@ -74,11 +75,10 @@ public class UsuarioService {
     return usuario;
   }
 
-  public Usuario fromDTO(@Valid UsuarioDTO.Atualizar obj) {
+  public Usuario fromDTO(@Valid UsuarioAtualizarDTO obj) {
 
     Usuario usuario = new Usuario();
 
-    usuario.setId(obj.getId());
     usuario.setNome(obj.getNome().toUpperCase());
     usuario.setEmail(obj.getEmail().toLowerCase());
     usuario.setImagem(obj.getImagem());

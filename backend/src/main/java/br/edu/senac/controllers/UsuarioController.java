@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Usuario;
-import br.edu.senac.models.dtos.UsuarioDTO;
+import br.edu.senac.models.dtos.usuario.UsuarioAtualizarDTO;
+import br.edu.senac.models.dtos.usuario.UsuarioCriarDTO;
+import br.edu.senac.models.dtos.usuario.UsuarioDTO;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,12 +39,13 @@ public class UsuarioController {
 
     Usuario usuario = this.usuarioService.buscarPorId(id);
 
-    return ResponseEntity.ok().body(new UsuarioDTO(usuario));
+    return ResponseEntity.ok()
+        .body(new UsuarioDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getImagem()));
   }
 
   @PostMapping
   @Validated
-  public ResponseEntity<Void> criar(@Valid @RequestBody UsuarioDTO.Criar obj) {
+  public ResponseEntity<Void> criar(@Valid @RequestBody UsuarioCriarDTO obj) {
 
     Usuario usuario = this.usuarioService.criar(this.usuarioService.fromDTO(obj));
 
@@ -53,7 +56,7 @@ public class UsuarioController {
 
   @PutMapping("/{id}")
   @Validated
-  public ResponseEntity<Void> atualizar(@Valid @RequestBody UsuarioDTO.Atualizar obj, @PathVariable Long id) {
+  public ResponseEntity<Void> atualizar(@Valid @RequestBody UsuarioAtualizarDTO obj, @PathVariable Long id) {
 
     this.usuarioService.atualizar(obj, id);
 
