@@ -12,9 +12,6 @@ import br.edu.senac.models.Agendamento;
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 
-  @Query(nativeQuery = true, value = "UPDATE agendamentos SET status = :status WHERE id = :id")
-  public void alternarStatus(@Param("id") Long id, @Param("status") Agendamento.Status status);
-
   @Query(nativeQuery = true, value = "SELECT * FROM agendamentos WHERE usuario_id = :id")
   public List<Agendamento> buscarTodosPorIdUsuario(@Param("id") Long id);
 }

@@ -43,13 +43,4 @@ public class AgendamentoService {
     return obj;
   }
 
-  @Transactional
-  public void atualizar(@NonNull Long id, @NonNull Agendamento.Status status) {
-
-    buscarPorId(id);
-
-    this.agendamentoRepository.alternarStatus(id, status);
-
-  }
-
 }
