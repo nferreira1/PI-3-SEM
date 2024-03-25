@@ -1,7 +1,5 @@
 package br.edu.senac.services;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.senac.models.Agendamento;
-import br.edu.senac.models.AgendamentoStatus;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
-import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
-import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
 import br.edu.senac.repositories.AgendamentoRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
