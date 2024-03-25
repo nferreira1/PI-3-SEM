@@ -20,6 +20,6 @@ public class AgendamentoStatusService {
 
     Optional<AgendamentoStatus> agendamentoStatus = this.agendamentoStatusRepository.findById(id);
 
-    return agendamentoStatus.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!"));
+    return agendamentoStatus.orElseThrow(() -> new ObjectNotFoundException("Status não encontrado!"));
   }
 }
