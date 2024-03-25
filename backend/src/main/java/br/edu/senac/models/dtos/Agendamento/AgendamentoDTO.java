@@ -31,7 +31,6 @@ public class AgendamentoDTO {
   public AgendamentoDTO(Agendamento agendamento) {
     this.id = agendamento.getId();
     this.dataAgendamento = agendamento.getDataAgendamento();
-    this.horaAgendamento = agendamento.getHoraAgendamento();
     this.status = agendamento.getStatus();
     this.usuario = new UsuarioDTO(agendamento.getUsuario().getId(), agendamento.getUsuario().getNome(),
         agendamento.getUsuario().getEmail(), agendamento.getUsuario().getImagem());

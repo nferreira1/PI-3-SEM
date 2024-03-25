@@ -1,7 +1,6 @@
 package br.edu.senac.models;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,9 +35,9 @@ public class Agendamento {
   @NotNull
   private LocalDate dataAgendamento;
 
-  @Column(nullable = false, columnDefinition = "time")
-  @NotNull
-  private LocalTime horaAgendamento;
+  @ManyToOne
+  @JoinColumn(name = "espaco_horario_id", nullable = false)
+  private EspacoHorario espacoHorario;
 
   @ManyToOne
   @JoinColumn(name = "status_id", nullable = false)
@@ -50,7 +49,7 @@ public class Agendamento {
 
   @Override
   public String toString() {
-    return "Agendamento [dataAgendamento=" + dataAgendamento + ", horaAgendamento=" + horaAgendamento + ", id=" + id
+    return "Agendamento [dataAgendamento=" + dataAgendamento + ", horaAgendamento=" + ", id=" + id
         + ", status=" + status + ", usuario=" + usuario.getNome() + "]";
   }
 

@@ -45,7 +45,6 @@ public class AgendamentoService {
     agendamento.setUsuario(obj.getUsuario());
     agendamento.setStatus(obj.getStatus());
     agendamento.setDataAgendamento(obj.getDataAgendamento());
-    agendamento.setHoraAgendamento(obj.getHoraAgendamento());
 
     this.agendamentoRepository.save(agendamento);
 
@@ -61,7 +60,6 @@ public class AgendamentoService {
     agendamento.setUsuario(usuario);
     agendamento.setStatus(agendamentoStatusService.buscarPorId(obj.getIdStatus()));
     agendamento.setDataAgendamento(obj.getDataAgendamento());
-    agendamento.setHoraAgendamento(obj.getHoraAgendamento());
 
     return agendamento;
   }

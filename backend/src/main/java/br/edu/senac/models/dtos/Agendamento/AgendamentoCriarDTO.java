@@ -1,7 +1,6 @@
 package br.edu.senac.models.dtos.Agendamento;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -17,10 +16,6 @@ public class AgendamentoCriarDTO {
 
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate dataAgendamento;
-
-  @JsonFormat(pattern = "HH:mm")
-  @Schema(type = "string", pattern = "HH:mm")
-  private LocalTime horaAgendamento;
 
   @Schema(type = "integer")
   private byte idStatus = 1;
