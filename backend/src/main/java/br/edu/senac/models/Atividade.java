@@ -12,12 +12,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = Atividade.NOME_TABELA)
 public class Atividade {
 
@@ -50,5 +52,11 @@ public class Atividade {
 
   @OneToMany(mappedBy = "atividade")
   private Set<Espaco> espacos = new HashSet<Espaco>();
+
+  @Override
+  public String toString() {
+    return "Atividade [id=" + id + ", imagem=" + imagem + ", local=" + local + ", nome=" + nome + ", status=" + status
+        + ", telefone=" + telefone + "]";
+  }
 
 }

@@ -13,12 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = Horario.NOME_TABELA)
 public class Horario {
 
@@ -42,5 +44,11 @@ public class Horario {
 
   @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL)
   private List<EspacoHorario> espacoHorarios = new ArrayList<>();
+
+  @Override
+  public String toString() {
+    return "Horario [id=" + id + ", horarioInicial=" + horarioInicial + ", horarioFinal=" + horarioFinal + ", status="
+        + status + "]";
+  }
 
 }

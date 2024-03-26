@@ -13,12 +13,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = Agendamento.NOME_TABELA)
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = { "data_agendamento", "espaco_horario_id" })
@@ -50,7 +52,7 @@ public class Agendamento {
   @Override
   public String toString() {
     return "Agendamento [dataAgendamento=" + dataAgendamento + ", horaAgendamento=" + ", id=" + id
-        + ", status=" + status + ", usuario=" + usuario.getNome() + "]";
+        + ", status=" + status + ", usuario=" + usuario + ", " + espacoHorario + "]";
   }
 
 }

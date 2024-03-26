@@ -15,12 +15,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = Usuario.NOME_TABELA)
 public class Usuario {
 
@@ -59,5 +61,11 @@ public class Usuario {
     this.nome = obj.getNome();
     this.email = obj.getEmail();
     this.imagem = obj.getImagem();
+  }
+
+  @Override
+  public String toString() {
+    return "Usuario [email=" + email + ", id=" + id + ", imagem=" + imagem + ", nome=" + nome + ", status=" + status
+        + "]";
   }
 }

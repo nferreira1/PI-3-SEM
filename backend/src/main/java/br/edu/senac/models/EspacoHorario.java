@@ -10,14 +10,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = EspacoHorario.NOME_TABELA)
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = { "espaco_id", "horario_id" })
+})
 public class EspacoHorario {
 
   public static final String NOME_TABELA = "espacos_horarios";
@@ -36,5 +43,12 @@ public class EspacoHorario {
   @ManyToOne
   @JoinColumn(name = "horario_id")
   private Horario horario;
+
+  @Override
+  public String toString() {
+    return "EspacoHorario [id=" + id + ", agendamentos=" + null + ", espaco=" + espaco + ", horario="
+        + horario
+        + "]";
+  }
 
 }

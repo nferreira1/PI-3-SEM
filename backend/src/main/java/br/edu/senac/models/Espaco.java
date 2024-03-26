@@ -14,12 +14,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity(name = Espaco.NOME_TABELA)
 public class Espaco {
 
@@ -38,16 +40,16 @@ public class Espaco {
   @Column(nullable = false)
   private boolean status;
 
-  // @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-  // @JoinTable(name = "espacos_horarios", joinColumns = @JoinColumn(name =
-  // "espaco_id"), inverseJoinColumns = @JoinColumn(name = "horario_id"))
-  // private List<Horario> horarios = new ArrayList<Horario>();
-
   @OneToMany(mappedBy = "espaco", cascade = CascadeType.ALL)
   private List<EspacoHorario> espacoHorarios = new ArrayList<EspacoHorario>();
 
   @ManyToOne
   @JoinColumn(name = "atividade_id", nullable = false)
   private Atividade atividade;
+
+  @Override
+  public String toString() {
+    return "Espaco [id=" + id + ", nome=" + nome + ", imagem=" + imagem + ", status=" + status + "]";
+  }
 
 }
