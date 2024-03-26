@@ -14,8 +14,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-  @Query(nativeQuery = true, value = "SELECT * FROM usuarios WHERE id = :id AND status = 1")
-  Optional<Usuario> buscarPorId(@Param("id") Long id);
+  Optional<Usuario> findByIdAndStatusTrue(Long id);
 
   @Modifying
   @Transactional
