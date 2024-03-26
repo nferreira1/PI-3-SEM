@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoDTO;
+import br.edu.senac.models.dtos.Agendamento.AgendamentoUsuarioDTO;
 import br.edu.senac.services.AgendamentoService;
 import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,11 +37,11 @@ public class AgendamentoController {
   private UsuarioService usuarioService;
 
   @GetMapping("/{id}")
-  public ResponseEntity<AgendamentoDTO> buscarPorId(@PathVariable @NonNull Long id) {
+  public ResponseEntity<AgendamentoUsuarioDTO> buscarPorId(@PathVariable @NonNull Long id) {
 
     Agendamento agendamento = this.agendamentoService.buscarPorId(id);
 
-    return ResponseEntity.ok().body(new AgendamentoDTO(agendamento));
+    return ResponseEntity.ok().body(new AgendamentoUsuarioDTO(agendamento));
   }
 
   @GetMapping("/usuario/{id}")

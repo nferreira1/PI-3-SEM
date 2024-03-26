@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = Agendamento.NOME_TABELA)
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "dataAgendamento", "horaAgendamento", "status_id", "usuario_id" })
+    @UniqueConstraint(columnNames = { "data_agendamento", "espaco_horario_id" })
 })
 public class Agendamento {
 
