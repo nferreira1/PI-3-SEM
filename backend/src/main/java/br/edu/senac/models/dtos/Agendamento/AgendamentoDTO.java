@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.AgendamentoStatus;
+import br.edu.senac.models.Atividade;
+import br.edu.senac.models.Espaco;
+import br.edu.senac.models.Horario;
 import br.edu.senac.models.dtos.Atividade.AtividadeDTO;
 import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,23 +31,26 @@ public class AgendamentoDTO {
   private String horarioFinal;
   private AgendamentoStatus status;
   private AtividadeDTO atividade;
-  private EspacoDTO espaco;
 
   public AgendamentoDTO(Agendamento agendamento) {
+
+    Horario espacoHorario = agendamento.getEspacoHorario().getHorario();
+    Espaco espaco = agendamento.getEspacoHorario().getEspaco();
+    Atividade atividade = espaco.getAtividade();
+
     this.id = agendamento.getId();
     this.dataAgendamento = agendamento.getDataAgendamento();
     this.status = agendamento.getStatus();
 
-    this.atividade = new AtividadeDTO(agendamento.getEspacoHorario().getEspaco().getAtividade().getNome(),
-        agendamento.getEspacoHorario().getEspaco().getAtividade().getLocal(),
-        agendamento.getEspacoHorario().getEspaco().getAtividade().getImagem(),
-        agendamento.getEspacoHorario().getEspaco().getAtividade().getTelefone());
+    this.atividade = new AtividadeDTO(
+        atividade.getNome(),
+        atividade.getLocal(),
+        atividade.getImagem(),
+        atividade.getTelefone(),
+        new EspacoDTO(espaco.getNome(), espaco.getImagem()));
 
-    this.horarioInicial = agendamento.getEspacoHorario().getHorario().getHorarioInicial().toString();
-    this.horarioFinal = agendamento.getEspacoHorario().getHorario().getHorarioFinal().toString();
-
-    this.espaco = new EspacoDTO(agendamento.getEspacoHorario().getEspaco().getNome(),
-        agendamento.getEspacoHorario().getEspaco().getImagem());
+    this.horarioInicial = espacoHorario.getHorarioInicial().toString();
+    this.horarioFinal = espacoHorario.getHorarioFinal().toString();
 
   }
 
