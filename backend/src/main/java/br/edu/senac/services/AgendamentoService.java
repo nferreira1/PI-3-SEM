@@ -50,7 +50,7 @@ public class AgendamentoService {
 
     EspacoHorario espacoHorario = espacoHorarioRepository
         .findByEspacoIdAndHorarioId(obj.getEspacoId(), obj.getHorarioId())
-        .orElseThrow(() -> new ObjectNotFoundException("Espaço horário não encontrado!"));
+        .orElseThrow(() -> new ObjectNotFoundException("Espaço ou horário não encontrado!"));
 
     agendamento.setEspacoHorario(espacoHorario);
     agendamento.setUsuario(usuario);
