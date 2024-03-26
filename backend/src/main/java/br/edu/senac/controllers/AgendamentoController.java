@@ -24,7 +24,7 @@ import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "Agendamento", description = "API de Agendamento")
+@Tag(name = "Agendamento", description = "API de gerenciamento de agendamentos, onde é possível criar e listar agendamentos.")
 @RestController
 @RequestMapping("/agendamento")
 @Validated

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@Tag(name = "Usuário", description = "API de Usuário")
+@Tag(name = "Usuário", description = "API de gerenciamento de usuários, onde é possível criar, listar, atualizar e excluir usuários.")
 @RestController
 @RequestMapping("/usuario")
 @Validated
