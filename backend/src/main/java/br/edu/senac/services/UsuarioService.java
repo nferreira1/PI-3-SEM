@@ -12,7 +12,6 @@ import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
 import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class UsuarioService {
@@ -22,18 +21,22 @@ public class UsuarioService {
 
   public Usuario buscarPorId(@NonNull Long id) {
 
-    Optional<Usuario> usuario = this.usuarioRepository.buscarPorId(id);
+    Optional<Usuario> usuario = this.usuarioRepository.findByIdAndStatusTrue(id);
 
     return usuario.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado!"));
   }
 
   @Transactional
-  public Usuario criar(Usuario obj) {
-    obj.setSenha(obj.getSenha());
-    obj.setEmail(obj.getEmail().toLowerCase());
-    obj.setNome(obj.getNome().toUpperCase());
+  public Usuario criar(UsuarioCriarDTO obj) {
 
-    return this.usuarioRepository.save(obj);
+    Usuario usuario = new Usuario();
+
+    usuario.setNome(obj.getNome().toUpperCase());
+    usuario.setEmail(obj.getEmail().toLowerCase());
+    usuario.setSenha(obj.getSenha());
+    usuario.setImagem(obj.getImagem());
+
+    return this.usuarioRepository.save(usuario);
   }
 
   @Transactional
@@ -63,26 +66,4 @@ public class UsuarioService {
     this.usuarioRepository.save(usuario);
   }
 
-  public Usuario fromDTO(@Valid UsuarioCriarDTO obj) {
-
-    Usuario usuario = new Usuario();
-
-    usuario.setNome(obj.getNome().toUpperCase());
-    usuario.setEmail(obj.getEmail().toLowerCase());
-    usuario.setSenha(obj.getSenha());
-    usuario.setImagem(obj.getImagem());
-
-    return usuario;
-  }
-
-  public Usuario fromDTO(@Valid UsuarioAtualizarDTO obj) {
-
-    Usuario usuario = new Usuario();
-
-    usuario.setNome(obj.getNome().toUpperCase());
-    usuario.setEmail(obj.getEmail().toLowerCase());
-    usuario.setImagem(obj.getImagem());
-
-    return usuario;
-  }
 }

@@ -56,7 +56,7 @@ public class AgendamentoController {
   @PostMapping
   public ResponseEntity<Void> criar(@Valid @RequestBody @NonNull AgendamentoCriarDTO obj) {
 
-    Agendamento agendamento = this.agendamentoService.criar(this.agendamentoService.fromDTO(obj));
+    Agendamento agendamento = this.agendamentoService.criar(obj);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(agendamento.getId())
         .toUri();
 

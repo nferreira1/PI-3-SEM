@@ -47,7 +47,7 @@ public class UsuarioController {
   @Validated
   public ResponseEntity<Void> criar(@Valid @RequestBody UsuarioCriarDTO obj) {
 
-    Usuario usuario = this.usuarioService.criar(this.usuarioService.fromDTO(obj));
+    Usuario usuario = this.usuarioService.criar(obj);
 
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
 
