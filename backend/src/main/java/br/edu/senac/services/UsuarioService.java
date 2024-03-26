@@ -42,12 +42,12 @@ public class UsuarioService {
   @Transactional
   public Usuario atualizar(@NonNull UsuarioAtualizarDTO obj, Long id) {
 
-    Usuario novoObj = buscarPorId(id);
-    novoObj.setNome(obj.getNome().toUpperCase());
-    novoObj.setEmail(obj.getEmail().toLowerCase());
-    novoObj.setImagem(obj.getImagem());
+    Usuario usuario = buscarPorId(id);
+    usuario.setNome(obj.getNome().toUpperCase());
+    usuario.setEmail(obj.getEmail().toLowerCase());
+    usuario.setImagem(obj.getImagem());
 
-    return this.usuarioRepository.save(novoObj);
+    return this.usuarioRepository.save(usuario);
   }
 
   public void excluir(@NonNull Long id) {
