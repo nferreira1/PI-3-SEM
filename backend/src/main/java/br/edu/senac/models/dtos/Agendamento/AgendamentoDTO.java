@@ -41,7 +41,13 @@ public class AgendamentoDTO {
     this.dataAgendamento = agendamento.getDataAgendamento();
     this.status = agendamento.getStatus();
 
-    this.atividade = new AtividadeDTO(atividade);
+    this.atividade = new AtividadeDTO(
+        atividade.getNome(),
+        atividade.getLocal(),
+        atividade.getImagem(),
+        atividade.getTelefone(),
+        espaco.getNome(),
+        espaco.getImagem());
 
     this.horarioInicial = espacoHorario.getHorarioInicial().toString();
     this.horarioFinal = espacoHorario.getHorarioFinal().toString();

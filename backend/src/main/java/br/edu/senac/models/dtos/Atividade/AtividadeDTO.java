@@ -1,6 +1,5 @@
 package br.edu.senac.models.dtos.Atividade;
 
-import br.edu.senac.models.Atividade;
 import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,14 +16,13 @@ public class AtividadeDTO {
   private String telefone;
   private EspacoDTO espaco;
 
-  public AtividadeDTO(Atividade atividade) {
-    this.nome = atividade.getNome();
-    this.local = atividade.getLocal();
-    this.imagem = atividade.getImagem();
-    this.telefone = atividade.getTelefone();
-    this.espaco = new EspacoDTO(
-        atividade.getNome(),
-        atividade.getImagem());
+  public AtividadeDTO(String nome, String local, String imagem, String telefone, String espacoNome,
+      String espacoImagem) {
+    this.nome = nome;
+    this.local = local;
+    this.imagem = imagem;
+    this.telefone = telefone;
+    this.espaco = new EspacoDTO(espacoNome, espacoImagem);
   }
 
 }
