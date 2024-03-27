@@ -16,7 +16,7 @@ public class AtividadeService {
 
   public List<Atividade> buscarTodasAtividades() {
 
-    return this.atividadeRepository.findAllByStatusTrueAndEspacosNotNullAndEspacosStatusTrue();
+    return this.atividadeRepository.findAllByStatusTrueAndEspacosNotNull();
   }
 
   public Atividade criar(Atividade obj) {

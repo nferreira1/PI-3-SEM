@@ -45,9 +45,7 @@ public class AgendamentoDTO {
         atividade.getNome(),
         atividade.getLocal(),
         atividade.getImagem(),
-        atividade.getTelefone(),
-        espaco.getNome(),
-        espaco.getImagem());
+        atividade.getTelefone());
 
     this.horarioInicial = espacoHorario.getHorarioInicial().toString();
     this.horarioFinal = espacoHorario.getHorarioFinal().toString();
