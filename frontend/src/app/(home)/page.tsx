@@ -1,3 +1,4 @@
+import Buscar from "@/components/buscar";
 import Header from "@/components/header";
 
 export default function Home() {
@@ -15,10 +16,13 @@ export default function Home() {
   return (
     <div>
       <Header />
-
       <div className="px-5 pt-5">
         <h2 className="text-xl font-bold">Olá, Nathan!</h2>
         <p className="text-sm">{fullDay}</p>
+      </div>
+
+      <div className="px-5 mt-6">
+        <Buscar />
       </div>
     </div>
   );
