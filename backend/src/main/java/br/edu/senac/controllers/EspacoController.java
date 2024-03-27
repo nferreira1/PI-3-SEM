@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "Espaço", description = "API de gerenciamento de espaços, onde é possível criar, listar, atualizar e excluir espaços.")
 @RestController
-@RequestMapping("/espacos")
+@RequestMapping("/espaco")
 @Validated
 public class EspacoController {
 
