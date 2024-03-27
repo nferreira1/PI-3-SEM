@@ -25,7 +25,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = Espaco.NOME_TABELA)
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome", "atividade_id" }) })
+// @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome",
+// "atividade_id" }) })
 public class Espaco {
 
   public static final String NOME_TABELA = "espacos";
