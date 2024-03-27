@@ -10,7 +10,6 @@ import br.edu.senac.models.Atividade;
 import br.edu.senac.models.Espaco;
 import br.edu.senac.models.Horario;
 import br.edu.senac.models.dtos.Atividade.AtividadeDTO;
-import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,12 +41,7 @@ public class AgendamentoDTO {
     this.dataAgendamento = agendamento.getDataAgendamento();
     this.status = agendamento.getStatus();
 
-    this.atividade = new AtividadeDTO(
-        atividade.getNome(),
-        atividade.getLocal(),
-        atividade.getImagem(),
-        atividade.getTelefone(),
-        new EspacoDTO(espaco.getNome(), espaco.getImagem()));
+    this.atividade = new AtividadeDTO(atividade);
 
     this.horarioInicial = espacoHorario.getHorarioInicial().toString();
     this.horarioFinal = espacoHorario.getHorarioFinal().toString();
