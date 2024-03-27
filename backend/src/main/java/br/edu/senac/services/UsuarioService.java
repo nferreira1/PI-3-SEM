@@ -60,7 +60,7 @@ public class UsuarioService {
   public void alternarStatus(@NonNull Long id) {
 
     Optional<Usuario> obj = this.usuarioRepository.findById(id);
-    var usuario = obj.get();
+    Usuario usuario = obj.get();
     usuario.setStatus(!usuario.isStatus());
 
     this.usuarioRepository.save(usuario);

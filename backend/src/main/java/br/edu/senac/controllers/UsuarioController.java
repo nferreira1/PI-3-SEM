@@ -66,8 +66,6 @@ public class UsuarioController {
   @PutMapping("/alternar-status/{id}")
   public ResponseEntity<Void> alternarStatus(@PathVariable @NonNull Long id) {
 
-    this.usuarioService.buscarPorId(id);
-
     this.usuarioService.alternarStatus(id);
 
     return ResponseEntity.noContent().build();
