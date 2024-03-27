@@ -1,3 +1,4 @@
+import AgendamentoItem from "@/components/agendamento-item";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header";
 
@@ -20,9 +21,15 @@ export default function Home() {
         <h2 className="text-xl font-bold">Olá, Nathan!</h2>
         <p className="text-sm">{fullDay}</p>
       </div>
-
       <div className="px-5 mt-6">
         <Buscar />
+      </div>
+
+      <div className="px-5 mt-6">
+        <h2 className="text-xs text-gray-400 font-bold mb-3 uppercase">
+          Agendamentos
+        </h2>
+        <AgendamentoItem />
       </div>
     </div>
   );
