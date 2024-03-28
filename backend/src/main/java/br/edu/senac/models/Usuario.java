@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -40,12 +41,13 @@ public class Usuario {
   @Column(nullable = false, unique = true)
   @NotBlank
   @Size(min = 3, max = 255)
+  @Email(message = "Email inválido")
   private String email;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   @Column(nullable = false)
   @NotBlank
-  @Size(min = 6, max = 50)
+  @Size(min = 6)
   private String senha;
 
   private String imagem = null;

@@ -2,10 +2,13 @@ package br.edu.senac.services;
 
 import java.util.Optional;
 
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
 import br.edu.senac.models.Usuario;
 import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
@@ -14,6 +17,7 @@ import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
+@EnableEncryptableProperties
 public class UsuarioService {
 
   @Autowired
@@ -30,10 +34,11 @@ public class UsuarioService {
   public Usuario criar(UsuarioCriarDTO obj) {
 
     Usuario usuario = new Usuario();
+    StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     usuario.setNome(obj.getNome().toUpperCase());
     usuario.setEmail(obj.getEmail().toLowerCase());
-    usuario.setSenha(obj.getSenha());
+    usuario.setSenha(passwordEncryptor.encryptPassword(obj.getSenha()));
     usuario.setImagem(obj.getImagem());
 
     return this.usuarioRepository.save(usuario);
