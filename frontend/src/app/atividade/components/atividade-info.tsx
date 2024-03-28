@@ -36,17 +36,17 @@ const AtividadeInfo = ({ atividade }: AtividadeInfoProps) => {
 
         <Image
           src={atividade?.imagem ?? ""}
-          alt={`imagem de ${atividade.nome}`}
+          alt={`imagem de ${atividade?.nome}`}
           className="object-cover"
           fill
         />
       </div>
 
-      <div className="px-5 py-3 border-solid border-secondary">
-        <h1 className="text-xl font-bold">{atividade.nome}</h1>
+      <div className="px-5 pt-3 pb-6 border-b border-solid border-secondary">
+        <h1 className="text-xl font-bold">{atividade?.nome}</h1>
         <div className="flex items-center gap-1">
           <MapPinIcon className="text-primary" size={18} />
-          <p className="text-sm">{atividade.local}</p>
+          <p className="text-sm">{atividade?.local}</p>
         </div>
       </div>
     </div>
