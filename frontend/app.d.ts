@@ -40,6 +40,13 @@ declare global {
      * @type {string}
      */
     telefone: string;
+
+    /**
+     * {@link Espaco} que a atividade está relacionada.
+     * @see {@link Espaco}
+     * @type {Espaco[]}
+     */
+    espacos: Espaco[];
   }
 
   /**
