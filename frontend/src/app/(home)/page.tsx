@@ -1,25 +1,45 @@
 import AgendamentoItem from "@/components/agendamento-item";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header";
+import ItemReserva from "@/components/item-reserva";
+import { Suspense } from "react";
 
-export default function Home() {
-  const now = new Date();
-  const month =
-    now.toLocaleDateString("pt-BR", { month: "long" }).charAt(0).toUpperCase() +
-    now.toLocaleDateString("pt-BR", { month: "long" }).slice(1);
-  const weekdayString = now.toLocaleDateString("pt-BR", { weekday: "long" });
-  const weekdayNumber = now.toLocaleDateString("pt-BR", { day: "numeric" });
-  const dayString =
-    weekdayString.charAt(0).toUpperCase() +
-    weekdayString.slice(1).split("-")[0];
-  const fullDay = `${dayString}, ${weekdayNumber} de ${month}`;
+function formatarData(data: Date) {
+  const opcoes: Intl.DateTimeFormatOptions = {
+    month: "long",
+    weekday: "long",
+    day: "numeric",
+  };
+  const dataFormatada = data.toLocaleDateString("pt-BR", opcoes);
+  return dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
+}
+
+export default async function Home() {
+  const diaCompleto = formatarData(new Date());
+
+  async function getAtividades() {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    try {
+      const response = await fetch(`${process.env.API_BASE_URL}/atividade`, {
+        cache: "no-store",
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  const atividades = await getAtividades();
 
   return (
     <div>
       <Header />
       <div className="px-5 pt-5">
         <h2 className="text-xl font-bold">Olá, Nathan!</h2>
-        <p className="text-sm">{fullDay}</p>
+        <p className="text-sm">{diaCompleto}</p>
       </div>
       <div className="px-5 mt-6">
         <Buscar />
@@ -29,7 +49,19 @@ export default function Home() {
         <h2 className="text-xs text-gray-400 font-bold mb-3 uppercase">
           Agendamentos
         </h2>
-        <AgendamentoItem />
+        <ItemReserva />
+      </div>
+
+      <div className="mt-6">
+        <h2 className="px-5 text-xs text-gray-400 font-bold mb-3 uppercase">
+          Recomendados
+        </h2>
+
+        <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {atividades.map((esporte: any) => (
+            <AgendamentoItem key={esporte.id} atividade={esporte} />
+          ))}
+        </div>
       </div>
     </div>
   );
