@@ -1,3 +1,5 @@
+import { formatarFrase } from "./formatar-frase";
+
 /**
  * Função para obter todos os dados de uma {@link Atividade} específica.
  * @see {@link Atividade}
@@ -16,7 +18,18 @@ export async function getAtividade(id: UUID): Promise<Atividade> {
     );
 
     if (response.ok) {
-      return await response.json();
+      const atividade: Atividade = await response.json();
+      const espacos: Espaco[] = atividade.espacos.map((espaco) => ({
+        ...espaco,
+        nome: formatarFrase(espaco.nome),
+      }));
+
+      return {
+        ...atividade,
+        espacos,
+        nome: formatarFrase(atividade.nome),
+        local: formatarFrase(atividade.local),
+      };
     }
   } catch (error) {
     return {} as Atividade;
