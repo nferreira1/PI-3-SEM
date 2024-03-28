@@ -1,5 +1,12 @@
 declare global {
   /**
+   * Identificar único UUID.
+   * @interface
+   * @type {string}
+   */
+  type UUID = `${string}-${string}-${string}-${string}-${string}`;
+
+  /**
    * Interface para informações de atividade.
    * @interface
    */
@@ -33,6 +40,25 @@ declare global {
      * @type {string}
      */
     telefone: string;
+  }
+
+  /**
+   * Interface para informações de espaço, um espaço obrigatoriamente estará relacionado a uma atividade.
+   * @interface
+   * @see {@link Atividade}
+   */
+  interface Espaco {
+    /**
+     * Nome do espaço.
+     * @type {string}
+     */
+    nome: string;
+
+    /**
+     * Imagem do espaço.
+     * @type {string | null}
+     */
+    imagem: string | null;
   }
 }
 
