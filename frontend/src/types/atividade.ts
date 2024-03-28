@@ -1,8 +1,16 @@
+import { UUID } from "crypto";
+
 /**
  * Interface para informações de atividade.
  * @interface
  */
 export interface Atividade {
+  /**
+   * Identificador único da atividade.
+   * @type {UUID}
+   */
+  id: UUID;
+
   /**
    * Nome da atividade.
    * @type {string}
