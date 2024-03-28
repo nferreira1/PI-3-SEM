@@ -5,11 +5,11 @@ import { ChevronLeftIcon, MapPinIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-interface AtividadeInfoProps {
+interface Props {
   atividade: Atividade;
 }
 
-const AtividadeInfo = ({ atividade }: AtividadeInfoProps) => {
+const AtividadeInfo = ({ atividade }: Props) => {
   const router = useRouter();
 
   const handleVoltarClique = () => router.back();
