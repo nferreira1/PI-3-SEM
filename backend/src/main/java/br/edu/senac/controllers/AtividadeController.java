@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Atividade;
-import br.edu.senac.models.dtos.Atividade.AtividadeDTO;
+import br.edu.senac.models.dtos.Atividade.AtividadeIdDTO;
 import br.edu.senac.services.AtividadeService;
 import io.micrometer.common.lang.NonNull;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -31,11 +31,11 @@ public class AtividadeController {
   private AtividadeService atividadeService;
 
   @GetMapping
-  public ResponseEntity<List<AtividadeDTO>> buscarTodasAtividades() {
+  public ResponseEntity<List<AtividadeIdDTO>> buscarTodasAtividades() {
 
     List<Atividade> atividades = this.atividadeService.buscarTodasAtividades();
 
-    return ResponseEntity.ok().body(atividades.stream().map(AtividadeDTO::new).toList());
+    return ResponseEntity.ok().body(atividades.stream().map(AtividadeIdDTO::new).toList());
   }
 
   @PostMapping
