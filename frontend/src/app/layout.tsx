@@ -25,8 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} dark`}>
-        {children}
+      <body className={`${inter.className} dark flex flex-col min-h-screen`}>
+        <div className="flex-grow">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
