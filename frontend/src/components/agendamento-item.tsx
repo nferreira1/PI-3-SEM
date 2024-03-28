@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Atividade } from "@/types/atividade";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -25,7 +24,7 @@ const AgendamentoItem = ({ atividade }: Props) => {
           </div>
 
           <Image
-            src={atividade?.imagem ? atividade.imagem : ""}
+            src={atividade?.imagem ?? ""}
             alt={atividade?.nome}
             width={0}
             height={0}
