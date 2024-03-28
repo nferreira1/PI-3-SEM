@@ -1,9 +1,14 @@
 import { getAtividade } from "@/utils/get-atividade";
 import AtividadeInfo from "../components/atividade-info";
 import AtividadeItem from "../components/atividade-item";
+import { redirect } from "next/navigation";
 
 const AtividadeDetalhes = async ({ params }: { params: { id: UUID } }) => {
   const atividade = await getAtividade(params.id);
+
+  if (!atividade) {
+    return redirect("/");
+  }
 
   return (
     <div>
