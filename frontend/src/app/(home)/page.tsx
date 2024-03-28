@@ -7,8 +7,13 @@ import { formatarData } from "@/utils/formatar-data";
 export default async function Home() {
   const diaCompleto = formatarData(new Date());
 
-  async function getAtividades() {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  /**
+   * Função para obter todas as atividades existentes que tem pelo menos um {@link Espaco} disponível.
+   * @async
+   * @function
+   * @returns {Promise<Atividade[]>} Retorna um array de {@link Atividade} ou um array vazio
+   */
+  async function getAtividades(): Promise<Atividade[]> {
     try {
       const response = await fetch(`${process.env.API_BASE_URL}/atividade`, {
         cache: "no-store",
@@ -20,6 +25,8 @@ export default async function Home() {
     } catch (error) {
       return [];
     }
+
+    return [];
   }
 
   const atividades = await getAtividades();
@@ -48,8 +55,8 @@ export default async function Home() {
         </h2>
 
         <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {atividades.map((esporte: any) => (
-            <AgendamentoItem key={esporte.id} atividade={esporte} />
+          {atividades.map((atividade) => (
+            <AgendamentoItem key={atividade.id} atividade={atividade} />
           ))}
         </div>
       </div>
