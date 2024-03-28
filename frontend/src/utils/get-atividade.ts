@@ -6,9 +6,9 @@ import { formatarFrase } from "./formatar-frase";
  * @async
  * @function
  * @param {UUID} id - O identificador único de uma {@link Atividade}
- * @returns {Promise<Atividade>} Retorna um objeto de {@link Atividade}
+ * @returns {Promise<Atividade>} Retorna um objeto de {@link Atividade} ou `null` caso ocorra um erro.
  */
-export async function getAtividade(id: UUID): Promise<Atividade> {
+export async function getAtividade(id: UUID): Promise<Atividade | null> {
   try {
     const response = await fetch(
       `${process.env.API_BASE_URL}/atividade/${id}`,
@@ -32,8 +32,8 @@ export async function getAtividade(id: UUID): Promise<Atividade> {
       };
     }
   } catch (error) {
-    return {} as Atividade;
+    return null;
   }
 
-  return {} as Atividade;
+  return null;
 }

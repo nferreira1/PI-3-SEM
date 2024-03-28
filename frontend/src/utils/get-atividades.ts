@@ -4,9 +4,9 @@ import { formatarFrase } from "./formatar-frase";
  * Função para obter todas as atividades existentes que tem pelo menos um {@link Espaco} disponível.
  * @async
  * @function
- * @returns {Promise<Atividade[]>} Retorna um array de {@link Atividade} ou um array vazio
+ * @returns {Promise<Atividade[]>} Retorna um array de {@link Atividade}, um array vazio ou `null` caso ocorra um erro.
  */
-export async function getAtividades(): Promise<Atividade[]> {
+export async function getAtividades(): Promise<Atividade[] | null> {
   try {
     const response = await fetch(`${process.env.API_BASE_URL}/atividade`, {
       cache: "no-store",
@@ -22,8 +22,8 @@ export async function getAtividades(): Promise<Atividade[]> {
       }));
     }
   } catch (error) {
-    return [];
+    return null;
   }
 
-  return [];
+  return null;
 }
