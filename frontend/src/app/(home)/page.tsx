@@ -3,31 +3,10 @@ import Buscar from "@/components/buscar";
 import Header from "@/components/header";
 import ItemReserva from "@/components/item-reserva";
 import { formatarData } from "@/utils/formatar-data";
+import { getAtividades } from "@/utils/get-atividades";
 
 export default async function Home() {
   const diaCompleto = formatarData(new Date());
-
-  /**
-   * Função para obter todas as atividades existentes que tem pelo menos um {@link Espaco} disponível.
-   * @async
-   * @function
-   * @returns {Promise<Atividade[]>} Retorna um array de {@link Atividade} ou um array vazio
-   */
-  async function getAtividades(): Promise<Atividade[]> {
-    try {
-      const response = await fetch(`${process.env.API_BASE_URL}/atividade`, {
-        cache: "no-store",
-      });
-
-      if (response.ok) {
-        return await response.json();
-      }
-    } catch (error) {
-      return [];
-    }
-
-    return [];
-  }
 
   const atividades = await getAtividades();
 
