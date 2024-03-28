@@ -10,6 +10,6 @@ import br.edu.senac.models.Atividade;
 @Repository
 public interface AtividadeRepository extends JpaRepository<Atividade, String> {
 
-  public List<Atividade> findAllByStatusTrueAndEspacosNotNull();
+  public List<Atividade> findAllByStatusTrueAndEspacosNotNullAndEspacosStatusTrue();
 
 }

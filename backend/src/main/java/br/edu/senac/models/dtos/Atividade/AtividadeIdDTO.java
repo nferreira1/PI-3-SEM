@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AtividadeIdDTO extends AtividadeDTO {
-    
+
     private String id;
 
     public AtividadeIdDTO(Atividade atividade) {

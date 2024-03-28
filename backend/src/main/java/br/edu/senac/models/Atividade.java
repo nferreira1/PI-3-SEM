@@ -1,7 +1,7 @@
 package br.edu.senac.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,7 +51,7 @@ public class Atividade {
   private boolean status;
 
   @OneToMany(mappedBy = "atividade")
-  private Set<Espaco> espacos = new HashSet<Espaco>();
+  private List<Espaco> espacos = new ArrayList<Espaco>();
 
   @Override
   public String toString() {

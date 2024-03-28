@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.senac.models.Atividade;
 import br.edu.senac.repositories.AtividadeRepository;
+import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class AtividadeService {
@@ -14,9 +15,15 @@ public class AtividadeService {
   @Autowired
   private AtividadeRepository atividadeRepository;
 
+  public Atividade buscarPorId(String id) {
+
+    return this.atividadeRepository.findById(id)
+        .orElseThrow(() -> new ObjectNotFoundException("Atividade não encontrada!"));
+  }
+
   public List<Atividade> buscarTodasAtividades() {
 
-    return this.atividadeRepository.findAllByStatusTrueAndEspacosNotNull();
+    return this.atividadeRepository.findAllByStatusTrueAndEspacosNotNullAndEspacosStatusTrue();
   }
 
   public Atividade criar(Atividade obj) {
