@@ -2,17 +2,7 @@ import AgendamentoItem from "@/components/agendamento-item";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header";
 import ItemReserva from "@/components/item-reserva";
-import { Suspense } from "react";
-
-function formatarData(data: Date) {
-  const opcoes: Intl.DateTimeFormatOptions = {
-    month: "long",
-    weekday: "long",
-    day: "numeric",
-  };
-  const dataFormatada = data.toLocaleDateString("pt-BR", opcoes);
-  return dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
-}
+import { formatarData } from "@/utils/formatar-data";
 
 export default async function Home() {
   const diaCompleto = formatarData(new Date());
