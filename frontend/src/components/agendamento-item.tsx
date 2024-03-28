@@ -1,30 +1,50 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Badge } from "./ui/badge";
-import { Card, CardContent } from "./ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Atividade } from "@/types/atividade";
+import { StarIcon } from "lucide-react";
+import Image from "next/image";
 
-const AgendamentoItem = () => {
+interface Props {
+  atividade: Atividade;
+}
+
+const AgendamentoItem = ({ atividade }: Props) => {
   return (
-    <Card>
-      <CardContent className="p-5 py-0 flex justify-between">
-        <div className="flex flex-col gap-2 py-5">
-          <Badge className="w-fit bg-[#221C3D] text-primary hover:bg-[#221C3D]">
-            Confirmado
-          </Badge>
-          <h2 className="font-bold">Tênis</h2>
-
-          <div className="flex items-center gap-2">
-            <Avatar className="w-6 h-6">
-              <AvatarImage src="" />
-              <AvatarFallback className="text-[8px]">N</AvatarFallback>
-            </Avatar>
-            <h3 className="text-sm">Nathan Ferreira</h3>
+    <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
+      <CardContent className="p-1">
+        <div className="relative w-full h-[159px]">
+          <div className="absolute top-1 left-1 z-50">
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-1 opacity-90"
+            >
+              <StarIcon size={12} className="fill-primary text-primary" />
+              <span className="">5,0</span>
+            </Badge>
           </div>
+
+          <Image
+            src={atividade?.imagem ? atividade.imagem : ""}
+            alt={atividade?.nome}
+            width={0}
+            height={0}
+            sizes="100vw"
+            fill
+            className="rounded-2xl object-cover brightness-50"
+          />
         </div>
 
-        <div className="flex flex-col items-center justify-center px-3 border-solid border-l border-secondary">
-          <p className="text-sm">Fevereiro</p>
-          <p className="text-2xl">08</p>
-          <p className="text-sm">09:00</p>
+        <div className="px-2 pb-3">
+          <h2 className="font-bold mt-2 overflow-hidden text-ellipsis text-nowrap">
+            {atividade?.nome}
+          </h2>
+          <p className="text-sm text-gray-400 overflow-hidden text-ellipsis text-nowrap">
+            {atividade?.local}
+          </p>
+          <Button variant="secondary" className="w-full mt-3">
+            Reservar
+          </Button>
         </div>
       </CardContent>
     </Card>
