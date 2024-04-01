@@ -34,7 +34,7 @@ export default async function Home() {
         </h2>
 
         <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {atividades.map((atividade) => (
+          {atividades?.map((atividade) => (
             <AgendamentoItem key={atividade.id} atividade={atividade} />
           ))}
         </div>
