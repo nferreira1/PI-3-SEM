@@ -7,6 +7,36 @@ declare global {
   type UUID = `${string}-${string}-${string}-${string}-${string}`;
 
   /**
+   * Interface para informações de usuário.
+   * @interface
+   */
+  interface Usuario {
+    /**
+     * Identificador único do usuário.
+     * @type {number}
+     */
+    id: number;
+
+    /**
+     * Nome do usuário.
+     * @type {string}
+     */
+    nome: string;
+
+    /**
+     * Email do usuário.
+     * @type {string}
+     */
+    email: string;
+
+    /**
+     * Imagem de perfil do usuário.
+     * @type {string | null}
+     */
+    imagem: string | null;
+  }
+
+  /**
    * Interface para informações de atividade.
    * @interface
    */
