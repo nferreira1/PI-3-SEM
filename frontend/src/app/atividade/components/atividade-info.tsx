@@ -12,7 +12,7 @@ interface Props {
 const AtividadeInfo = ({ atividade }: Props) => {
   const router = useRouter();
 
-  const handleVoltarClique = () => router.back();
+  const handleVoltarClique = () => router.replace("/");
 
   return (
     <div>
