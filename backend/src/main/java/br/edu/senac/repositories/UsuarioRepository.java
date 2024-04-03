@@ -16,6 +16,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
   Optional<Usuario> findByIdAndStatusTrue(Long id);
 
+  Optional<Usuario> findByEmailAndStatusTrue(String email);
+
   @Modifying
   @Transactional
   @Query(nativeQuery = true, value = "UPDATE usuarios SET status = 0 WHERE id = :id")

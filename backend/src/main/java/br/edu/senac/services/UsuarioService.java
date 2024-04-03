@@ -1,5 +1,6 @@
 package br.edu.senac.services;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Optional;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -11,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
 import br.edu.senac.models.Usuario;
+import br.edu.senac.models.dtos.Usuario.LoginDTO;
 import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
 import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
+import br.edu.senac.models.dtos.Usuario.UsuarioDTO;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
@@ -71,4 +74,26 @@ public class UsuarioService {
     this.usuarioRepository.save(usuario);
   }
 
+  public UsuarioDTO login(@NonNull LoginDTO obj) throws UserPrincipalNotFoundException {
+
+    Optional<Usuario> usuario = this.usuarioRepository.findByEmailAndStatusTrue(obj.getEmail().toLowerCase());
+
+    if (usuario.isEmpty()) {
+      throw new UserPrincipalNotFoundException("Credenciais inválidas!");
+    }
+
+    StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+
+    if (!passwordEncryptor.checkPassword(obj.getSenha(), usuario.get().getSenha())) {
+      throw new UserPrincipalNotFoundException("Credenciais inválidas!");
+    }
+
+    UsuarioDTO usuarioDTO = new UsuarioDTO();
+    usuarioDTO.setId(usuario.get().getId());
+    usuarioDTO.setNome(usuario.get().getNome());
+    usuarioDTO.setEmail(usuario.get().getEmail());
+    usuarioDTO.setImagem(usuario.get().getImagem());
+
+    return usuarioDTO;
+  }
 }

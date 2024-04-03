@@ -1,5 +1,7 @@
 package br.edu.senac.exceptions;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -91,5 +93,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     log.error("Failed to validate element", constraintViolationException);
 
     return buildErrorResponse(constraintViolationException, HttpStatus.UNPROCESSABLE_ENTITY, request);
+  }
+
+  @ExceptionHandler(UserPrincipalNotFoundException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ResponseEntity<Object> handleUserPrincipalNotFoundException(UserPrincipalNotFoundException userPrincipalNotFoundException,
+      WebRequest request) {
+
+    log.error("Failed to find the requested user", userPrincipalNotFoundException);
+
+    return buildErrorResponse(userPrincipalNotFoundException, userPrincipalNotFoundException.getName(), HttpStatus.UNAUTHORIZED, request);
   }
 }
