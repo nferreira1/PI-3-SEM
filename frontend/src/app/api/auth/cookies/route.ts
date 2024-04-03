@@ -1,7 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { Payload } from "../login/route";
+import { Payload } from "../route";
 
 /**
  * @see {@link Payload}

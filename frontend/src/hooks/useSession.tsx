@@ -4,6 +4,7 @@ interface Payload {
   status: Status;
   data: Usuario | null;
   login: (email: string, senha: string) => void;
+  logout: () => void;
 }
 
 enum Status {
@@ -22,7 +23,7 @@ export const useSession = (): Payload => {
   const [data, setData] = useState<Usuario | null>(null);
 
   const login = async (email: string, senha: string) => {
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/api/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,6 +35,15 @@ export const useSession = (): Payload => {
       const { data } = await response.json();
       setData(data);
       setStatus(Status.AUTHENTICATED);
+    }
+  };
+
+  const logout = async () => {
+    const response = await fetch("/api/auth");
+
+    if (response.status === 200) {
+      setData(null);
+      setStatus(Status.UNAUTHENTICATED);
     }
   };
 
@@ -54,5 +64,5 @@ export const useSession = (): Payload => {
     })();
   }, []);
 
-  return { status, data, login };
+  return { status, data, login, logout };
 };

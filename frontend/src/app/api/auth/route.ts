@@ -1,5 +1,6 @@
 import { serialize } from "cookie";
 import { sign } from "jsonwebtoken";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const MAX_AGE = 60 * 60 * 24 * 30;
@@ -11,7 +12,7 @@ export interface Payload {
 }
 
 /**
- * @function POST
+ * @function
  * @description
  * Função responsável por realizar a requisição de login na API.
  * @param {Request} request
@@ -61,5 +62,36 @@ export async function POST(request: Request): Promise<Payload> {
       { error: "Não foi possível realizar o login." },
       { status: 500 }
     );
+  }
+}
+
+/**
+ * @function
+ * @description
+ * Função responsável por realizar a requisição de logout na API.
+ * @returns {Payload}
+ */
+export function GET(): Payload {
+  const cookieStore = cookies();
+  try {
+    const token = cookieStore.get(process.env.COOKIE_NAME as string);
+
+    if (!token) {
+      return NextResponse.json({
+        status: 500,
+        error: "Não foi possível realizar o logout.",
+      });
+    }
+
+    cookieStore.delete(process.env.COOKIE_NAME as string);
+
+    return NextResponse.json({
+      status: 200,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      status: 500,
+      error: "Não foi possível realizar o logout.",
+    });
   }
 }

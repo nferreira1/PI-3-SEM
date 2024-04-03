@@ -14,9 +14,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSession } from "@/hooks/useSession";
 
 const SideMenu = () => {
-  const { data, status, login } = useSession();
+  const { data, status, login, logout } = useSession();
 
-  const handleLogoutClique = () => null;
+  const handleLogoutClique = () => logout();
   const handleLoginClique = () => login("nathan.1402@hotmail.com", "123456");
 
   return (
