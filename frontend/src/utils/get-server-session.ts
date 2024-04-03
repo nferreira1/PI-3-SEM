@@ -1,4 +1,3 @@
-import { parse } from "cookie";
 import { JwtPayload, verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { formatarFrase } from "./formatar-frase";
