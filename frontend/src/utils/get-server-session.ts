@@ -47,7 +47,7 @@ export async function getServerSession(): Promise<Payload> {
   } catch (error) {
     return {
       usuario: null,
-      error: "Não foi possível recuperar a sessão. Token inválido.",
+      error: "Token não encontrado.",
       status: Status.UNAUTHENTICATED,
     };
   }
