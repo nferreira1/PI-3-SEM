@@ -3,28 +3,25 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   atividade: Atividade;
 }
 
 const AtividadeInfo = ({ atividade }: Props) => {
-  const router = useRouter();
-
-  const handleVoltarClique = () => router.replace("/");
-
   return (
     <div>
       <div className="h-[250px] w-full relative">
-        <Button
-          onClick={handleVoltarClique}
-          size="icon"
-          variant="outline"
-          className="z-50 absolute top-4 left-4"
-        >
-          <ChevronLeftIcon />
-        </Button>
+        <Link href="/" passHref replace>
+          <Button
+            size="icon"
+            variant="outline"
+            className="z-50 absolute top-4 left-4"
+          >
+            <ChevronLeftIcon />
+          </Button>
+        </Link>
 
         <Button
           size="icon"
