@@ -12,12 +12,13 @@ import { SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSession } from "@/hooks/useSession";
+import { AlertDialog, AlertDialogTrigger } from "./ui/alert-dialog";
+import AlertLogout from "./alert-logout";
 
 const SideMenu = () => {
-  const { data, status, login, logout } = useSession();
+  const { data, status, login } = useSession();
 
-  const handleLogoutClique = () => logout();
-  const handleLoginClique = () => login("nathan.1402@hotmail.com", "123456");
+  const handleLogin = () => login("nathan.1402@hotmail.com", "123456");
 
   return (
     <>
@@ -36,9 +37,14 @@ const SideMenu = () => {
             <h2 className="font-bold">{data!.nome}</h2>
           </div>
 
-          <Button variant="secondary" size="icon" className="rounded-lg">
-            <LogOutIcon onClick={handleLogoutClique} />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="secondary" size="icon">
+                <LogOutIcon size={20} />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertLogout />
+          </AlertDialog>
         </div>
       ) : (
         <div className="flex flex-col px-5 py-6 gap-3">
@@ -56,7 +62,7 @@ const SideMenu = () => {
           <Button
             variant="secondary"
             className="w-full justify-start rounded-lg"
-            onClick={handleLoginClique}
+            onClick={handleLogin}
           >
             <LogInIcon className="mr-2" size={18} />
             Fazer Login
