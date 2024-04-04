@@ -73,7 +73,7 @@ export const AuthProvider = ({
       setStatus(Status.AUTHENTICATED);
     }
 
-    return router.refresh();
+    return router.replace("/");
   };
 
   /**
@@ -90,7 +90,7 @@ export const AuthProvider = ({
       setStatus(Status.UNAUTHENTICATED);
     }
 
-    return router.refresh();
+    return router.replace("/");
   };
 
   useEffect(() => {
