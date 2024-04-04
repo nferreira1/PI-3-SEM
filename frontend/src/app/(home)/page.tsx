@@ -1,4 +1,4 @@
-import AgendamentoItem from "@/components/agendamento-item";
+import AgendamentoItem from "@/app/(home)/components/agendamento-item";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header";
 import ItemReserva from "@/components/item-reserva";
