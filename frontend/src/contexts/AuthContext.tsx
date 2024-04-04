@@ -3,6 +3,7 @@
 import { formatarFrase } from "@/utils/formatar-frase";
 import { createContext, useEffect, useState } from "react";
 import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 enum Status {
   LOADING = "loading",
@@ -46,6 +47,7 @@ export const AuthProvider = ({
 }: {
   children: React.ReactNode;
 }): React.ReactNode => {
+  const router = useRouter();
   const [status, setStatus] = useState<Status>(Status.LOADING);
   const [data, setData] = useState<Usuario | null>(null);
 
@@ -71,6 +73,8 @@ export const AuthProvider = ({
       setData({ ...data, nome: formatarFrase(data.nome) });
       setStatus(Status.AUTHENTICATED);
     }
+
+    router.refresh();
   };
 
   /**
@@ -86,6 +90,8 @@ export const AuthProvider = ({
       setData(null);
       setStatus(Status.UNAUTHENTICATED);
     }
+
+    router.refresh();
   };
 
   useEffect(() => {
