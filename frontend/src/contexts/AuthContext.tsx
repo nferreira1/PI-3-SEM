@@ -1,9 +1,8 @@
 "use client";
 
 import { formatarFrase } from "@/utils/formatar-frase";
-import { createContext, useEffect, useState } from "react";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
+import { createContext, useEffect, useState } from "react";
 
 enum Status {
   LOADING = "loading",
@@ -74,7 +73,7 @@ export const AuthProvider = ({
       setStatus(Status.AUTHENTICATED);
     }
 
-    router.refresh();
+    return router.push("/");
   };
 
   /**
@@ -91,7 +90,7 @@ export const AuthProvider = ({
       setStatus(Status.UNAUTHENTICATED);
     }
 
-    router.refresh();
+    return router.push("/");
   };
 
   useEffect(() => {
