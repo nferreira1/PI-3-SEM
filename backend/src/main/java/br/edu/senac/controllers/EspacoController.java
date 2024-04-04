@@ -1,7 +1,13 @@
 package br.edu.senac.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,18 +40,24 @@ public class EspacoController {
 
   @GetMapping("{atividadeId}")
   public ResponseEntity<List<EspacoHorariosDTO>> buscarTodosServicosPorId(@PathVariable @NonNull String atividadeId) {
+    List<Espaco> espacos = this.espacoService.buscarTodosEspacosHorarios(atividadeId);
 
-    List<Espaco> espacos = this.espacoService.buscarTodosServicosPorId(atividadeId);
+    Map<String, EspacoHorariosDTO> espacosMap = new HashMap<>();
 
-    List<EspacoHorariosDTO> espacosComHorarios = espacos.stream().map(espaco -> {
+    espacos.forEach(espaco -> {
+      EspacoHorariosDTO dto = espacosMap.computeIfAbsent(espaco.getNome(),
+          k -> new EspacoHorariosDTO(espaco.getNome(), espaco.getImagem(), new ArrayList<>()));
 
-      List<EspacoHorarioDTO> horarios = espaco.getEspacoHorarios().stream().map(horario -> {
-        return new EspacoHorarioDTO(horario.getHorario().getHorarioInicial().toString(),
-            horario.getHorario().getHorarioFinal().toString());
-      }).toList();
+      Set<EspacoHorarioDTO> horariosSet = new LinkedHashSet<>(dto.getHorarios());
 
-      return new EspacoHorariosDTO(espaco.getNome(), espaco.getImagem(), horarios);
-    }).toList();
+      horariosSet.addAll(espaco.getEspacoHorarios().stream().map(horario -> new EspacoHorarioDTO(
+          horario.getHorario().getHorarioInicial().toString(),
+          horario.getHorario().getHorarioFinal().toString())).collect(Collectors.toList()));
+
+      dto.setHorarios(new ArrayList<>(horariosSet));
+    });
+
+    List<EspacoHorariosDTO> espacosComHorarios = new ArrayList<>(espacosMap.values());
 
     return ResponseEntity.ok().body(espacosComHorarios);
   }

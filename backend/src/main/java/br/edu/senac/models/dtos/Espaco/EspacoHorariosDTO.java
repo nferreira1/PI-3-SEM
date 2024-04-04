@@ -2,6 +2,7 @@ package br.edu.senac.models.dtos.Espaco;
 
 import java.util.List;
 
+import br.edu.senac.models.Espaco;
 import br.edu.senac.models.dtos.EspacoHorario.EspacoHorarioDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,10 @@ public class EspacoHorariosDTO extends EspacoDTO {
   public EspacoHorariosDTO(String nome, String imagem, List<EspacoHorarioDTO> horarios) {
     super(nome, imagem);
     this.horarios = horarios;
+  }
+
+  public EspacoHorariosDTO(Espaco espaco) {
+    super(espaco);
   }
 
 }

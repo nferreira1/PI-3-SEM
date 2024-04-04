@@ -48,7 +48,7 @@ public class AtividadeController {
   public ResponseEntity<AtividadeEspacoDTO> buscarPorId(@PathVariable @NonNull String id) {
 
     Atividade atividade = this.atividadeService.buscarPorId(id);
-    atividade.setEspacos(this.espacoService.buscarTodosServicosPorId(atividade.getId()));
+    atividade.setEspacos(this.espacoService.buscarTodosEspacos(atividade.getId()));
 
     return ResponseEntity.ok().body(new AtividadeEspacoDTO(atividade));
   }

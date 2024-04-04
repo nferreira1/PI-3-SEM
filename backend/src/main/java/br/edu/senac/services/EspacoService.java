@@ -22,8 +22,14 @@ public class EspacoService {
   @Autowired
   private AtividadeRepository atividadeRepository;
 
-  public List<Espaco> buscarTodosServicosPorId(@NonNull String atividadeId) {
-    return this.espacoRepository.findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(atividadeId);
+  public List<Espaco> buscarTodosEspacosHorarios(@NonNull String atividadeId) {
+    return this.espacoRepository
+        .findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNullAndEspacoStatusTrue(atividadeId);
+  }
+
+  public List<Espaco> buscarTodosEspacos(String atividadeId) {
+    return this.espacoRepository
+        .findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(atividadeId);
   }
 
   public Espaco criar(EspacoCriarDTO obj) {
