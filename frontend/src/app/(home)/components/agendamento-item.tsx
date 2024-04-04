@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useSession } from "@/hooks/useSession";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const AgendamentoItem = ({ atividade }: Props) => {
+  const { status } = useSession();
   return (
     <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
       <CardContent className="p-1">
@@ -44,8 +46,12 @@ const AgendamentoItem = ({ atividade }: Props) => {
           <p className="text-sm text-gray-400 overflow-hidden text-ellipsis text-nowrap">
             {atividade?.local}
           </p>
-          <Link href={`/atividade/${atividade.id}`} passHref>
-            <Button variant="secondary" className="w-full mt-3">
+          <Link href={`/atividade/${atividade.id}`} legacyBehavior>
+            <Button
+              variant="secondary"
+              className="w-full mt-3"
+              disabled={status == "unauthenticated"}
+            >
               Reservar
             </Button>
           </Link>
