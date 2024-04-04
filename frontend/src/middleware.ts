@@ -1,22 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "./utils/get-server-session";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const rotasPublicas = getRotasPublicas(request.nextUrl.pathname);
-  const autenticado = request.cookies.get(process.env.COOKIE_NAME as string);
+  const session = await getServerSession();
 
-  if (!rotasPublicas && !autenticado) {
-    return NextResponse.redirect(new URL("/", request.nextUrl).toString());
+  if (!rotasPublicas && session.status === "unauthenticated") {
+    return NextResponse.redirect(
+      new URL("/", request.nextUrl.origin).toString()
+    );
   }
 
   return NextResponse.next();
 }
 
-/**
- * Verifica se a URL é uma rota pública.
- * @function
- * @param {string} URL da requisição.
- * @returns {boolean} Retorna true se a URL é uma rota pública, caso contrário, retorna false.
- */
 function getRotasPublicas(URL: string): boolean {
   const rotasPublicas = ["/"];
   return rotasPublicas.includes(URL);

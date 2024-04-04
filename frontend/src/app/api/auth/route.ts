@@ -1,5 +1,5 @@
 import { serialize } from "cookie";
-import { sign } from "jsonwebtoken";
+import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -43,9 +43,11 @@ export async function POST(request: Request): Promise<Payload> {
 
     const secret = process.env.JWT_SECRET as string;
 
-    const token = sign({ data }, secret);
+    const token = await new SignJWT({ data })
+      .setProtectedHeader({ alg: "HS256" })
+      .sign(new TextEncoder().encode(secret));
 
-    const seralized = serialize(process.env.COOKIE_NAME as string, token, {
+    const serialized = serialize(process.env.COOKIE_NAME as string, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -55,7 +57,7 @@ export async function POST(request: Request): Promise<Payload> {
 
     return NextResponse.json(
       { data },
-      { status: 200, headers: { "Set-Cookie": seralized } }
+      { status: 200, headers: { "Set-Cookie": serialized } }
     );
   } catch (error) {
     return NextResponse.json(

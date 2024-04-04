@@ -1,5 +1,5 @@
-import { JwtPayload, verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
 import { formatarFrase } from "./formatar-frase";
 
 export interface Payload {
@@ -36,8 +36,13 @@ export async function getServerSession(): Promise<Payload> {
   const secret = process.env.JWT_SECRET as string;
 
   try {
-    const data = verify(value, secret) as JwtPayload;
-    const usuario = data.data as Usuario;
+    const secretKey = new TextEncoder().encode(secret);
+
+    const { payload } = await jwtVerify(value, secretKey, {
+      algorithms: ["HS256"],
+    });
+
+    const usuario = payload.data as Usuario;
 
     return {
       usuario: { ...usuario, nome: formatarFrase(usuario.nome) },
@@ -46,7 +51,7 @@ export async function getServerSession(): Promise<Payload> {
   } catch (error) {
     return {
       usuario: null,
-      error: "Token não encontrado.",
+      error: "Token inválido.",
       status: Status.UNAUTHENTICATED,
     };
   }
