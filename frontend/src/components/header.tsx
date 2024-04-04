@@ -7,7 +7,7 @@ import SideMenu from "./side-menu";
 
 const Header = () => {
   return (
-    <Card>
+    <Card className="rounded-none">
       <CardContent className="p-5 flex flex-row justify-between">
         <Image
           src="/logo-header.png"
