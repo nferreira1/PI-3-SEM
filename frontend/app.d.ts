@@ -96,6 +96,33 @@ declare global {
      * @type {string | null}
      */
     imagem: string | null;
+
+    /**
+     * Horários de funcionamento do espaço.
+     * @type {Horario[]}
+     */
+    horarios: Horario[];
+  }
+
+  /**
+   * Interface para informações de horário.
+   * @interface
+   * @see {@link Espaco}
+   */
+  interface Horario {
+    /**
+     * Horário de abertura.
+     * @type {string}
+     * @example "08:00"
+     */
+    horarioInicial: string;
+
+    /**
+     * Horário de fechamento.
+     * @type {string}
+     * @example "18:00"
+     */
+    horarioFinal: string;
   }
 }
 
