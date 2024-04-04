@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface EspacoRepository extends JpaRepository<Espaco, Long> {
 
-  public List<Espaco> findAllByAtividadeIdAndStatusTrue(String atividadeId);
+  public List<Espaco> findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(String atividadeId);
 
   public Espaco findByAtividadeIdAndNome(String id, String nome);
 

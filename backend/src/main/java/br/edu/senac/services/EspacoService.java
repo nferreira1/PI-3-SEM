@@ -23,7 +23,7 @@ public class EspacoService {
   private AtividadeRepository atividadeRepository;
 
   public List<Espaco> buscarTodosServicosPorId(@NonNull String atividadeId) {
-    return this.espacoRepository.findAllByAtividadeIdAndStatusTrue(atividadeId);
+    return this.espacoRepository.findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(atividadeId);
   }
 
   public Espaco criar(EspacoCriarDTO obj) {
