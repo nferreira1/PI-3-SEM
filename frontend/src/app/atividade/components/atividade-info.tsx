@@ -1,6 +1,8 @@
 "use client";
 
+import SideMenu from "@/components/side-menu";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,13 +25,21 @@ const AtividadeInfo = ({ atividade }: Props) => {
           </Button>
         </Link>
 
-        <Button
-          size="icon"
-          variant="outline"
-          className="z-50 absolute top-4 right-4"
-        >
-          <MenuIcon />
-        </Button>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="z-50 absolute top-4 right-4"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+
+          <SheetContent className="p-0">
+            <SideMenu />
+          </SheetContent>
+        </Sheet>
 
         <Image
           src={atividade?.imagem ?? ""}
