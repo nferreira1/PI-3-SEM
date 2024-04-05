@@ -28,12 +28,8 @@ public class EspacoService {
   }
 
   public List<Espaco> buscarTodosEspacos(String atividadeId) {
-    var teste = this.espacoRepository
+    return this.espacoRepository
         .findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(atividadeId);
-
-    System.out.println(teste.toString());
-
-    return teste;
   }
 
   public Espaco criar(EspacoCriarDTO obj) {

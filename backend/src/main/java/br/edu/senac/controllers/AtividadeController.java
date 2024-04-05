@@ -1,7 +1,13 @@
 package br.edu.senac.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Atividade;
+import br.edu.senac.models.Espaco;
 import br.edu.senac.models.dtos.Atividade.AtividadeEspacoDTO;
 import br.edu.senac.models.dtos.Atividade.AtividadeIdDTO;
+import br.edu.senac.models.dtos.Espaco.EspacoHorariosDTO;
+import br.edu.senac.models.dtos.EspacoHorario.EspacoHorarioDTO;
 import br.edu.senac.services.AtividadeService;
 import br.edu.senac.services.EspacoService;
 import io.micrometer.common.lang.NonNull;
@@ -49,9 +58,29 @@ public class AtividadeController {
   public ResponseEntity<AtividadeEspacoDTO> buscarPorId(@PathVariable @NonNull String id) {
 
     Atividade atividade = this.atividadeService.buscarPorId(id);
-    atividade.setEspacos(this.espacoService.buscarTodosEspacos(atividade.getId()));
 
-    return ResponseEntity.ok().body(new AtividadeEspacoDTO(atividade));
+    List<Espaco> espacos = this.espacoService.buscarTodosEspacosHorarios(id);
+
+    Map<String, EspacoHorariosDTO> espacosMap = new HashMap<>();
+
+    espacos.forEach(espaco -> {
+      EspacoHorariosDTO dto = espacosMap.computeIfAbsent(espaco.getNome(),
+          k -> new EspacoHorariosDTO(espaco.getNome(), espaco.getImagem(), new ArrayList<>()));
+
+      Set<EspacoHorarioDTO> horariosSet = new LinkedHashSet<>(dto.getHorarios());
+
+      horariosSet.addAll(espaco.getEspacoHorarios().stream().map(horario -> new EspacoHorarioDTO(
+          horario.getHorario().getHorarioInicial().toString(),
+          horario.getHorario().getHorarioFinal().toString())).collect(Collectors.toList()));
+
+      dto.setHorarios(new ArrayList<>(horariosSet));
+    });
+
+    List<EspacoHorariosDTO> espacosComHorarios = new ArrayList<>(espacosMap.values());
+
+    AtividadeEspacoDTO atividadeComEspacosHorario = new AtividadeEspacoDTO(atividade, espacosComHorarios);
+
+    return ResponseEntity.ok().body(atividadeComEspacosHorario);
   }
 
   @PostMapping

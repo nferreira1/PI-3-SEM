@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.senac.models.Role;
 import br.edu.senac.models.dtos.Login.LoginRequest;
 import br.edu.senac.models.dtos.Login.LoginResponse;
 import br.edu.senac.repositories.UsuarioRepository;
