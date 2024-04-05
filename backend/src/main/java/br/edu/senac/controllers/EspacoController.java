@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Espaco;
 import br.edu.senac.models.dtos.Espaco.EspacoCriarDTO;
-import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import br.edu.senac.models.dtos.Espaco.EspacoHorariosDTO;
 import br.edu.senac.models.dtos.EspacoHorario.EspacoHorarioDTO;
 import br.edu.senac.services.EspacoService;

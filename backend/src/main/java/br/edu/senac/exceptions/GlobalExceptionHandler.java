@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -97,11 +98,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(UserPrincipalNotFoundException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  public ResponseEntity<Object> handleUserPrincipalNotFoundException(UserPrincipalNotFoundException userPrincipalNotFoundException,
+  public ResponseEntity<Object> handleUserPrincipalNotFoundException(
+      UserPrincipalNotFoundException userPrincipalNotFoundException,
       WebRequest request) {
 
     log.error("Failed to find the requested user", userPrincipalNotFoundException);
 
-    return buildErrorResponse(userPrincipalNotFoundException, userPrincipalNotFoundException.getName(), HttpStatus.UNAUTHORIZED, request);
+    return buildErrorResponse(userPrincipalNotFoundException, userPrincipalNotFoundException.getName(),
+        HttpStatus.UNAUTHORIZED, request);
+  }
+
+  @ExceptionHandler(BadCredentialsException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException badCredentialsException,
+      WebRequest request) {
+
+    log.error("Failed to authenticate user", badCredentialsException);
+
+    return buildErrorResponse(badCredentialsException, badCredentialsException.getMessage(), HttpStatus.UNAUTHORIZED,
+        request);
   }
 }

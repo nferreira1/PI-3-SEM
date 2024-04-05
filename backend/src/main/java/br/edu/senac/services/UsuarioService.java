@@ -1,30 +1,33 @@
 package br.edu.senac.services;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Optional;
+import java.util.Set;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
-
+import br.edu.senac.models.Role;
 import br.edu.senac.models.Usuario;
-import br.edu.senac.models.dtos.Usuario.LoginDTO;
 import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
 import br.edu.senac.models.dtos.Usuario.UsuarioCriarDTO;
-import br.edu.senac.models.dtos.Usuario.UsuarioDTO;
+import br.edu.senac.repositories.RoleRepository;
 import br.edu.senac.repositories.UsuarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
-@EnableEncryptableProperties
 public class UsuarioService {
 
   @Autowired
   private UsuarioRepository usuarioRepository;
+
+  @Autowired
+  private RoleRepository roleRepository;
+
+  @Autowired
+  private BCryptPasswordEncoder senhaEncoder;
 
   public Usuario buscarPorId(@NonNull Long id) {
 
@@ -36,13 +39,14 @@ public class UsuarioService {
   @Transactional
   public Usuario criar(UsuarioCriarDTO obj) {
 
+    Role roleBasica = roleRepository.findByNome(Role.Values.BASICO.name());
     Usuario usuario = new Usuario();
-    StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     usuario.setNome(obj.getNome().toUpperCase());
     usuario.setEmail(obj.getEmail().toLowerCase());
-    usuario.setSenha(passwordEncryptor.encryptPassword(obj.getSenha()));
+    usuario.setSenha(senhaEncoder.encode(obj.getSenha()));
     usuario.setImagem(obj.getImagem());
+    usuario.setRoles(Set.of(roleBasica));
 
     return this.usuarioRepository.save(usuario);
   }
@@ -74,26 +78,4 @@ public class UsuarioService {
     this.usuarioRepository.save(usuario);
   }
 
-  public UsuarioDTO login(@NonNull LoginDTO obj) throws UserPrincipalNotFoundException {
-
-    Optional<Usuario> usuario = this.usuarioRepository.findByEmailAndStatusTrue(obj.getEmail().toLowerCase());
-
-    if (usuario.isEmpty()) {
-      throw new UserPrincipalNotFoundException("Credenciais inválidas!");
-    }
-
-    StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-
-    if (!passwordEncryptor.checkPassword(obj.getSenha(), usuario.get().getSenha())) {
-      throw new UserPrincipalNotFoundException("Credenciais inválidas!");
-    }
-
-    UsuarioDTO usuarioDTO = new UsuarioDTO();
-    usuarioDTO.setId(usuario.get().getId());
-    usuarioDTO.setNome(usuario.get().getNome());
-    usuarioDTO.setEmail(usuario.get().getEmail());
-    usuarioDTO.setImagem(usuario.get().getImagem());
-
-    return usuarioDTO;
-  }
 }
