@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetFooter,
 } from "@/components/ui/sheet";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -24,6 +25,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
   const [horarioSelecionado, setHorarioSelecionado] = useState<
     Horario | undefined
   >(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const atividadeFormatada = {
     id: atividade.id,
@@ -146,7 +148,10 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
                   <SheetFooter className="px-5">
                     <Button disabled={!data || !horarioSelecionado}>
-                      Confirmar reserva
+                      {loading && (
+                        <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                      )}
+                      {loading ? "Confirmando..." : "Confirmar"}
                     </Button>
                   </SheetFooter>
                 </SheetContent>
