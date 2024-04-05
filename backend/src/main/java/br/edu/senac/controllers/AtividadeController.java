@@ -37,6 +37,7 @@ public class AtividadeController {
   private EspacoService espacoService;
 
   @GetMapping
+  // @PreAuthorize("hasAuthority('SCOPE_BASICO')")
   public ResponseEntity<List<AtividadeIdDTO>> buscarTodasAtividades() {
 
     List<Atividade> atividades = this.atividadeService.buscarTodasAtividades();

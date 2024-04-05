@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.senac.models.Role;
 import br.edu.senac.models.dtos.Login.LoginRequest;
 import br.edu.senac.models.dtos.Login.LoginResponse;
 import br.edu.senac.repositories.UsuarioRepository;
@@ -43,12 +44,17 @@ public class TokenController {
     var agora = Instant.now();
     var expiraEm = 60 * 60 * 2; // 2 horas
 
+    var scopes = usuario.get().getRoles().stream()
+        .map(role -> role.getNome().toUpperCase())
+        .toList();
+
     var claims = JwtClaimsSet.builder()
         .issuer("SysClub")
         .claim("id", usuario.get().getId().toString())
         .claim("nome", usuario.get().getNome())
         .claim("email", usuario.get().getEmail())
         .claim("imagem", usuario.get().getImagem() != null ? usuario.get().getImagem() : "")
+        .claim("scope", scopes)
         .issuedAt(agora)
         .expiresAt(agora.plusSeconds(expiraEm))
         .build();

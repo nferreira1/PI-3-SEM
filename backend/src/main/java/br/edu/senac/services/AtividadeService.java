@@ -17,7 +17,7 @@ public class AtividadeService {
 
   public Atividade buscarPorId(String id) {
 
-    return this.atividadeRepository.findById(id)
+    return this.atividadeRepository.findByIdAndStatusTrueAndEspacosNotNullAndEspacosStatusTrue(id)
         .orElseThrow(() -> new ObjectNotFoundException("Atividade não encontrada!"));
   }
 
