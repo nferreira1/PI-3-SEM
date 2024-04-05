@@ -2,6 +2,8 @@ package br.edu.senac.controllers;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.senac.models.Atividade;
 import br.edu.senac.models.Espaco;
+import br.edu.senac.models.Horario;
 import br.edu.senac.models.dtos.Atividade.AtividadeEspacoDTO;
 import br.edu.senac.models.dtos.Atividade.AtividadeIdDTO;
 import br.edu.senac.models.dtos.Espaco.EspacoHorariosDTO;
@@ -77,6 +80,15 @@ public class AtividadeController {
     });
 
     List<EspacoHorariosDTO> espacosComHorarios = new ArrayList<>(espacosMap.values());
+
+    for (EspacoHorariosDTO espaco : espacosComHorarios) {
+      Collections.sort(espaco.getHorarios(), new Comparator<EspacoHorarioDTO>() {
+        @Override
+        public int compare(EspacoHorarioDTO h1, EspacoHorarioDTO h2) {
+          return h1.getHorarioInicial().compareTo(h2.getHorarioInicial());
+        }
+      });
+    }
 
     AtividadeEspacoDTO atividadeComEspacosHorario = new AtividadeEspacoDTO(atividade, espacosComHorarios);
 
