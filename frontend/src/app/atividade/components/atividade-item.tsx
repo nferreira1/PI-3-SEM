@@ -14,6 +14,7 @@ import {
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import MotionDivDefault from "./motion-div-default";
 
 interface Props {
   atividade: Atividade;
@@ -84,7 +85,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                   />
 
                   {data && (
-                    <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6 border-y border-solid border-secondary">
+                    <MotionDivDefault className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6 border-y border-solid border-secondary">
                       {atividadeFormatada.espaco.horarios.map((horario) => (
                         <Button
                           key={horario.horarioInicial}
@@ -99,23 +100,23 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                           {horario.horarioInicial}
                         </Button>
                       ))}
-                    </div>
+                    </MotionDivDefault>
                   )}
 
-                  <div
+                  <MotionDivDefault
                     className={`px-5 py-6 border-solid border-secondary ${
                       !data && "border-t"
                     }`}
                   >
                     <Card>
                       <CardContent className="flex flex-col gap-3 p-3">
-                        <div className="flex justify-between">
+                        <MotionDivDefault className="flex justify-between">
                           <h2>{atividade.nome}</h2>
                           <h3 className="font-bold text-sm">{}</h3>
-                        </div>
+                        </MotionDivDefault>
 
                         {data && (
-                          <div className="flex justify-between">
+                          <MotionDivDefault className="flex justify-between">
                             <h3 className="text-gray-400 text-sm">Data</h3>
                             <h4 className="text-sm">
                               {data.toLocaleDateString("pt-BR", {
@@ -126,32 +127,34 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                                 month: "long",
                               })}
                             </h4>
-                          </div>
+                          </MotionDivDefault>
                         )}
 
                         {horarioSelecionado && (
-                          <div className="flex justify-between">
+                          <MotionDivDefault className="flex justify-between">
                             <h3 className="text-gray-400 text-sm">Horário</h3>
                             <h4 className="text-sm">
                               {horarioSelecionado.horarioInicial}
                             </h4>
-                          </div>
+                          </MotionDivDefault>
                         )}
 
-                        <div className="flex justify-between">
+                        <MotionDivDefault className="flex justify-between">
                           <h3 className="text-gray-400 text-sm">Local</h3>
                           <h4 className="text-sm">{espaco.nome}</h4>
-                        </div>
+                        </MotionDivDefault>
                       </CardContent>
                     </Card>
-                  </div>
+                  </MotionDivDefault>
 
                   <SheetFooter className="px-5">
-                    <Button disabled={!data || !horarioSelecionado}>
-                      {loading && (
-                        <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                      )}
-                      {loading ? "Confirmando..." : "Confirmar"}
+                    <Button disabled={!data || !horarioSelecionado} asChild>
+                      <MotionDivDefault className="cursor-pointer">
+                        {loading && (
+                          <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                        )}
+                        {loading ? "Confirmando..." : "Confirmar"}
+                      </MotionDivDefault>
                     </Button>
                   </SheetFooter>
                 </SheetContent>
