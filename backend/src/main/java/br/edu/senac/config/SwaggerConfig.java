@@ -14,7 +14,7 @@ public class SwaggerConfig {
   @Bean
   public OpenAPI customOpenAPI() {
     return new OpenAPI()
-        .info(new Info().title("API IntregraLar").version("1.0").description("API para o sistema IntregraLar"))
+        .info(new Info().title("SysClub API").version("1.0").description("API para o sistema de agendamentos SysClub."))
         .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
         .components(new io.swagger.v3.oas.models.Components()
             .addSecuritySchemes("bearerAuth", new SecurityScheme()
