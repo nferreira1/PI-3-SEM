@@ -69,7 +69,12 @@ export const AuthProvider = ({
 
     if (response.status === 200) {
       const { data } = await response.json();
-      setData({ ...data, nome: formatarFrase(data.nome) });
+      setData({
+        id: data.id,
+        nome: formatarFrase(data.nome),
+        email: data.email,
+        imagem: data.imagem,
+      });
       setStatus(Status.AUTHENTICATED);
     }
 
@@ -101,7 +106,12 @@ export const AuthProvider = ({
 
         if (response.status === 200) {
           const { data } = await response.json();
-          setData({ ...data, nome: formatarFrase(data.nome) });
+          setData({
+            id: data.id,
+            nome: formatarFrase(data.nome),
+            email: data.email,
+            imagem: data.imagem,
+          });
           setStatus(Status.AUTHENTICATED);
         }
       } catch (error) {

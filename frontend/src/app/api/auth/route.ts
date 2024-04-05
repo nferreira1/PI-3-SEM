@@ -1,9 +1,7 @@
 import { serialize } from "cookie";
-import { SignJWT } from "jose";
+import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
-const MAX_AGE = 60 * 60 * 24 * 30;
 
 export interface Payload {
   data?: Usuario;
@@ -39,19 +37,14 @@ export async function POST(request: Request): Promise<Payload> {
       );
     }
 
-    const data = await response.json();
-
-    const secret = process.env.JWT_SECRET as string;
-
-    const token = await new SignJWT({ data })
-      .setProtectedHeader({ alg: "HS256" })
-      .sign(new TextEncoder().encode(secret));
+    const { token } = await response.json();
+    const data = decodeJwt(token);
 
     const serialized = serialize(process.env.COOKIE_NAME as string, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: MAX_AGE,
+      maxAge: data.exp,
       path: "/",
     });
 

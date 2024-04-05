@@ -1,4 +1,4 @@
-import { jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Payload } from "../route";
@@ -22,17 +22,9 @@ export async function GET(): Promise<Payload> {
   }
 
   const { value } = token;
-  const secret = process.env.JWT_SECRET as string;
 
   try {
-    const secretKey = new TextEncoder().encode(secret);
-
-    const { payload } = await jwtVerify(value, secretKey, {
-      algorithms: ["HS256"],
-    });
-
-    const data = payload.data;
-
+    const data = decodeJwt(value);
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     return NextResponse.redirect(

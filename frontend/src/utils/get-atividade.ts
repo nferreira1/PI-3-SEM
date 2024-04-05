@@ -1,4 +1,5 @@
 import { formatarFrase } from "./formatar-frase";
+import { getServerSession } from "./get-server-session";
 
 /**
  * Função para obter todos os dados de uma {@link Atividade} específica.
@@ -9,11 +10,16 @@ import { formatarFrase } from "./formatar-frase";
  * @returns {Promise<Atividade>} Retorna um objeto de {@link Atividade} ou `null` caso ocorra um erro.
  */
 export async function getAtividade(id: UUID): Promise<Atividade | null> {
+  const { token } = await getServerSession();
+
   try {
     const response = await fetch(
       `${process.env.API_BASE_URL}/atividade/${id}`,
       {
         cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 

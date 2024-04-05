@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 import { formatarFrase } from "./formatar-frase";
 
 export interface Payload {
   usuario?: Usuario | null;
   error?: string;
+  token?: string;
   status: Status;
 }
 
@@ -33,20 +34,14 @@ export async function getServerSession(): Promise<Payload> {
   }
 
   const { value } = token;
-  const secret = process.env.JWT_SECRET as string;
 
   try {
-    const secretKey = new TextEncoder().encode(secret);
-
-    const { payload } = await jwtVerify(value, secretKey, {
-      algorithms: ["HS256"],
-    });
-
-    const usuario = payload.data as Usuario;
+    const usuario = decodeJwt(value) as Usuario;
 
     return {
       usuario: { ...usuario, nome: formatarFrase(usuario.nome) },
       status: Status.AUTHENTICATED,
+      token: value,
     };
   } catch (error) {
     return {

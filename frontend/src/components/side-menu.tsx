@@ -18,7 +18,8 @@ import AlertLogout from "./alert-logout";
 const SideMenu = () => {
   const { data, status, login } = useSession();
 
-  const handleLogin = () => login("nathan.1402@hotmail.com", "123456");
+  const handleLogin = () =>
+    login("nathan.1402@hotmail.com", "Nathansupergato14!");
 
   return (
     <>
