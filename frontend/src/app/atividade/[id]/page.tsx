@@ -22,6 +22,7 @@ export default async function AtividadeDetalhes({
         {atividade.espacos.map((espaco, i) => (
           <AtividadeItem
             key={`${i}-${espaco.nome}-${espaco.imagem}`}
+            atividade={atividade}
             espaco={espaco}
           />
         ))}
