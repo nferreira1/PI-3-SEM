@@ -13,8 +13,12 @@ import {
 } from "@/components/ui/sheet";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MotionDivDefault from "./motion-div-default";
+import { getHorarios } from "@/utils/get-horarios";
+import { getClientToken } from "@/utils/get-client-token";
+import { useSession } from "@/hooks/useSession";
+import { useRouter } from "next/navigation";
 
 interface Props {
   atividade: Atividade;
@@ -22,28 +26,86 @@ interface Props {
 }
 
 const AtividadeItem = ({ atividade, espaco }: Props) => {
+  const { data: usuario } = useSession();
+  const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
   const [data, setData] = useState<Date | undefined>(undefined);
+  const [horarios, setHorarios] = useState<Horario[] | null>([]);
   const [horarioSelecionado, setHorarioSelecionado] = useState<
     Horario | undefined
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const atividadeFormatada = {
-    id: atividade.id,
-    imagem: atividade.imagem,
-    local: atividade.local,
-    nome: atividade.nome,
-    telefone: atividade.telefone,
-    espaco,
-  };
+  const handleGetHorarios = async (atividadeId: UUID, dataAgendamento: Date) =>
+    setHorarios(await getHorarios(atividadeId, dataAgendamento));
 
   const handleDataClique = (data: Date | undefined) => {
     setData(data);
     setHorarioSelecionado(undefined);
+    handleGetHorarios(
+      atividade.id,
+      new Intl.DateTimeFormat("pt-BR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+        .format(data)
+        .split("/")
+        .reverse()
+        .join("-") as any as Date
+    );
   };
 
   const handleHorarioClique = (horario: Horario) =>
     setHorarioSelecionado(horario);
+
+  const handleRealizarAgendamento = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.API_BASE_URL}/agendamento`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          dataAgendamento: Intl.DateTimeFormat("pt-BR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+            .format(data)
+            .split("/")
+            .reverse()
+            .join("-") as any as Date,
+          idUsuario: +usuario!.id,
+          horarioId: horarioSelecionado?.id,
+          espacoId: espaco.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao realizar agendamento");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onOpenChange = (open: boolean) => {
+    if (!open) {
+      setData(undefined);
+      setHorarioSelecionado(undefined);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      setToken(await getClientToken());
+    })();
+  }, []);
 
   return (
     <Card>
@@ -65,9 +127,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
             </p>
             <div className="flex items-center justify-between mt-2">
               <p className="text-sm text-primary font-bold"></p>
-              <Sheet>
+              <Sheet onOpenChange={onOpenChange}>
                 <SheetTrigger asChild>
-                  <Button variant="secondary">Reservar</Button>
+                  <Button variant="secondary">Agendar</Button>
                 </SheetTrigger>
 
                 <SheetContent className="p-0">
@@ -86,7 +148,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
                   {data && (
                     <MotionDivDefault className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6 border-y border-solid border-secondary">
-                      {atividadeFormatada.espaco.horarios.map((horario) => (
+                      {horarios?.map((horario) => (
                         <Button
                           key={horario.horarioInicial}
                           variant={
@@ -135,6 +197,8 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                             <h3 className="text-gray-400 text-sm">Horário</h3>
                             <h4 className="text-sm">
                               {horarioSelecionado.horarioInicial}
+                              <span> - </span>
+                              {horarioSelecionado.horarioFinal}
                             </h4>
                           </MotionDivDefault>
                         )}
@@ -147,16 +211,19 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                     </Card>
                   </MotionDivDefault>
 
-                  <SheetFooter className="px-5">
-                    <Button disabled={!data || !horarioSelecionado} asChild>
-                      <MotionDivDefault className="cursor-pointer">
+                  <MotionDivDefault>
+                    <SheetFooter className="px-5">
+                      <Button
+                        onClick={handleRealizarAgendamento}
+                        disabled={!data || !horarioSelecionado}
+                      >
                         {loading && (
                           <Loader2 className="mr-2 w-4 h-4 animate-spin" />
                         )}
                         {loading ? "Confirmando..." : "Confirmar"}
-                      </MotionDivDefault>
-                    </Button>
-                  </SheetFooter>
+                      </Button>
+                    </SheetFooter>
+                  </MotionDivDefault>
                 </SheetContent>
               </Sheet>
             </div>
