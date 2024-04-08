@@ -25,7 +25,7 @@ export async function GET(): Promise<Payload> {
 
   try {
     const data = decodeJwt(value);
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json({ data, token: value }, { status: 200 });
   } catch (error) {
     return NextResponse.redirect(
       new URL("/", "http://localhost:3000").toString()
