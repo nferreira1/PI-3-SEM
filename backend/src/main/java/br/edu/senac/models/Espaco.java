@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 // import jakarta.persistence.Table;
 // import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Size;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = Espaco.NOME_TABELA)
+@Table(name = Espaco.NOME_TABELA)
 // @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "nome",
 // "atividade_id" }) })
 public class Espaco {

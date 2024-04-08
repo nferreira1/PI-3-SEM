@@ -8,12 +8,14 @@ import java.net.URI;
 // import java.util.Map;
 // import java.util.Set;
 // import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +25,9 @@ import br.edu.senac.models.dtos.Espaco.EspacoCriarDTO;
 // import br.edu.senac.models.dtos.EspacoHorario.EspacoHorarioDTO;
 import br.edu.senac.services.EspacoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.NonNull;
+
+import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,6 +70,14 @@ public class EspacoController {
 
   // return ResponseEntity.ok().body(espacosComHorarios);
   // }
+
+  @GetMapping("/horarios")
+  public ResponseEntity<?> buscarTodosEspacosPorAtividadeIdDataAgendamento(
+      @RequestParam("atividadeId") @NonNull String atividadeId,
+      @RequestParam("dataAgendamento") @NonNull LocalDate dataAgendamento) {
+    return ResponseEntity.ok()
+        .body(this.espacoService.buscarTodosEspacosPorAtividadeIdDataAgendamento(atividadeId, dataAgendamento));
+  }
 
   @PostMapping
   @Validated

@@ -43,7 +43,7 @@ public class TokenController {
     var agora = Instant.now();
     var expiraEm = 60 * 60 * 2; // 2 horas
 
-    var scopes = usuario.get().getRoles().stream()
+    var roles = usuario.get().getRoles().stream()
         .map(role -> role.getNome().toUpperCase())
         .toList();
 
@@ -53,7 +53,7 @@ public class TokenController {
         .claim("nome", usuario.get().getNome())
         .claim("email", usuario.get().getEmail())
         .claim("imagem", usuario.get().getImagem() != null ? usuario.get().getImagem() : "")
-        .claim("scope", scopes)
+        .claim("roles", roles)
         .issuedAt(agora)
         .expiresAt(agora.plusSeconds(expiraEm))
         .build();

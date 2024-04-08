@@ -1,5 +1,7 @@
 package br.edu.senac.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.edu.senac.models.Atividade;
 import br.edu.senac.models.Espaco;
 import br.edu.senac.models.dtos.Espaco.EspacoCriarDTO;
+import br.edu.senac.models.dtos.EspacoHorario.EspacoHorarioDTO;
 import br.edu.senac.repositories.AtividadeRepository;
 import br.edu.senac.repositories.EspacoRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
@@ -21,6 +24,19 @@ public class EspacoService {
 
   @Autowired
   private AtividadeRepository atividadeRepository;
+
+  public List<EspacoHorarioDTO> buscarTodosEspacosPorAtividadeIdDataAgendamento(@lombok.NonNull String atividadeId,
+      @lombok.NonNull LocalDate dataAgendamento) {
+    var espacos = this.espacoRepository.findByDataAndAtividadeId(atividadeId, dataAgendamento);
+
+    List<EspacoHorarioDTO> dtos = new ArrayList<>();
+    for (Object[] espaco : espacos) {
+      String horarioInicial = espaco[0].toString();
+      String horarioFinal = espaco[1].toString();
+      dtos.add(new EspacoHorarioDTO(horarioInicial, horarioFinal));
+    }
+    return dtos;
+  }
 
   public List<Espaco> buscarTodosEspacosHorarios(@NonNull String atividadeId) {
     return this.espacoRepository
@@ -55,4 +71,5 @@ public class EspacoService {
 
     return this.espacoRepository.save(espaco);
   }
+
 }
