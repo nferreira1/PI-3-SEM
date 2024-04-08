@@ -1,18 +1,23 @@
 package br.edu.senac.models.dtos.Espaco;
 
 import br.edu.senac.models.Espaco;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-public class EspacoIdDTO extends EspacoDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class EspacoIdDTO {
 
   private Long id;
+  private String nome;
+  private String imagem;
 
   public EspacoIdDTO(Espaco espaco) {
-    super(espaco);
     this.id = espaco.getId();
+    this.nome = espaco.getNome();
+    this.imagem = espaco.getImagem();
   }
 
 }

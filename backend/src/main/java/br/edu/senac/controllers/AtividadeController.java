@@ -14,7 +14,6 @@ import br.edu.senac.models.Atividade;
 import br.edu.senac.models.dtos.Atividade.AtividadeEspacoDTO;
 import br.edu.senac.models.dtos.Atividade.AtividadeIdDTO;
 import br.edu.senac.models.dtos.Espaco.EspacoDTO;
-import br.edu.senac.models.dtos.Espaco.EspacoIdDTO;
 import br.edu.senac.services.AtividadeService;
 import br.edu.senac.services.EspacoService;
 import io.micrometer.common.lang.NonNull;
@@ -52,7 +51,7 @@ public class AtividadeController {
 
     Atividade atividade = this.atividadeService.buscarPorId(id);
 
-    List<EspacoIdDTO> espacos = this.espacoService.buscarTodosEspacos(id).stream().map(EspacoIdDTO::new).toList();
+    List<EspacoDTO> espacos = this.espacoService.buscarTodosEspacos(id).stream().map(EspacoDTO::new).toList();
 
     // List<Espaco> espacos = this.espacoService.buscarTodosEspacosHorarios(id);
 

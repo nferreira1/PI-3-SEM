@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class EspacoDTO {
 
+  private Long id;
   private String nome;
   private String imagem;
 
   public EspacoDTO(Espaco espaco) {
+    this.id = espaco.getId();
     this.nome = espaco.getNome();
     this.imagem = espaco.getImagem();
   }

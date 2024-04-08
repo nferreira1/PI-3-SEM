@@ -9,12 +9,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EspacoCriarDTO extends EspacoDTO {
+public class EspacoCriarDTO {
 
   private String atividadeId;
+  private String nome;
+  private String imagem;
 
   public EspacoCriarDTO(String nome, String imagem, boolean status, String atividadeId) {
-    super(nome, imagem);
+    this.nome = nome;
+    this.imagem = imagem;
     this.atividadeId = atividadeId;
   }
 
