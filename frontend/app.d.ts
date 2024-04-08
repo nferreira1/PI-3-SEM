@@ -86,6 +86,12 @@ declare global {
    */
   interface Espaco {
     /**
+     * Identificador único do espaço.
+     * @type {number}
+     */
+    id: number;
+
+    /**
      * Nome do espaço.
      * @type {string}
      */
@@ -96,12 +102,6 @@ declare global {
      * @type {string | null}
      */
     imagem: string | null;
-
-    /**
-     * Horários de funcionamento do espaço.
-     * @type {Horario[]}
-     */
-    horarios: Horario[];
   }
 
   /**
@@ -110,6 +110,12 @@ declare global {
    * @see {@link Espaco}
    */
   interface Horario {
+    /**
+     * Identificador único do horário.
+     * @type {number}
+     */
+    id: number;
+
     /**
      * Horário de abertura.
      * @type {string}
