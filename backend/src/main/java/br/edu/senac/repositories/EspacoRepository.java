@@ -18,7 +18,7 @@ public interface EspacoRepository extends JpaRepository<Espaco, Long> {
   public List<Espaco> findAllByAtividadeIdAndStatusTrueAndEspacoHorariosNotNull(String atividadeId);
 
   @Query(nativeQuery = true, value = """
-        SELECT H.horario_inicial, H.horario_final
+        SELECT H.id, H.horario_inicial, H.horario_final
         FROM espacos AS E
         INNER JOIN espacos_horarios AS EH ON EH.espaco_id = E.id
         INNER JOIN horarios AS H ON H.id = EH.horario_id

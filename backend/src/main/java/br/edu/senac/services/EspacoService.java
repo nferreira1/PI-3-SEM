@@ -31,9 +31,10 @@ public class EspacoService {
 
     List<EspacoHorarioDTO> dtos = new ArrayList<>();
     for (Object[] espaco : espacos) {
-      String horarioInicial = espaco[0].toString();
-      String horarioFinal = espaco[1].toString();
-      dtos.add(new EspacoHorarioDTO(horarioInicial, horarioFinal));
+      Long id = (Long) espaco[0];
+      String horarioInicial = espaco[1].toString();
+      String horarioFinal = espaco[2].toString();
+      dtos.add(new EspacoHorarioDTO(id, horarioInicial, horarioFinal));
     }
     return dtos;
   }

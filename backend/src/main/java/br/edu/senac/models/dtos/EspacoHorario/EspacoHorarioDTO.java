@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class EspacoHorarioDTO {
 
+  private Long id;
   private String horarioInicial;
   private String horarioFinal;
 
