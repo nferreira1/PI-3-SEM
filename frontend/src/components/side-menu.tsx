@@ -14,12 +14,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSession } from "@/hooks/useSession";
 import { AlertDialog, AlertDialogTrigger } from "./ui/alert-dialog";
 import AlertLogout from "./alert-logout";
+import DialogLogin from "./dialog-login";
+import { Dialog, DialogTrigger } from "./ui/dialog";
 
 const SideMenu = () => {
   const { data, status, login } = useSession();
-
-  const handleLogin = () =>
-    login("nathan.1402@hotmail.com", "Nathansupergato14!");
 
   return (
     <>
@@ -60,14 +59,18 @@ const SideMenu = () => {
 
       <div className="flex flex-col gap-3 px-5">
         {status === "unauthenticated" && (
-          <Button
-            variant="secondary"
-            className="w-full justify-start rounded-lg"
-            onClick={handleLogin}
-          >
-            <LogInIcon className="mr-2" size={18} />
-            Fazer Login
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="secondary"
+                className="w-full justify-start rounded-lg"
+              >
+                <LogInIcon className="mr-2" size={18} />
+                Fazer Login
+              </Button>
+            </DialogTrigger>
+            <DialogLogin />
+          </Dialog>
         )}
 
         <Button variant="outline" className="justify-start rounded-lg" asChild>
