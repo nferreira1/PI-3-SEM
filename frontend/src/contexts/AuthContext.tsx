@@ -13,7 +13,7 @@ enum Status {
 export interface AuthContext {
   data: Usuario | null;
   status: Status;
-  login: (email: string, senha: string) => Promise<void>;
+  login: (data: { email: string; senha: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -58,13 +58,16 @@ export const AuthProvider = ({
    * @param {string} senha Senha do usuário.
    * @returns {Promise<void>} Retorna uma promessa vazia.
    */
-  const login = async (email: string, senha: string): Promise<void> => {
+  const login = async (data: {
+    email: string;
+    senha: string;
+  }): Promise<void> => {
     const response = await fetch("/api/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, senha }),
+      body: JSON.stringify(data),
     });
 
     if (response.status === 200) {
