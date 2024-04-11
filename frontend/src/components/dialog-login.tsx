@@ -20,6 +20,8 @@ import {
 import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 type UsuarioRequest = z.infer<typeof formSchema>;
 
@@ -27,14 +29,18 @@ const formSchema = z.object({
   email: z
     .string()
     .email({
-      message: "E-mail inválido.",
+      message: "E-mail inválido!",
     })
     .min(3)
     .regex(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/),
-  senha: z.string(),
+  senha: z.string().min(3, {
+    message: "Senha inválida!",
+  }),
 });
 
 const DialogLogin = () => {
+  const [estadoForm, setEstadoForm] = useState<number>(0);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,9 +52,9 @@ const DialogLogin = () => {
   const { login } = useSession();
   const { isSubmitting } = useFormState(form);
 
-  const handleSubmit = (data: UsuarioRequest) => {
-    new Promise((resolve) => setTimeout(resolve, 10000));
-    // login(data.email, data.senha);
+  const handleSubmit = async (data: UsuarioRequest) => {
+    await new Promise((resolve) => setTimeout(resolve, 20000));
+    await login(data);
   };
 
   return (
@@ -61,59 +67,72 @@ const DialogLogin = () => {
           Conecte-se usando o seu e-mail e a sua senha.
         </DialogDescription>
       </DialogHeader>
-      <DialogFooter className="flex flex-col mt-2 gap-3">
+      <DialogFooter>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-4"
-          >
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field, fieldState: { error } }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>E-mail</FormLabel>
-                    <FormControl>
-                      <Input
-                        className={`w-[268px] ${
-                          error && "focus-visible:ring-destructive"
-                        }`}
-                        type="text"
-                        placeholder="example@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage>{error?.message}</FormMessage>
-                  </FormItem>
-                );
-              }}
-            />
-            <FormField
-              name="senha"
-              control={form.control}
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-[268px]"
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                );
-              }}
-            />
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting && (
-                <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-              )}
-              {isSubmitting ? "Carregando..." : "Login"}
-            </Button>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <motion.div className="space-y-2">
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field, fieldState: { error } }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          className={`w-[268px] ${
+                            error && "focus-visible:ring-destructive"
+                          }`}
+                          type="text"
+                          placeholder="example@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage>{error?.message}</FormMessage>
+                    </FormItem>
+                  );
+                }}
+              />
+              <FormField
+                name="senha"
+                control={form.control}
+                render={({ field, fieldState: { error } }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <Input
+                          className={`w-[268px] ${
+                            error && "focus-visible:ring-destructive"
+                          }`}
+                          type="password"
+                          placeholder="********"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage>{error?.message}</FormMessage>
+                    </FormItem>
+                  );
+                }}
+              />
+            </motion.div>
+
+            <motion.div></motion.div>
+
+            <div className="space-y-2 mt-4">
+              <p className="text-xs">
+                Não tem uma conta?{" "}
+                <span className="text-xs italic underline cursor-pointer">
+                  Clique aqui.
+                </span>
+              </p>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting && (
+                  <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                )}
+                {isSubmitting ? "Carregando..." : "Login"}
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogFooter>
