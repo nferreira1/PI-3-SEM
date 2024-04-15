@@ -13,6 +13,12 @@ enum Status {
 export interface AuthContext {
   data: Usuario | null;
   status: Status;
+  criarConta: (data: {
+    nome: string;
+    email: string;
+    senha: string;
+    imagem?: string;
+  }) => Promise<Response>;
   login: (data: { email: string; senha: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -31,6 +37,7 @@ export const AuthContext: React.Context<AuthContext> =
   createContext<AuthContext>({
     status: Status.LOADING,
     data: null,
+    criarConta: async () => new Promise<Response>(() => {}),
     login: async () => {},
     logout: async () => {},
   });
@@ -51,11 +58,34 @@ export const AuthProvider = ({
   const [data, setData] = useState<Usuario | null>(null);
 
   /**
+   * Função que cria um novo usuário.
+   * @see {@link AuthContext}
+   * @function
+   * @param {Object} data Dados do usuário.
+   * @returns {Promise<Response>} Retorna uma promessa vazia.
+   */
+  const criarConta = async (data: {
+    nome: string;
+    email: string;
+    senha: string;
+    imagem?: string;
+  }): Promise<Response> => {
+    const response = await fetch("/api/usuario", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    return response;
+  };
+
+  /**
    * Função que realiza a autenticação do usuário.
    * @see {@link AuthContext}
    * @function
-   * @param {string} email E-mail do usuário.
-   * @param {string} senha Senha do usuário.
+   * @param {Object} data Dados do usuário.
    * @returns {Promise<void>} Retorna uma promessa vazia.
    */
   const login = async (data: {
@@ -124,7 +154,7 @@ export const AuthProvider = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ data, status, login, logout }}>
+    <AuthContext.Provider value={{ data, status, criarConta, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
