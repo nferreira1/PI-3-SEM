@@ -1,6 +1,7 @@
+import { gerarSenha } from "@/utils/gerar-senha";
 import { criarContaSchema } from "@/validators/criar-conta";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Dices, Loader2 } from "lucide-react";
 import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -32,6 +33,14 @@ const FormCriarConta = ({
   });
 
   const { isSubmitting } = useFormState(form);
+
+  const handleSortearSenha = () => {
+    const numeroAleatorio = Math.random() * 20;
+    const comprimentoAleatorio = numeroAleatorio < 8 ? 8 : numeroAleatorio;
+    const senhaAleatoria = gerarSenha(comprimentoAleatorio);
+    form.setValue("senha", senhaAleatoria);
+    form.setValue("confirmarSenha", senhaAleatoria);
+  };
 
   const handleSubmit = async (data: CriarContaRequest) => {};
 
@@ -93,14 +102,25 @@ const FormCriarConta = ({
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input
-                      className={`w-[268px] ${
-                        error && "focus-visible:ring-destructive"
-                      }`}
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                    />
+                    <div className="flex items-center justify-end">
+                      <Input
+                        className={`w-[268px] ${
+                          error && "focus-visible:ring-destructive"
+                        }`}
+                        type="text"
+                        placeholder="********"
+                        {...field}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute"
+                        onClick={handleSortearSenha}
+                      >
+                        <Dices className="text-white" />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,7 +140,7 @@ const FormCriarConta = ({
                       className={`w-[268px] ${
                         error && "focus-visible:ring-destructive"
                       }`}
-                      type="password"
+                      type="text"
                       placeholder="********"
                       {...field}
                     />
@@ -134,6 +154,7 @@ const FormCriarConta = ({
 
         <div className="space-x-2 mt-4 flex">
           <Button
+            type="button"
             className="w-full"
             variant="secondary"
             disabled={isSubmitting}
