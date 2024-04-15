@@ -11,7 +11,10 @@ import FormCriarConta from "./form-criar-conta";
 import FormLogin from "./form-login";
 
 const DialogContent = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<{ isLogin: boolean; email: string }>({
+    isLogin: true,
+    email: "",
+  });
 
   const variants = {
     enter: (isLogin: boolean) => ({
@@ -30,17 +33,17 @@ const DialogContent = () => {
   return (
     <Content className="rounded-2xl w-min overflow-hidden">
       <DialogHeader>
-        <AnimatePresence mode="wait" initial={false} custom={isLogin}>
+        <AnimatePresence mode="wait" initial={false} custom={isLogin.isLogin}>
           <motion.div
-            key={isLogin ? "login" : "criar-conta"}
-            custom={isLogin}
+            key={isLogin.isLogin ? "login" : "criar-conta"}
+            custom={isLogin.isLogin}
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
             className="w-full"
           >
-            {isLogin ? (
+            {isLogin.isLogin ? (
               <>
                 <DialogTitle className="text-center font-bold">
                   Faça login na plataforma
@@ -63,10 +66,10 @@ const DialogContent = () => {
         </AnimatePresence>
       </DialogHeader>
 
-      <AnimatePresence mode="wait" initial={false} custom={isLogin}>
+      <AnimatePresence mode="wait" initial={false} custom={isLogin.isLogin}>
         <motion.div
-          key={isLogin ? "login" : "criar-conta"}
-          custom={isLogin}
+          key={isLogin.isLogin ? "login" : "criar-conta"}
+          custom={isLogin.isLogin}
           variants={variants}
           initial="enter"
           animate="center"
@@ -74,8 +77,8 @@ const DialogContent = () => {
           className="w-full"
         >
           <DialogFooter>
-            {isLogin ? (
-              <FormLogin setIsLogin={setIsLogin} />
+            {isLogin.isLogin ? (
+              <FormLogin setIsLogin={setIsLogin} email={isLogin.email} />
             ) : (
               <FormCriarConta setIsLogin={setIsLogin} />
             )}

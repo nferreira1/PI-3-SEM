@@ -1,3 +1,4 @@
+import { useSession } from "@/hooks/useSession";
 import { gerarSenha } from "@/utils/gerar-senha";
 import { criarContaSchema } from "@/validators/criar-conta";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +21,10 @@ type CriarContaRequest = z.infer<typeof criarContaSchema>;
 const FormCriarConta = ({
   setIsLogin,
 }: {
-  setIsLogin: (isLogin: boolean) => void;
+  setIsLogin: ({ isLogin, email }: { isLogin: boolean; email: string }) => void;
 }) => {
+  const { criarConta } = useSession();
+
   const form = useForm({
     resolver: zodResolver(criarContaSchema),
     defaultValues: {
@@ -42,7 +45,24 @@ const FormCriarConta = ({
     form.setValue("confirmarSenha", senhaAleatoria);
   };
 
-  const handleSubmit = async (data: CriarContaRequest) => {};
+  const handleSubmit = async (data: CriarContaRequest) => {
+    const response = await criarConta({
+      nome: data.nomeCompleto,
+      email: data.email,
+      senha: data.senha,
+    });
+
+    if (response.status === 409) {
+      form.setError("email", {
+        type: "manual",
+        message: "Usuário já cadastrado.",
+      });
+    }
+
+    if (response.ok) {
+      setIsLogin({ isLogin: true, email: data.email });
+    }
+  };
 
   return (
     <Form {...form}>
@@ -158,7 +178,12 @@ const FormCriarConta = ({
             className="w-full"
             variant="secondary"
             disabled={isSubmitting}
-            onClick={() => setIsLogin(true)}
+            onClick={() =>
+              setIsLogin({
+                isLogin: true,
+                email: form.getValues("email"),
+              })
+            }
           >
             <ArrowLeft className="mr-2 w-4" />
             Voltar

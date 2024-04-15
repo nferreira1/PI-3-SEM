@@ -2,6 +2,7 @@ import { useSession } from "@/hooks/useSession";
 import { loginSchema } from "@/validators/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -18,11 +19,13 @@ import { Input } from "../ui/input";
 type LoginRequest = z.infer<typeof loginSchema>;
 
 const FormLogin = ({
+  email,
   setIsLogin,
 }: {
-  setIsLogin: (isLogin: boolean) => void;
+  email: string;
+  setIsLogin: ({ isLogin, email }: { isLogin: boolean; email: string }) => void;
 }) => {
-  const { login } = useSession();
+  const { login, status } = useSession();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -35,9 +38,22 @@ const FormLogin = ({
   const { isSubmitting } = useFormState(form);
 
   const handleSubmit = async (data: LoginRequest) => {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
     await login(data);
+
+    if (status === "unauthenticated") {
+      form.setError("email", {
+        message: "E-mail ou senha inválidos.",
+      });
+      form.setError("senha", {
+        message: "E-mail ou senha inválidos.",
+      });
+    }
   };
+
+  useEffect(() => {
+    form.setValue("email", email.toLowerCase());
+  }, [email, form]);
 
   return (
     <Form {...form}>
@@ -94,7 +110,7 @@ const FormLogin = ({
             Não tem uma conta?
             <span
               className="text-xs italic underline cursor-pointer"
-              onClick={() => setIsLogin(false)}
+              onClick={() => setIsLogin({ isLogin: false, email: "" })}
             >
               Clique aqui.
             </span>
