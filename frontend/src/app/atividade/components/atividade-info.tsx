@@ -1,6 +1,6 @@
 "use client";
 
-import SideMenu from "@/components/side-menu";
+import SideMenu from "@/components/header/side-menu";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon } from "lucide-react";

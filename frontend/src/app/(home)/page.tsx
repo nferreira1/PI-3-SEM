@@ -1,6 +1,6 @@
 import AgendamentoItem from "@/app/(home)/components/agendamento-item";
 import Buscar from "@/components/buscar";
-import Header from "@/components/header";
+import Header from "@/components/header/header";
 import ItemReserva from "@/components/item-reserva";
 import { formatarData } from "@/utils/formatar-data";
 import { getAtividades } from "@/utils/get-atividades";

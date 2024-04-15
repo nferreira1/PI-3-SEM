@@ -1,21 +1,21 @@
 "use client";
 
+import { useSession } from "@/hooks/useSession";
 import {
-  LogOutIcon,
-  LogInIcon,
-  HomeIcon,
   CalendarIcon,
+  HomeIcon,
+  LogInIcon,
+  LogOutIcon,
   UserRound,
 } from "lucide-react";
-import { Button } from "./ui/button";
-import { SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useSession } from "@/hooks/useSession";
-import { AlertDialog, AlertDialogTrigger } from "./ui/alert-dialog";
+import { AlertDialog, AlertDialogTrigger } from "../ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import { Dialog, DialogTrigger } from "../ui/dialog";
+import { SheetHeader, SheetTitle } from "../ui/sheet";
 import AlertLogout from "./alert-logout";
-import DialogLogin from "./dialog-login";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import DialogContent from "./dialog";
 
 const SideMenu = () => {
   const { data, status, login } = useSession();
@@ -69,7 +69,7 @@ const SideMenu = () => {
                 Fazer Login
               </Button>
             </DialogTrigger>
-            <DialogLogin />
+            <DialogContent />
           </Dialog>
         )}
 
