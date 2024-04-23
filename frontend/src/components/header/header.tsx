@@ -1,5 +1,6 @@
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -9,12 +10,14 @@ const Header = () => {
   return (
     <Card className="rounded-none">
       <CardContent className="p-5 flex flex-row justify-between">
-        <Image
-          src="/logo-header.png"
-          alt="Logo da SysClub"
-          height={30}
-          width={200}
-        />
+        <Link href="/">
+          <Image
+            src="/logo-header.png"
+            alt="Logo da SysClub"
+            height={30}
+            width={200}
+          />
+        </Link>
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
