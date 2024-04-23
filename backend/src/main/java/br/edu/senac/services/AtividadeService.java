@@ -23,7 +23,7 @@ public class AtividadeService {
 
   public List<Atividade> buscarTodasAtividades() {
 
-    return this.atividadeRepository.findAllByStatusTrueAndEspacosNotNullAndEspacosStatusTrue();
+    return this.atividadeRepository.buscarTodasAtividades();
   }
 
   public Atividade criar(Atividade obj) {
