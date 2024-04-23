@@ -25,9 +25,13 @@ public class EspacoService {
   @Autowired
   private AtividadeRepository atividadeRepository;
 
-  public List<EspacoHorarioDTO> buscarTodosEspacosPorAtividadeIdDataAgendamento(@lombok.NonNull String atividadeId,
-      @lombok.NonNull LocalDate dataAgendamento) {
-    var espacos = this.espacoRepository.findByDataAndAtividadeId(atividadeId, dataAgendamento);
+  public List<EspacoHorarioDTO> buscarTodosEspacosPorAtividadeIdDataAgendamento(@NonNull String atividadeId,
+      @NonNull LocalDate dataAgendamento, @NonNull Long espacoId) {
+
+    var espacoExiste = this.espacoRepository.findById(espacoId)
+        .orElseThrow(() -> new ObjectNotFoundException("Espaço não encontrado!"));
+
+    var espacos = this.espacoRepository.findByDataAndAtividadeId(atividadeId, dataAgendamento, espacoExiste.getId());
 
     List<EspacoHorarioDTO> dtos = new ArrayList<>();
     for (Object[] espaco : espacos) {

@@ -14,6 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +31,6 @@ import br.edu.senac.models.dtos.Espaco.EspacoCriarDTO;
 import br.edu.senac.services.EspacoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
-
-import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Espaço", description = "API de gerenciamento de espaços, onde é possível criar, listar, atualizar e excluir espaços.")
 @RestController
@@ -74,9 +73,11 @@ public class EspacoController {
   @GetMapping("/horarios")
   public ResponseEntity<?> buscarTodosEspacosPorAtividadeIdDataAgendamento(
       @RequestParam("atividadeId") @NonNull String atividadeId,
-      @RequestParam("dataAgendamento") @NonNull LocalDate dataAgendamento) {
+      @RequestParam("dataAgendamento") @NonNull LocalDate dataAgendamento,
+      @RequestParam("espacoId") @NonNull Long espacoId) {
     return ResponseEntity.ok()
-        .body(this.espacoService.buscarTodosEspacosPorAtividadeIdDataAgendamento(atividadeId, dataAgendamento));
+        .body(
+            this.espacoService.buscarTodosEspacosPorAtividadeIdDataAgendamento(atividadeId, dataAgendamento, espacoId));
   }
 
   @PostMapping
