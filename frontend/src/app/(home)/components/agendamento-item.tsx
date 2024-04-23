@@ -43,7 +43,7 @@ const AgendamentoItem = ({ atividade }: Props) => {
           <h2 className="font-bold mt-2 overflow-hidden text-ellipsis text-nowrap">
             {atividade?.nome}
           </h2>
-          <p className="text-sm text-gray-400 overflow-hidden text-ellipsis text-nowrap">
+          <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis text-nowrap">
             {atividade?.local}
           </p>
           <Link href={`/atividade/${atividade.id}`} legacyBehavior>

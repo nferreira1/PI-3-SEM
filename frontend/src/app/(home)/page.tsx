@@ -22,14 +22,14 @@ export default async function Home() {
       </div>
 
       <div className="px-5 mt-6">
-        <h2 className="text-xs text-gray-400 font-bold mb-3 uppercase">
+        <h2 className="text-xs text-muted-foreground font-bold mb-3 uppercase">
           Agendamentos
         </h2>
         <ItemReserva />
       </div>
 
       <div className="mt-6">
-        <h2 className="px-5 text-xs text-gray-400 font-bold mb-3 uppercase">
+        <h2 className="px-5 text-xs text-muted-foreground font-bold mb-3 uppercase">
           Recomendados
         </h2>
 

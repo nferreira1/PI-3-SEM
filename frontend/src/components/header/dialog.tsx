@@ -48,7 +48,7 @@ const DialogContent = () => {
                 <DialogTitle className="text-center font-bold">
                   Faça login na plataforma
                 </DialogTitle>
-                <DialogDescription className="text-center text-gray-400">
+                <DialogDescription className="text-center text-muted-foreground">
                   Conecte-se usando o seu e-mail e a sua senha.
                 </DialogDescription>
               </>
@@ -57,7 +57,7 @@ const DialogContent = () => {
                 <DialogTitle className="text-center font-bold">
                   Crie a sua conta em nossa plataforma
                 </DialogTitle>
-                <DialogDescription className="text-center text-gray-400">
+                <DialogDescription className="text-center text-muted-foreground">
                   Faça o seu cadastro e comece a usar a nossa plataforma.
                 </DialogDescription>
               </>

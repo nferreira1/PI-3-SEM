@@ -22,7 +22,7 @@ const AlertLogout = () => {
         <AlertDialogTitle className="text-center font-bold">
           Sair
         </AlertDialogTitle>
-        <AlertDialogDescription className="text-center text-gray-400">
+        <AlertDialogDescription className="text-center text-muted-foreground">
           Deseja mesmo sair da plataforma?
         </AlertDialogDescription>
       </AlertDialogHeader>
