@@ -5,20 +5,21 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetFooter,
+  SheetTrigger,
 } from "@/components/ui/sheet";
+import { useSession } from "@/hooks/useSession";
+import { getClientToken } from "@/utils/get-client-token";
+import { getHorarios } from "@/utils/get-horarios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import MotionDivDefault from "./motion-div-default";
-import { getHorarios } from "@/utils/get-horarios";
-import { getClientToken } from "@/utils/get-client-token";
-import { useSession } from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import AlertConfirmarReserva from "./alert-confirmar-reserva";
+import MotionDivDefault from "./motion-div-default";
 
 interface Props {
   atividade: Atividade;
@@ -35,9 +36,13 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
     Horario | undefined
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const handleGetHorarios = async (atividadeId: UUID, dataAgendamento: Date) =>
-    setHorarios(await getHorarios(atividadeId, dataAgendamento));
+  const handleGetHorarios = async (
+    atividadeId: UUID,
+    dataAgendamento: Date,
+    espacoId: number
+  ) => setHorarios(await getHorarios(atividadeId, dataAgendamento, espacoId));
 
   const handleDataClique = (data: Date | undefined) => {
     setData(data);
@@ -52,7 +57,8 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
         .format(data)
         .split("/")
         .reverse()
-        .join("-") as any as Date
+        .join("-") as any as Date,
+      espaco.id
     );
   };
 
@@ -84,8 +90,8 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao realizar agendamento");
+      if (response.ok) {
+        setOpen(true);
       }
     } catch (error) {
       console.error(error);
@@ -122,7 +128,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
           <div className="w-full flex flex-col">
             <h2 className="font-bold">{espaco.nome}</h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-muted-foreground">
               Agende o seu horário para jogar!
             </p>
             <div className="flex items-center justify-between mt-2">
@@ -179,7 +185,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
                         {data && (
                           <MotionDivDefault className="flex justify-between">
-                            <h3 className="text-gray-400 text-sm">Data</h3>
+                            <h3 className="text-muted-foreground text-sm">
+                              Data
+                            </h3>
                             <h4 className="text-sm">
                               {data.toLocaleDateString("pt-BR", {
                                 day: "numeric",
@@ -194,7 +202,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
                         {horarioSelecionado && (
                           <MotionDivDefault className="flex justify-between">
-                            <h3 className="text-gray-400 text-sm">Horário</h3>
+                            <h3 className="text-muted-foreground text-sm">
+                              Horário
+                            </h3>
                             <h4 className="text-sm">
                               {horarioSelecionado.horarioInicial}
                               <span> - </span>
@@ -204,7 +214,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                         )}
 
                         <MotionDivDefault className="flex justify-between">
-                          <h3 className="text-gray-400 text-sm">Local</h3>
+                          <h3 className="text-muted-foreground text-sm">
+                            Local
+                          </h3>
                           <h4 className="text-sm">{espaco.nome}</h4>
                         </MotionDivDefault>
                       </CardContent>
@@ -226,6 +238,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                   </MotionDivDefault>
                 </SheetContent>
               </Sheet>
+              <AlertConfirmarReserva open={open} onOpenChange={setOpen} />
             </div>
           </div>
         </div>
