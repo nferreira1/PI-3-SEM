@@ -27,4 +27,15 @@ public class AtividadeEspacoDTO extends AtividadeIdDTO {
     this.espacos = espacos;
   }
 
+  public AtividadeEspacoDTO(AtividadeIdDTO atividade, EspacoDTO espaco) {
+    super(atividade.getId(), atividade.getNome(), atividade.getLocal(), atividade.getImagem(), atividade.getTelefone());
+    this.espacos = List.of(espaco);
+  }
+
+  public AtividadeEspacoDTO(String id, String nome, String local, String imagem, String telefone,
+      List<EspacoDTO> espacos) {
+    super(id, nome, local, imagem, telefone);
+    this.espacos = espacos;
+  }
+
 }

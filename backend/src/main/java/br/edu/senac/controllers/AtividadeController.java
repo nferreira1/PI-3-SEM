@@ -13,9 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.edu.senac.models.Atividade;
 import br.edu.senac.models.dtos.Atividade.AtividadeEspacoDTO;
 import br.edu.senac.models.dtos.Atividade.AtividadeIdDTO;
-import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import br.edu.senac.services.AtividadeService;
-import br.edu.senac.services.EspacoService;
 import io.micrometer.common.lang.NonNull;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,9 +32,6 @@ public class AtividadeController {
   @Autowired
   private AtividadeService atividadeService;
 
-  @Autowired
-  private EspacoService espacoService;
-
   @GetMapping
   // @PreAuthorize("hasAuthority('SCOPE_BASICO')")
   public ResponseEntity<List<AtividadeIdDTO>> buscarTodasAtividades() {
@@ -49,9 +44,7 @@ public class AtividadeController {
   @GetMapping("/{id}")
   public ResponseEntity<AtividadeEspacoDTO> buscarPorId(@PathVariable @NonNull String id) {
 
-    Atividade atividade = this.atividadeService.buscarPorId(id);
-
-    List<EspacoDTO> espacos = this.espacoService.buscarTodosEspacos(id).stream().map(EspacoDTO::new).toList();
+    AtividadeEspacoDTO atividade = this.atividadeService.buscarPorId(id);
 
     // List<Espaco> espacos = this.espacoService.buscarTodosEspacosHorarios(id);
 
@@ -87,9 +80,7 @@ public class AtividadeController {
     // AtividadeEspacoDTO atividadeComEspacosHorario = new
     // AtividadeEspacoDTO(atividade, espacosComHorarios);
 
-    AtividadeEspacoDTO atividadeComEspacosHorario = new AtividadeEspacoDTO(atividade, espacos);
-
-    return ResponseEntity.ok().body(atividadeComEspacosHorario);
+    return ResponseEntity.ok().body(atividade);
   }
 
   @PostMapping

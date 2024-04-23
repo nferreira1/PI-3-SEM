@@ -18,4 +18,9 @@ public class AtividadeIdDTO extends AtividadeDTO {
         super(atividade);
         this.id = atividade.getId().toString();
     }
+
+    public AtividadeIdDTO(String id, String nome, String local, String imagem, String telefone) {
+        super(nome, local, imagem, telefone);
+        this.id = id;
+    }
 }
