@@ -19,12 +19,15 @@ public class AtividadeService {
   private AtividadeRepository atividadeRepository;
 
   public AtividadeEspacoDTO buscarPorId(String id) {
-    var atividades = this.atividadeRepository.buscarAtividadeEspacos(id)
-        .orElseThrow(() -> new ObjectNotFoundException("Atividade não encontrada!"));
+    var atividades = this.atividadeRepository.buscarAtividadeEspacos(id);
+
+    if (atividades.get().isEmpty()) {
+      throw new ObjectNotFoundException("Atividade não encontrada");
+    }
 
     AtividadeEspacoDTO atividadeEspacoDTO = null;
 
-    for (Object[] atividade : atividades) {
+    for (Object[] atividade : atividades.get()) {
       String atividadeId = (String) atividade[0];
       String atividadeImagem = (String) atividade[1];
       String atividadeLocal = (String) atividade[2];
