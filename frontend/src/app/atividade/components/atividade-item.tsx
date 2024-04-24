@@ -14,11 +14,13 @@ import {
 import { useSession } from "@/hooks/useSession";
 import { getClientToken } from "@/utils/get-client-token";
 import { getHorarios } from "@/utils/get-horarios";
+import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AlertConfirmarReserva from "./alert-confirmar-reserva";
+import Horarios from "./horarios";
 import MotionDivDefault from "./motion-div-default";
 
 interface Props {
@@ -36,7 +38,8 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
     Horario | undefined
   >(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  const [abertoModal, setAbertoModal] = useState<boolean>(false);
+  const [abertoSheet, setAbertoSheet] = useState<boolean>(false);
 
   const handleGetHorarios = async (
     atividadeId: UUID,
@@ -91,7 +94,8 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
       });
 
       if (response.ok) {
-        setOpen(true);
+        onOpenChange(false);
+        setAbertoModal(true);
       }
     } catch (error) {
       console.error(error);
@@ -104,7 +108,10 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
     if (!open) {
       setData(undefined);
       setHorarioSelecionado(undefined);
+      setAbertoSheet(false);
+      return;
     }
+    setAbertoSheet(open);
   };
 
   useEffect(() => {
@@ -133,13 +140,13 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
             </p>
             <div className="flex items-center justify-between mt-2">
               <p className="text-sm text-primary font-bold"></p>
-              <Sheet onOpenChange={onOpenChange}>
+              <Sheet open={abertoSheet} onOpenChange={onOpenChange}>
                 <SheetTrigger asChild>
                   <Button variant="secondary">Agendar</Button>
                 </SheetTrigger>
 
                 <SheetContent className="p-0">
-                  <SheetHeader className="text-left p-5 border-b border-solid border-t">
+                  <SheetHeader className="text-left p-5 border-b border-solid">
                     <SheetTitle>Fazer reserva</SheetTitle>
                   </SheetHeader>
 
@@ -149,27 +156,32 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                     onSelect={(data: Date | undefined) =>
                       handleDataClique(data)
                     }
-                    className="mt-6"
                   />
 
-                  {data && (
-                    <MotionDivDefault className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6 border-y border-solid border-secondary">
-                      {horarios?.map((horario) => (
-                        <Button
-                          key={horario.horarioInicial}
-                          variant={
-                            horario === horarioSelecionado
-                              ? "default"
-                              : "secondary"
-                          }
-                          className="rounded-full"
-                          onClick={() => handleHorarioClique(horario)}
+                  <div
+                    className={`${
+                      data && "border-y"
+                    } border-solid border-secondary`}
+                  >
+                    <AnimatePresence mode="wait">
+                      {data && (
+                        <motion.div
+                          key={data.toISOString()}
+                          initial={{ opacity: 0, x: 100 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 100 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6"
                         >
-                          {horario.horarioInicial}
-                        </Button>
-                      ))}
-                    </MotionDivDefault>
-                  )}
+                          <Horarios
+                            horarios={horarios}
+                            horarioSelecionado={horarioSelecionado}
+                            setHorarioSelecionado={handleHorarioClique}
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
                   <MotionDivDefault
                     className={`px-5 py-6 border-solid border-secondary ${
@@ -238,7 +250,10 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                   </MotionDivDefault>
                 </SheetContent>
               </Sheet>
-              <AlertConfirmarReserva open={open} onOpenChange={setOpen} />
+              <AlertConfirmarReserva
+                aberto={abertoModal}
+                onAbertoChange={setAbertoModal}
+              />
             </div>
           </div>
         </div>
