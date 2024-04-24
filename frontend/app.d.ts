@@ -130,6 +130,73 @@ declare global {
      */
     horarioFinal: string;
   }
+
+  /**
+   * Interface para informações de agendamento.
+   * @interface
+   * @see {@link Usuario}
+   * @see {@link Atividade}
+   * @see {@link Espaco}
+   * @see {@link Horario}
+   */
+  interface Agendamento {
+    /**
+     * Identificador único do agendamento.
+     * @type {number}
+     */
+    id: number;
+
+    /**
+     * Data do agendamento.
+     * @type {string}
+     */
+    dataAgendamento: string;
+
+    /**
+     * Horário inicial do agendamento.
+     * @type {string}
+     */
+    horarioInicial: string;
+
+    /**
+     * Horário final do agendamento.
+     * @type {string}
+     */
+    horarioFinal: string;
+
+    /**
+     * Status do agendamento.
+     * @type {StatusAgendamento}
+     * @see {@link StatusAgendamento}
+     */
+    status: StatusAgendamento;
+
+    /**
+     * Atividade que o agendamento está relacionado.
+     * @type {Pick<Atividade, "nome" | "local" | "imagem" | "telefone">}
+     * @see {@link Atividade}
+     */
+    atividade: Pick<Atividade, "nome" | "local" | "imagem" | "telefone">;
+  }
+
+  /**
+   * Status do agendamento.
+   * @interface
+   * @see {@link Agendamento}
+   */
+  interface StatusAgendamento {
+    /**
+     * Identificador único do status.
+     * @type {number}
+     */
+    id: number;
+
+    /**
+     * Nome do status.
+     * @type {string}
+     */
+    nome: string;
+  }
 }
 
 export {};
