@@ -27,3 +27,11 @@ INSERT IGNORE INTO roles(id, nome) VALUES (
   2,
   "basico"
 );
+
+INSERT IGNORE INTO configuracoes(id, nome, valor, descricao, status) VALUES (
+  1,
+  "INTERVALO_AGENDAMENTO",
+  "7",
+  "Intervalo de dias para agendamento",
+  1
+);
