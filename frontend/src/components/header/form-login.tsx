@@ -1,8 +1,8 @@
 import { useSession } from "@/hooks/useSession";
 import { loginSchema } from "@/validators/login";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -25,6 +25,8 @@ const FormLogin = ({
   email: string;
   setIsLogin: ({ isLogin, email }: { isLogin: boolean; email: string }) => void;
 }) => {
+  const [tipoSenha, setTipoSenha] = useState<string>();
+
   const { login, status } = useSession();
 
   const form = useForm({
@@ -50,6 +52,9 @@ const FormLogin = ({
       });
     }
   };
+
+  const handleAlterarTipoSenha = () =>
+    setTipoSenha(tipoSenha === "password" ? "text" : "password");
 
   useEffect(() => {
     form.setValue("email", email.toLowerCase());
@@ -89,14 +94,29 @@ const FormLogin = ({
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input
-                      className={`w-[268px] ${
-                        error && "focus-visible:ring-destructive"
-                      }`}
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                    />
+                    <div className="flex items-center justify-end">
+                      <Input
+                        className={`w-[268px] ${
+                          error && "focus-visible:ring-destructive"
+                        }`}
+                        type={tipoSenha}
+                        placeholder="********"
+                        {...field}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute"
+                        onClick={handleAlterarTipoSenha}
+                      >
+                        {tipoSenha === "password" ? (
+                          <Eye className="text-white" />
+                        ) : (
+                          <EyeOff className="text-white" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
