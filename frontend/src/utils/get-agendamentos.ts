@@ -23,7 +23,6 @@ export default async function getAgendamentos(
 
     if (response.ok) {
       const agendamentos: Agendamento[] = await response.json();
-      console.log(agendamentos);
       return agendamentos;
     }
 
