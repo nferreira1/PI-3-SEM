@@ -197,6 +197,36 @@ declare global {
      */
     nome: string;
   }
+
+  /**
+   * Interface para informações de configurações.
+   * @interface
+   */
+  interface Configuracao {
+    /**
+     * Identificador único da configuração.
+     * @type {number}
+     */
+    id: number;
+
+    /**
+     * Nome da configuração.
+     * @type {string}
+     */
+    nome: string;
+
+    /**
+     * Valor da configuração.
+     * @type {string}
+     */
+    valor: string;
+
+    /**
+     * Descrição da configuração.
+     * @type {string}
+     */
+    descricao: string;
+  }
 }
 
 export {};
