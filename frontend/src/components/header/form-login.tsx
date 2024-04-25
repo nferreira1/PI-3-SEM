@@ -25,7 +25,7 @@ const FormLogin = ({
   email: string;
   setIsLogin: ({ isLogin, email }: { isLogin: boolean; email: string }) => void;
 }) => {
-  const [tipoSenha, setTipoSenha] = useState<string>();
+  const [tipoSenha, setTipoSenha] = useState<"text" | "password">("password");
 
   const { login, status } = useSession();
 
