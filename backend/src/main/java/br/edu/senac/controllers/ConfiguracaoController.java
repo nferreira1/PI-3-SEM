@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.senac.models.Configuracao;
 import br.edu.senac.services.ConfiguracaoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +27,7 @@ public class ConfiguracaoController {
   @Autowired
   private ConfiguracaoService configuracaoService;
 
-  @GetMapping("/")
+  @GetMapping
   public List<Configuracao> buscarTodos() {
     return configuracaoService.findAll();
   }
@@ -35,7 +37,19 @@ public class ConfiguracaoController {
     return configuracaoService.findById(id);
   }
 
-  @PostMapping("/")
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deletar(Long id) {
+
+    this.buscarPorId(id);
+
+    configuracaoService.alternarStatus(id);
+
+    HttpStatus statusCode = HttpStatus.NO_CONTENT;
+
+    return new ResponseEntity<>(statusCode);
+  }
+
+  @PostMapping
   public ResponseEntity<Void> criar(@RequestBody Configuracao obj) {
     configuracaoService.criar(obj);
 
