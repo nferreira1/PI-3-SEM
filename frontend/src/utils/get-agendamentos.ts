@@ -1,3 +1,5 @@
+import { getServerSession } from "./get-server-session";
+
 /**
  * Função para buscar os agendamentos de um usuário.
  * @param id ID do usuário.
@@ -6,16 +8,22 @@
 export default async function getAgendamentos(
   id: number
 ): Promise<Agendamento[] | null> {
+  const { token } = await getServerSession();
+
   try {
     const response = await fetch(
       `${process.env.API_BASE_URL}/agendamento/usuario/${id}`,
       {
         cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
     if (response.ok) {
       const agendamentos: Agendamento[] = await response.json();
+      console.log(agendamentos);
       return agendamentos;
     }
 
