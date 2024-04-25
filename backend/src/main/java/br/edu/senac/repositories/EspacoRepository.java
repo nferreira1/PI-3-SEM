@@ -19,13 +19,17 @@ public interface EspacoRepository extends JpaRepository<Espaco, Long> {
 
   @Query(nativeQuery = true, value = """
         SELECT H.id, H.horario_inicial, H.horario_final
-        FROM espacos AS E
-        INNER JOIN espacos_horarios AS EH ON EH.espaco_id = E.id
-        INNER JOIN horarios AS H ON H.id = EH.horario_id
-        LEFT JOIN agendamentos AS A ON A.espaco_horario_id = EH.id AND
-        A.data_agendamento = :dataAgendamento
-        WHERE A.id IS NULL AND E.atividade_id = :atividadeId AND E.id = :espacoId AND H.status = 1 AND
-        E.status = 1 ORDER BY H.horario_inicial
+        FROM horarios AS H
+        INNER JOIN espacos_horarios AS EH ON H.id = EH.horario_id
+        INNER JOIN espacos AS E ON EH.espaco_id = e.id
+        INNER JOIN atividades AS A ON E.atividade_id = A.id
+        WHERE A.id = :atividadeId AND E.id = :espacoId
+        AND NOT EXISTS (
+            SELECT 1
+            FROM agendamentos AS AG
+            WHERE AG.espaco_horario_id = EH.id and AG.data_agendamento = :dataAgendamento
+        ) AND ((:dataAgendamento = CURDATE() AND H.horario_inicial > CURTIME()) OR (:dataAgendamento >  CURDATE()))
+        ORDER BY H.horario_inicial
       """)
   public List<Object[]> findByDataAndAtividadeId(@Param("atividadeId") String atividadeId,
       @Param("dataAgendamento") LocalDate dataAgendamento, @Param("espacoId") Long espacoId);
