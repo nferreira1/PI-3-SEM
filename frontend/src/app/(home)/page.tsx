@@ -1,4 +1,4 @@
-import AgendamentoItem from "@/app/(home)/components/agendamento-item";
+import ItemAgendamento from "@/app/(home)/components/item-agendamento";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header/header";
 import ItemReserva from "@/components/item-reserva";
@@ -35,7 +35,7 @@ export default async function Home() {
 
         <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {atividades?.map((atividade) => (
-            <AgendamentoItem key={atividade.id} atividade={atividade} />
+            <ItemAgendamento key={atividade.id} atividade={atividade} />
           ))}
         </div>
       </div>
