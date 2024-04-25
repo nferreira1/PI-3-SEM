@@ -39,12 +39,13 @@ export async function POST(request: Request): Promise<Payload> {
 
     const { token } = await response.json();
     const data = decodeJwt(token);
+    const maxAge = (data.exp as number) - (data.iat as number);
 
     const serialized = serialize(process.env.COOKIE_NAME as string, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: data.exp,
+      maxAge,
       path: "/",
     });
 
