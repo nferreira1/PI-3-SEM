@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useSession } from "@/hooks/useSession";
 import { getClientToken } from "@/utils/get-client-token";
+import getConfiguracoes from "@/utils/get-configuracoes";
 import { getHorarios } from "@/utils/get-horarios";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
@@ -40,6 +41,12 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [abertoModal, setAbertoModal] = useState<boolean>(false);
   const [abertoSheet, setAbertoSheet] = useState<boolean>(false);
+  const [intervalo, setIntervalo] = useState<number>(0);
+
+  const hoje = new Date();
+  const semana = new Date(hoje);
+  semana.setDate(hoje.getDate() + intervalo - 1);
+  const diasDesabilitados = [{ before: hoje }, { after: semana }];
 
   const handleGetHorarios = async (
     atividadeId: UUID,
@@ -117,6 +124,16 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
   useEffect(() => {
     (async () => {
       setToken(await getClientToken());
+      const configuracoes = await getConfiguracoes();
+      if (configuracoes) {
+        const intervalo = configuracoes.find(
+          (configuracao) => configuracao.nome === "INTERVALO_AGENDAMENTO"
+        );
+
+        if (intervalo) {
+          setIntervalo(+intervalo.valor);
+        }
+      }
     })();
   }, []);
 
@@ -152,6 +169,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
 
                   <Calendar
                     mode="single"
+                    fromDate={hoje}
+                    toDate={semana}
+                    disabled={diasDesabilitados}
                     selected={data}
                     onSelect={(data: Date | undefined) =>
                       handleDataClique(data)
@@ -166,11 +186,11 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                     <AnimatePresence mode="wait">
                       {data && (
                         <motion.div
-                          key={data.toISOString()}
+                          key={data.toString()}
                           initial={{ opacity: 0, x: 100 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 100 }}
-                          transition={{ duration: 0.3, ease: "easeOut" }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
                           className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6"
                         >
                           <Horarios
