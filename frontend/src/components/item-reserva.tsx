@@ -23,7 +23,7 @@ const ItemReserva = async ({ agendamento }: Props) => {
       ? "secondary"
       : agendamento.status.nome === "CANCELADO"
       ? "destructive"
-      : "outline";
+      : "warning";
 
   return (
     <Card className="min-w-full">
