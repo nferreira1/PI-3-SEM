@@ -17,11 +17,14 @@ const ListaItemAtividades = ({
   if (status === "loading") {
     return (
       <>
-        <Skeleton className="h-4 w-32 mb-3.5" />
+        <Skeleton className="mx-5 h-4 w-32 mb-3.5" />
 
         <div className={className}>
           {Array.from({ length: 8 }).map((_, index) => (
-            <Skeleton key={index} className="w-[167px] rounded-2xl" />
+            <Skeleton
+              key={index}
+              className="min-w-[167px] h-[275px] rounded-2xl"
+            />
           ))}
         </div>
       </>
