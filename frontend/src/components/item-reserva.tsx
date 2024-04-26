@@ -1,3 +1,4 @@
+import { getServerSession } from "@/utils/get-server-session";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -8,7 +9,8 @@ interface Props {
   agendamento: Agendamento;
 }
 
-const ItemReserva = ({ agendamento }: Props) => {
+const ItemReserva = async ({ agendamento }: Props) => {
+  const { usuario } = await getServerSession();
   const dia = format(new Date(agendamento.dataAgendamento), "dd");
   const mes = format(new Date(agendamento.dataAgendamento), "MMMM", {
     locale: ptBR,
@@ -35,9 +37,11 @@ const ItemReserva = ({ agendamento }: Props) => {
           <div className="flex items-center gap-2">
             <Avatar className="w-6 h-6">
               <AvatarImage src="" />
-              <AvatarFallback className="text-[8px]">N</AvatarFallback>
+              <AvatarFallback className="text-[8px]">
+                {usuario?.nome[0]}
+              </AvatarFallback>
             </Avatar>
-            <h3 className="text-sm">Nathan Ferreira</h3>
+            <h3 className="text-sm">{usuario?.nome}</h3>
           </div>
         </div>
 
