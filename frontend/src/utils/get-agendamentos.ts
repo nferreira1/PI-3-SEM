@@ -1,3 +1,4 @@
+import { formatarFrase } from "./formatar-frase";
 import { getServerSession } from "./get-server-session";
 
 /**
@@ -23,7 +24,18 @@ export default async function getAgendamentos(
 
     if (response.ok) {
       const agendamentos: Agendamento[] = await response.json();
-      return agendamentos;
+      const agendamentosFormatados = agendamentos.map(
+        ({ atividade, ...resto }) => ({
+          ...resto,
+          atividade: {
+            ...atividade,
+            nome: formatarFrase(atividade.nome),
+            local: formatarFrase(atividade.local),
+          },
+        })
+      );
+
+      return agendamentosFormatados;
     }
 
     return null;
