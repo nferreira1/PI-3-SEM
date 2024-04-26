@@ -1,44 +1,38 @@
-import ItemAgendamento from "@/app/(home)/components/item-agendamento";
 import Buscar from "@/components/buscar";
 import Header from "@/components/header/header";
-import ItemReserva from "@/components/item-reserva";
-import { formatarData } from "@/utils/formatar-data";
+import getAgendamentos from "@/utils/get-agendamentos";
 import { getAtividades } from "@/utils/get-atividades";
+import { getServerSession } from "@/utils/get-server-session";
+import BoasVindas from "./components/boas-vindas";
+import ListaAgendamentos from "./components/lista-agendamentos";
+import ListaItemAtividades from "./components/lista-item-atividades";
 
 export default async function Home() {
-  const diaCompleto = formatarData(new Date());
+  const { usuario, status } = await getServerSession();
 
+  const agendamentos =
+    status === "authenticated" ? await getAgendamentos(usuario!.id) : [];
+  const aguardando = agendamentos?.filter(
+    (agendamento) => agendamento.status.nome === "AGUARDANDO CONFIRMAÇÃO"
+  );
   const atividades = await getAtividades();
 
   return (
-    <div>
+    <>
       <Header />
-      <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">Olá, Nathan!</h2>
-        <p className="text-sm">{diaCompleto}</p>
-      </div>
-      <div className="px-5 mt-6">
+
+      <div className="px-5 pt-5 space-y-6">
+        <BoasVindas />
         <Buscar />
       </div>
 
-      <div className="px-5 mt-6">
-        <h2 className="text-xs text-muted-foreground font-bold mb-3 uppercase">
-          Agendamentos
-        </h2>
-        <ItemReserva />
+      <div className="mt-6">
+        <ListaAgendamentos agendamentos={aguardando} />
       </div>
 
       <div className="mt-6">
-        <h2 className="px-5 text-xs text-muted-foreground font-bold mb-3 uppercase">
-          Recomendados
-        </h2>
-
-        <div className="px-5 flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {atividades?.map((atividade) => (
-            <ItemAgendamento key={atividade.id} atividade={atividade} />
-          ))}
-        </div>
+        <ListaItemAtividades atividades={atividades} />
       </div>
-    </div>
+    </>
   );
 }
