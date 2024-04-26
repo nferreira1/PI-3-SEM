@@ -163,7 +163,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                 </SheetTrigger>
 
                 <SheetContent className="p-0">
-                  <SheetHeader className="text-left p-5 border-b border-solid">
+                  <SheetHeader>
                     <SheetTitle>Fazer reserva</SheetTitle>
                   </SheetHeader>
 

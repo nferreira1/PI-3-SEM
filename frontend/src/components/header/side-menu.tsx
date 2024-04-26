@@ -22,7 +22,7 @@ const SideMenu = () => {
 
   return (
     <>
-      <SheetHeader className="text-left border-b border-solid border-secondary p-5">
+      <SheetHeader>
         <SheetTitle>Menu</SheetTitle>
       </SheetHeader>
 
