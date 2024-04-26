@@ -1,16 +1,37 @@
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 
-const ItemReserva = () => {
+interface Props {
+  agendamento: Agendamento;
+}
+
+const ItemReserva = ({ agendamento }: Props) => {
+  const dia = format(new Date(agendamento.dataAgendamento), "dd");
+  const mes = format(new Date(agendamento.dataAgendamento), "MMMM", {
+    locale: ptBR,
+  });
+
+  const variant =
+    agendamento.status.nome === "CONFIRMADO"
+      ? "default"
+      : agendamento.status.nome === "FINALIZADO"
+      ? "secondary"
+      : agendamento.status.nome === "CANCELADO"
+      ? "destructive"
+      : "outline";
+
   return (
-    <Card>
-      <CardContent className="p-5 py-0 flex justify-between">
-        <div className="flex flex-col gap-2 py-5">
-          <Badge className="w-fit bg-[#221C3D] text-primary hover:bg-[#221C3D]">
-            Confirmado
+    <Card className="min-w-full">
+      <CardContent className="p-0 flex">
+        <div className="w-9/12 flex flex-col gap-2 py-5 pl-5">
+          <Badge variant={variant} className="w-fit">
+            {agendamento.status.nome}
           </Badge>
-          <h2 className="font-bold">Tênis</h2>
+          <h2 className="font-bold">{agendamento.atividade.nome}</h2>
+
           <div className="flex items-center gap-2">
             <Avatar className="w-6 h-6">
               <AvatarImage src="" />
@@ -19,10 +40,11 @@ const ItemReserva = () => {
             <h3 className="text-sm">Nathan Ferreira</h3>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center px-3 border-solid border-l border-secondary">
-          <p className="text-sm">Fevereiro</p>
-          <p className="text-2xl">08</p>
-          <p className="text-sm">09:00</p>
+
+        <div className="w-3/12 flex flex-col items-center justify-center border-solid border-l border-secondary">
+          <p className="text-sm capitalize">{mes}</p>
+          <p className="text-2xl">{dia}</p>
+          <p className="text-sm">{agendamento.horarioInicial}</p>
         </div>
       </CardContent>
     </Card>
