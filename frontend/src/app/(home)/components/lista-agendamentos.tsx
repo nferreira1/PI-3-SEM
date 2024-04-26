@@ -17,7 +17,7 @@ const ListaAgendamentos = ({
   if (status === "loading") {
     return (
       <>
-        <Skeleton className="h-4 w-32 mb-3.5" />
+        <Skeleton className="mx-5 h-4 w-32 mb-3.5" />
 
         <div className={className}>
           {Array.from({ length: 8 }).map((_, index) => (
