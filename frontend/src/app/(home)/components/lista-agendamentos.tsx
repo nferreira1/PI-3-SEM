@@ -31,7 +31,7 @@ const ListaAgendamentos = ({
   return (
     status === "authenticated" && (
       <>
-        <h2 className="text-xs text-muted-foreground font-bold mb-3 uppercase">
+        <h2 className="px-5 text-xs text-muted-foreground font-bold mb-3 uppercase">
           Agendamentos
         </h2>
 
