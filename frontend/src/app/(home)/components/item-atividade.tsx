@@ -12,7 +12,7 @@ interface Props {
   atividade: Atividade;
 }
 
-const AgendamentoItem = ({ atividade }: Props) => {
+const ItemAtividade = ({ atividade }: Props) => {
   const { status } = useSession();
   return (
     <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
@@ -61,4 +61,4 @@ const AgendamentoItem = ({ atividade }: Props) => {
   );
 };
 
-export default AgendamentoItem;
+export default ItemAtividade;
