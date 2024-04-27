@@ -28,6 +28,14 @@ public class ConfiguracaoService {
     return configuracaoRepository.save(obj);
   }
 
+  public Configuracao atualizar(Configuracao obj, Long id) {
+    Configuracao configuracao = this.findById(id);
+    configuracao.setNome(obj.getNome());
+    configuracao.setDescricao(obj.getDescricao());
+    configuracao.setValor(obj.getValor());
+    return configuracaoRepository.save(configuracao);
+  }
+
   public void alternarStatus(Long id) {
     Configuracao obj = findById(id);
     obj.setStatus(false);

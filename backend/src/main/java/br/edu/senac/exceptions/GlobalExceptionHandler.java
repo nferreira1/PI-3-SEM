@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -117,5 +118,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     return buildErrorResponse(badCredentialsException, badCredentialsException.getMessage(), HttpStatus.UNAUTHORIZED,
         request);
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException accessDeniedException,
+      WebRequest request) {
+    return buildErrorResponse(accessDeniedException, "Acesso negado!", HttpStatus.FORBIDDEN, request);
   }
 }
