@@ -33,7 +33,7 @@ public class Configuracao {
   @Column(nullable = false)
   private String valor;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 500)
   private String descricao;
 
   @Column(nullable = false)
