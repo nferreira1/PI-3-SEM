@@ -1,5 +1,6 @@
 package br.edu.senac.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,7 @@ public class AgendamentoService {
     agendamento.setUsuario(usuario);
     agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 1));
     agendamento.setDataAgendamento(obj.getDataAgendamento());
+    agendamento.setDataHorarioSolicitacao(LocalDateTime.now());
 
     this.agendamentoRepository.save(agendamento);
 

@@ -1,6 +1,7 @@
 package br.edu.senac.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +37,10 @@ public class Agendamento {
   @Column(nullable = false)
   @NotNull
   private LocalDate dataAgendamento;
+
+  @Column(nullable = false)
+  @NotNull
+  private LocalDateTime dataHorarioSolicitacao;
 
   @ManyToOne
   @JoinColumn(name = "espaco_horario_id", nullable = false)
