@@ -84,16 +84,26 @@ public class AgendamentoConfirmarTask implements ApplicationListener<Application
       System.out.println("""
           id: %d,
           data: %s,
-          status: %s
-          espaço: %s
-          horário: %s - %s
+          status: %s,
+          atividade: %s,
+          espaço: %s,
+          horário: %s - %s,
+          usuario: {
+            id: %d,
+            nome: %s,
+            email: %s
+          }
           \n""".formatted(
           agendamento.getId(),
           agendamento.getDataAgendamento(),
           agendamento.getStatus().getNome(),
+          agendamento.getEspacoHorario().getEspaco().getAtividade().getNome(),
           agendamento.getEspacoHorario().getEspaco().getNome(),
           agendamento.getEspacoHorario().getHorario().getHorarioInicial(),
-          agendamento.getEspacoHorario().getHorario().getHorarioFinal()));
+          agendamento.getEspacoHorario().getHorario().getHorarioFinal(),
+          agendamento.getUsuario().getId(),
+          agendamento.getUsuario().getNome(),
+          agendamento.getUsuario().getEmail()));
 
       if (data.isBefore(LocalDateTime.now())) {
         agendamentoRepository.alterarStatusAgendamento(agendamento.getId(), STATUS_FINALIZADO);
