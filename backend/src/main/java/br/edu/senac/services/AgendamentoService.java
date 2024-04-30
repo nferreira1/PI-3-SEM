@@ -14,6 +14,7 @@ import br.edu.senac.models.EspacoHorario;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
 import br.edu.senac.repositories.AgendamentoRepository;
+import br.edu.senac.repositories.ConfiguracaoRepository;
 import br.edu.senac.repositories.EspacoHorarioRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
@@ -31,6 +32,9 @@ public class AgendamentoService {
 
   @Autowired
   private AgendamentoStatusService agendamentoStatusService;
+
+  @Autowired
+  private ConfiguracaoRepository configuracaoRepository;
 
   public Agendamento buscarPorId(@NonNull Long id) {
     Optional<Agendamento> agendamento = this.agendamentoRepository.findById(id);
@@ -53,11 +57,25 @@ public class AgendamentoService {
         .findByEspacoIdAndHorarioId(obj.getEspacoId(), obj.getHorarioId())
         .orElseThrow(() -> new ObjectNotFoundException("Espaço ou horário não encontrado!"));
 
+    String valor = configuracaoRepository.findById(3L)
+        .orElseThrow(() -> new RuntimeException("Configuração não encontrada!"))
+        .getValor();
+
+    LocalDateTime dataHorarioExpiracao = obj.getDataAgendamento()
+        .atTime(espacoHorario.getHorario().getHorarioInicial());
+
+    if (dataHorarioExpiracao.isBefore(LocalDateTime.now())) {
+      agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 1));
+    } else {
+      agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 2));
+    }
+
     agendamento.setEspacoHorario(espacoHorario);
     agendamento.setUsuario(usuario);
-    agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 1));
     agendamento.setDataAgendamento(obj.getDataAgendamento());
-    agendamento.setDataHorarioSolicitacao(LocalDateTime.now());
+    agendamento.setDataHorarioExpiracao(
+        obj.getDataAgendamento().atTime(espacoHorario.getHorario().getHorarioInicial())
+            .minusMinutes(Long.parseLong(valor)));
 
     this.agendamentoRepository.save(agendamento);
 

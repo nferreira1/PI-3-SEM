@@ -40,7 +40,7 @@ public class Agendamento {
 
   @Column(nullable = false)
   @NotNull
-  private LocalDateTime dataHorarioSolicitacao;
+  private LocalDateTime dataHorarioExpiracao;
 
   @ManyToOne
   @JoinColumn(name = "espaco_horario_id", nullable = false)
