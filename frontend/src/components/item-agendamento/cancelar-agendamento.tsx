@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteAgendamento } from "@/utils/delete-agendamento";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -10,8 +11,17 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 
-const CancelarReserva = () => {
-  const handleCancelarReserva = () => {};
+const CancelarReserva = ({
+  idAgendamento,
+  onAbertoChange,
+}: {
+  idAgendamento: number;
+  onAbertoChange: (aberto: boolean) => void;
+}) => {
+  const handleCancelarReserva = async (id: number) => {
+    await deleteAgendamento(id);
+    onAbertoChange(false);
+  };
 
   return (
     <AlertDialogContent className="rounded-2xl w-min">
@@ -28,7 +38,7 @@ const CancelarReserva = () => {
         <AlertDialogCancel className="w-[134px] mt-0">Voltar</AlertDialogCancel>
         <AlertDialogAction
           className="w-[134px] bg-destructive hover:bg-destructive/80"
-          onClick={handleCancelarReserva}
+          onClick={() => handleCancelarReserva(idAgendamento)}
         >
           Cancelar
         </AlertDialogAction>
