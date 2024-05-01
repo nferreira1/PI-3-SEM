@@ -29,7 +29,9 @@ const ListaAgendamentos = ({
   }
 
   return (
-    status === "authenticated" && (
+    status === "authenticated" &&
+    agendamentos &&
+    agendamentos?.length > 0 && (
       <>
         <h2 className="px-5 text-xs text-muted-foreground font-bold mb-3 uppercase">
           Agendamentos
