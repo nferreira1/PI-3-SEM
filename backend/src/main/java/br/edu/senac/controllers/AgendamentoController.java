@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,13 @@ public class AgendamentoController {
     List<Agendamento> agendamentos = this.agendamentoService.buscarTodosPorIdUsuario(id);
 
     return ResponseEntity.ok().body(agendamentos.stream().map(AgendamentoDTO::new).toList());
+  }
+
+  @PutMapping("/{id}/cancelar")
+  public ResponseEntity<Void> cancelarReserva(@PathVariable @NonNull Long id) {
+    this.agendamentoService.cancelarReserva(id);
+
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping

@@ -16,12 +16,15 @@ import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
 import br.edu.senac.repositories.AgendamentoRepository;
 import br.edu.senac.repositories.ConfiguracaoRepository;
 import br.edu.senac.repositories.EspacoHorarioRepository;
+import br.edu.senac.services.exceptions.CancelarAgendamentoFinalizadoOuCancelado;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class AgendamentoService {
 
   public static final Long ID_TEMPO_ANTES_DATA_PARA_CONFIRMAR_AGENDAMENTO = 4L;
+  public static final Long STATUS_FINALIZADO = 4L;
+  public static final Long STATUS_CANCELADO = 3L;
 
   @Autowired
   private AgendamentoRepository agendamentoRepository;
@@ -82,4 +85,17 @@ public class AgendamentoService {
     return agendamento;
   }
 
+  public void cancelarReserva(@NonNull Long id) {
+    Agendamento agendamento = this.buscarPorId(id);
+
+    System.out.println(agendamento.getStatus().getId());
+
+    if (agendamento.getStatus().getId() == STATUS_FINALIZADO || agendamento.getStatus().getId() == STATUS_CANCELADO) {
+      throw new CancelarAgendamentoFinalizadoOuCancelado("Agendamento finalizado ou cancelado não pode ser cancelado!");
+    }
+
+    agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 3));
+
+    this.agendamentoRepository.save(agendamento);
+  }
 }
