@@ -27,7 +27,7 @@ public interface EspacoRepository extends JpaRepository<Espaco, Long> {
         AND NOT EXISTS (
             SELECT 1
             FROM agendamentos AS AG
-            WHERE AG.espaco_horario_id = EH.id and AG.data_agendamento = :dataAgendamento
+            WHERE AG.espaco_horario_id = EH.id AND AG.data_agendamento = :dataAgendamento AND AG.status_id != 3
         ) AND ((:dataAgendamento = CURDATE() AND H.horario_inicial > CURTIME()) OR (:dataAgendamento >  CURDATE()))
         ORDER BY H.horario_inicial
       """)
