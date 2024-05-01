@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.senac.models.Configuracao;
 import br.edu.senac.services.ConfiguracaoService;
+import br.edu.senac.tasks.agendamento.AgendamentoAguardandoConfirmacaoTask;
 import br.edu.senac.tasks.agendamento.AgendamentoConfirmarTask;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -30,6 +31,9 @@ public class ConfiguracaoController {
 
   @Autowired
   private AgendamentoConfirmarTask agendamentoConfirmarTask;
+
+  @Autowired
+  private AgendamentoAguardandoConfirmacaoTask agendamentoAguardandoConfirmacaoTask;
 
   @Autowired
   private ConfiguracaoService configuracaoService;
@@ -72,6 +76,7 @@ public class ConfiguracaoController {
   public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Configuracao obj) {
     configuracaoService.atualizar(obj, id);
     agendamentoConfirmarTask.reagendarTask();
+    agendamentoAguardandoConfirmacaoTask.reagendarTask();
 
     return ResponseEntity.noContent().build();
   }
