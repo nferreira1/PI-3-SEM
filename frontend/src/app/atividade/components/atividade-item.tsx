@@ -145,7 +145,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
             <Image
               src={espaco?.imagem ?? ""}
               alt={`imagem de ${espaco?.nome}`}
-              className="rounded-lg object-contain brightness-50"
+              className="rounded-lg object-cover brightness-50"
               fill
             />
           </div>
