@@ -155,12 +155,14 @@ declare global {
     /**
      * Horário inicial do agendamento.
      * @type {string}
+     * @see {@link Horario}
      */
     horarioInicial: string;
 
     /**
      * Horário final do agendamento.
      * @type {string}
+     * @see {@link Horario}
      */
     horarioFinal: string;
 
@@ -177,6 +179,13 @@ declare global {
      * @see {@link Atividade}
      */
     atividade: Pick<Atividade, "nome" | "local" | "imagem" | "telefone">;
+
+    /**
+     * Espaço que o agendamento está relacionado.
+     * @type {Pick<Espaco, "id | nome" | "imagem">}
+     * @see {@link Espaco}
+     */
+    espaco: Pick<Espaco, "id" | "nome" | "imagem">;
   }
 
   /**

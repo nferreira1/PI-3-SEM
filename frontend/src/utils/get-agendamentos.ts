@@ -27,6 +27,10 @@ export default async function getAgendamentos(
       const agendamentosFormatados = agendamentos.map(
         ({ atividade, ...resto }) => ({
           ...resto,
+          espaco: {
+            ...resto.espaco,
+            nome: formatarFrase(resto.espaco.nome),
+          },
           atividade: {
             ...atividade,
             nome: formatarFrase(atividade.nome),
