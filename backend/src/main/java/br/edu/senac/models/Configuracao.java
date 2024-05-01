@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = Configuracao.NOME_TABELA)
-@Table(name = Configuracao.NOME_TABELA)
 public class Configuracao {
 
   public static final String NOME_TABELA = "configuracoes";
