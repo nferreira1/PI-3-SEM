@@ -63,8 +63,8 @@ public class AgendamentoService {
         .orElseThrow(() -> new RuntimeException("Configuração não encontrada!"))
         .getValor();
 
-    LocalDateTime dataHorarioExpiracao = obj.getDataAgendamento()
-        .atTime(espacoHorario.getHorario().getHorarioInicial());
+    LocalDateTime dataHorarioExpiracao = obj.getDataAgendamento().atTime(espacoHorario.getHorario().getHorarioInicial())
+        .minusMinutes(Long.parseLong(valor));
 
     if (dataHorarioExpiracao.isAfter(LocalDateTime.now())) {
       agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 1));
@@ -75,9 +75,7 @@ public class AgendamentoService {
     agendamento.setEspacoHorario(espacoHorario);
     agendamento.setUsuario(usuario);
     agendamento.setDataAgendamento(obj.getDataAgendamento());
-    agendamento.setDataHorarioExpiracao(
-        obj.getDataAgendamento().atTime(espacoHorario.getHorario().getHorarioInicial())
-            .minusMinutes(Long.parseLong(valor)));
+    agendamento.setDataHorarioExpiracao(dataHorarioExpiracao);
 
     this.agendamentoRepository.save(agendamento);
 
