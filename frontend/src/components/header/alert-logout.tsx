@@ -28,9 +28,7 @@ const AlertLogout = () => {
       </AlertDialogHeader>
 
       <AlertDialogFooter className="flex-row justify-center items-center mt-2 gap-3">
-        <AlertDialogCancel className="w-[134px] mt-0">
-          Cancelar
-        </AlertDialogCancel>
+        <AlertDialogCancel className="w-[134px] mt-0">Voltar</AlertDialogCancel>
         <AlertDialogAction
           className="w-[134px] bg-destructive hover:bg-destructive/80"
           onClick={handleLogoutClique}
