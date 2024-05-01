@@ -1,6 +1,6 @@
 "use client";
 
-import ItemReserva from "@/components/item-reserva";
+import ItemReserva from "@/components/item-agendamento/item-agendamento";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
 

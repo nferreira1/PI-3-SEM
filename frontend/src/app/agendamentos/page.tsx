@@ -1,5 +1,5 @@
 import Header from "@/components/header/header";
-import ItemReserva from "@/components/item-reserva";
+import ItemReserva from "@/components/item-agendamento/item-agendamento";
 import getAgendamentos from "@/utils/get-agendamentos";
 import { getServerSession } from "@/utils/get-server-session";
 
