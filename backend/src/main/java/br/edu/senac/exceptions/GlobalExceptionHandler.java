@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.edu.senac.services.exceptions.CancelarAgendamentoFinalizadoOuCancelado;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -125,5 +126,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException accessDeniedException,
       WebRequest request) {
     return buildErrorResponse(accessDeniedException, "Acesso negado!", HttpStatus.FORBIDDEN, request);
+  }
+
+  @ExceptionHandler(CancelarAgendamentoFinalizadoOuCancelado.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public ResponseEntity<Object> handleCancelarAgendamentoFinalizadoOuCancelado(
+      CancelarAgendamentoFinalizadoOuCancelado cancelarAgendamentoFinalizadoOuCancelado, WebRequest request) {
+    return buildErrorResponse(cancelarAgendamentoFinalizadoOuCancelado,
+        cancelarAgendamentoFinalizadoOuCancelado.getMessage(),
+        HttpStatus.CONFLICT, request);
   }
 }
