@@ -10,6 +10,7 @@ import br.edu.senac.models.Atividade;
 import br.edu.senac.models.Espaco;
 import br.edu.senac.models.Horario;
 import br.edu.senac.models.dtos.Atividade.AtividadeDTO;
+import br.edu.senac.models.dtos.Espaco.EspacoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class AgendamentoDTO {
   @Schema(example = "09:00")
   private String horarioFinal;
   private AgendamentoStatus status;
+  private EspacoDTO espaco;
   private AtividadeDTO atividade;
 
   public AgendamentoDTO(Agendamento agendamento) {
@@ -46,6 +48,11 @@ public class AgendamentoDTO {
         atividade.getLocal(),
         atividade.getImagem(),
         atividade.getTelefone());
+
+    this.espaco = new EspacoDTO(
+        espaco.getId(),
+        espaco.getNome(),
+        espaco.getImagem());
 
     this.horarioInicial = espacoHorario.getHorarioInicial().toString();
     this.horarioFinal = espacoHorario.getHorarioFinal().toString();
