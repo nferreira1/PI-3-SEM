@@ -66,7 +66,7 @@ public class AgendamentoService {
     LocalDateTime dataHorarioExpiracao = obj.getDataAgendamento()
         .atTime(espacoHorario.getHorario().getHorarioInicial());
 
-    if (dataHorarioExpiracao.isBefore(LocalDateTime.now())) {
+    if (dataHorarioExpiracao.isAfter(LocalDateTime.now())) {
       agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 1));
     } else {
       agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 2));
