@@ -55,13 +55,6 @@ public class AgendamentoController {
     return ResponseEntity.ok().body(agendamentos.stream().map(AgendamentoDTO::new).toList());
   }
 
-  @DeleteMapping("/{id}/cancelar")
-  public ResponseEntity<Void> cancelarReserva(@PathVariable @NonNull Long id) {
-    this.agendamentoService.cancelarReserva(id);
-
-    return ResponseEntity.noContent().build();
-  }
-
   @PostMapping
   public ResponseEntity<Void> criar(@Valid @RequestBody @NonNull AgendamentoCriarDTO obj) {
 
@@ -70,6 +63,20 @@ public class AgendamentoController {
         .toUri();
 
     return ResponseEntity.created(uri).build();
+  }
+
+  @DeleteMapping("/{id}/cancelar")
+  public ResponseEntity<Void> cancelarReserva(@PathVariable @NonNull Long id) {
+    this.agendamentoService.cancelarReserva(id);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("{id}/confirmar")
+  public ResponseEntity<Void> confirmarReserva(@PathVariable Long id) {
+    this.agendamentoService.confirmarReserva(id);
+
+    return ResponseEntity.noContent().build();
   }
 
 }
