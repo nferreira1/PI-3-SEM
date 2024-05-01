@@ -21,6 +21,8 @@ import br.edu.senac.services.exceptions.ObjectNotFoundException;
 @Service
 public class AgendamentoService {
 
+  public static final Long ID_TEMPO_ANTES_DATA_PARA_CONFIRMAR_AGENDAMENTO = 4L;
+
   @Autowired
   private AgendamentoRepository agendamentoRepository;
 
@@ -57,7 +59,7 @@ public class AgendamentoService {
         .findByEspacoIdAndHorarioId(obj.getEspacoId(), obj.getHorarioId())
         .orElseThrow(() -> new ObjectNotFoundException("Espaço ou horário não encontrado!"));
 
-    String valor = configuracaoRepository.findById(3L)
+    String valor = configuracaoRepository.findById(ID_TEMPO_ANTES_DATA_PARA_CONFIRMAR_AGENDAMENTO)
         .orElseThrow(() -> new RuntimeException("Configuração não encontrada!"))
         .getValor();
 
