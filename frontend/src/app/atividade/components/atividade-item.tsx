@@ -162,112 +162,112 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                   <Button variant="secondary">Agendar</Button>
                 </SheetTrigger>
 
-                <SheetContent className="p-0">
-                  <SheetHeader>
-                    <SheetTitle>Fazer reserva</SheetTitle>
-                  </SheetHeader>
+                <SheetContent className="p-0 flex flex-col justify-between">
+                  <div>
+                    <SheetHeader>
+                      <SheetTitle>Fazer reserva</SheetTitle>
+                    </SheetHeader>
 
-                  <Calendar
-                    mode="single"
-                    fromDate={hoje}
-                    toDate={semana}
-                    disabled={diasDesabilitados}
-                    selected={data}
-                    onSelect={(data: Date | undefined) =>
-                      handleDataClique(data)
-                    }
-                  />
+                    <Calendar
+                      mode="single"
+                      fromDate={hoje}
+                      toDate={semana}
+                      disabled={diasDesabilitados}
+                      selected={data}
+                      onSelect={(data: Date | undefined) =>
+                        handleDataClique(data)
+                      }
+                    />
 
-                  <div
-                    className={`${
-                      data && "border-y"
-                    } border-solid border-secondary`}
-                  >
-                    <AnimatePresence mode="wait">
-                      {data && (
-                        <motion.div
-                          key={data.toString()}
-                          initial={{ opacity: 0, x: 100 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 100 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6"
-                        >
-                          <Horarios
-                            horarios={horarios}
-                            horarioSelecionado={horarioSelecionado}
-                            setHorarioSelecionado={handleHorarioClique}
-                          />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div
+                      className={`${
+                        data && "border-y"
+                      } border-solid border-secondary`}
+                    >
+                      <AnimatePresence mode="wait">
+                        {data && (
+                          <motion.div
+                            key={data.toString()}
+                            initial={{ opacity: 0, x: 100 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 100 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6"
+                          >
+                            <Horarios
+                              horarios={horarios}
+                              horarioSelecionado={horarioSelecionado}
+                              setHorarioSelecionado={handleHorarioClique}
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    <MotionDivDefault
+                      className={`px-5 py-6 border-solid border-secondary ${
+                        !data && "border-t"
+                      }`}
+                    >
+                      <Card>
+                        <CardContent className="flex flex-col gap-3 p-3">
+                          <MotionDivDefault className="flex justify-between">
+                            <h2>{atividade.nome}</h2>
+                            <h3 className="font-bold text-sm">{}</h3>
+                          </MotionDivDefault>
+
+                          {data && (
+                            <MotionDivDefault className="flex justify-between">
+                              <h3 className="text-muted-foreground text-sm">
+                                Data
+                              </h3>
+                              <h4 className="text-sm">
+                                {data.toLocaleDateString("pt-BR", {
+                                  day: "numeric",
+                                })}
+                                <span> de </span>
+                                {data.toLocaleDateString("pt-BR", {
+                                  month: "long",
+                                })}
+                              </h4>
+                            </MotionDivDefault>
+                          )}
+
+                          {horarioSelecionado && (
+                            <MotionDivDefault className="flex justify-between">
+                              <h3 className="text-muted-foreground text-sm">
+                                Horário
+                              </h3>
+                              <h4 className="text-sm">
+                                {horarioSelecionado.horarioInicial}
+                                <span> - </span>
+                                {horarioSelecionado.horarioFinal}
+                              </h4>
+                            </MotionDivDefault>
+                          )}
+
+                          <MotionDivDefault className="flex justify-between">
+                            <h3 className="text-muted-foreground text-sm">
+                              Local
+                            </h3>
+                            <h4 className="text-sm">{espaco.nome}</h4>
+                          </MotionDivDefault>
+                        </CardContent>
+                      </Card>
+                    </MotionDivDefault>
                   </div>
 
-                  <MotionDivDefault
-                    className={`px-5 py-6 border-solid border-secondary ${
-                      !data && "border-t"
-                    }`}
-                  >
-                    <Card>
-                      <CardContent className="flex flex-col gap-3 p-3">
-                        <MotionDivDefault className="flex justify-between">
-                          <h2>{atividade.nome}</h2>
-                          <h3 className="font-bold text-sm">{}</h3>
-                        </MotionDivDefault>
-
-                        {data && (
-                          <MotionDivDefault className="flex justify-between">
-                            <h3 className="text-muted-foreground text-sm">
-                              Data
-                            </h3>
-                            <h4 className="text-sm">
-                              {data.toLocaleDateString("pt-BR", {
-                                day: "numeric",
-                              })}
-                              <span> de </span>
-                              {data.toLocaleDateString("pt-BR", {
-                                month: "long",
-                              })}
-                            </h4>
-                          </MotionDivDefault>
-                        )}
-
-                        {horarioSelecionado && (
-                          <MotionDivDefault className="flex justify-between">
-                            <h3 className="text-muted-foreground text-sm">
-                              Horário
-                            </h3>
-                            <h4 className="text-sm">
-                              {horarioSelecionado.horarioInicial}
-                              <span> - </span>
-                              {horarioSelecionado.horarioFinal}
-                            </h4>
-                          </MotionDivDefault>
-                        )}
-
-                        <MotionDivDefault className="flex justify-between">
-                          <h3 className="text-muted-foreground text-sm">
-                            Local
-                          </h3>
-                          <h4 className="text-sm">{espaco.nome}</h4>
-                        </MotionDivDefault>
-                      </CardContent>
-                    </Card>
-                  </MotionDivDefault>
-
-                  <MotionDivDefault>
-                    <SheetFooter className="px-5">
-                      <Button
-                        onClick={handleRealizarAgendamento}
-                        disabled={!data || !horarioSelecionado}
-                      >
-                        {loading && (
-                          <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                        )}
-                        {loading ? "Confirmando..." : "Confirmar"}
-                      </Button>
-                    </SheetFooter>
-                  </MotionDivDefault>
+                  <SheetFooter className="p-5">
+                    <Button
+                      onClick={handleRealizarAgendamento}
+                      disabled={!data || !horarioSelecionado}
+                    >
+                      {loading && (
+                        <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                      )}
+                      {loading ? "Confirmando..." : "Confirmar"}
+                    </Button>
+                  </SheetFooter>
                 </SheetContent>
               </Sheet>
               <AlertConfirmarReserva
