@@ -10,8 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +21,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = Agendamento.NOME_TABELA)
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "data_agendamento", "espaco_horario_id" })
-})
 public class Agendamento {
 
   public static final String NOME_TABELA = "agendamentos";
