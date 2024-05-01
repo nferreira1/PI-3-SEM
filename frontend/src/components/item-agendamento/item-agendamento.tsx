@@ -12,7 +12,6 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -146,12 +145,6 @@ const ItemReserva = ({ agendamento }: Props) => {
         </div>
 
         <SheetFooter className="absolute bottom-4 w-full flex-row gap-3 px-5">
-          <SheetClose asChild>
-            <Button variant="outline" className="w-full">
-              Voltar
-            </Button>
-          </SheetClose>
-
           {(agendamento.status.id == 1 || agendamento.status.id == 2) && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -159,8 +152,17 @@ const ItemReserva = ({ agendamento }: Props) => {
                   Cancelar reserva
                 </Button>
               </AlertDialogTrigger>
-              <CancelarReserva />
+              <CancelarReserva
+                onAbertoChange={setSheet}
+                idAgendamento={agendamento.id}
+              />
             </AlertDialog>
+          )}
+
+          {agendamento.status.id == 1 && (
+            <Button variant="default" size="icon" className="w-full">
+              Confirmar reserva
+            </Button>
           )}
         </SheetFooter>
       </SheetContent>
