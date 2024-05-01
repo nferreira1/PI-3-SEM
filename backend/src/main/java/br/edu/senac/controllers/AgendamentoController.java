@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +55,7 @@ public class AgendamentoController {
     return ResponseEntity.ok().body(agendamentos.stream().map(AgendamentoDTO::new).toList());
   }
 
-  @PutMapping("/{id}/cancelar")
+  @DeleteMapping("/{id}/cancelar")
   public ResponseEntity<Void> cancelarReserva(@PathVariable @NonNull Long id) {
     this.agendamentoService.cancelarReserva(id);
 
