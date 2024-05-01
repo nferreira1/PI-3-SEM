@@ -2,10 +2,7 @@ package br.edu.senac.tasks.agendamento;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -37,16 +34,9 @@ public class AgendamentoConfirmarTask implements ApplicationListener<Application
   private ScheduledFuture<?> scheduledFuture;
   private String currentInterval;
 
-  private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
     reagendarTask();
-    startPollingForIntervalChange();
-  }
-
-  private void startPollingForIntervalChange() {
-    executorService.scheduleAtFixedRate(this::reagendarTask, 0, 10, TimeUnit.SECONDS);
   }
 
   public synchronized void reagendarTask() {
