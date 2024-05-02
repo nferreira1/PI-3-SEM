@@ -25,7 +25,7 @@ interface Props {
   agendamento: Agendamento;
 }
 
-const ItemReserva = ({ agendamento }: Props) => {
+const ItemAgendamento = ({ agendamento }: Props) => {
   const { data: usuario } = useSession();
   const [sheet, setSheet] = useState<boolean>(false);
   const dia = format(new Date(agendamento.dataAgendamento), "dd");
@@ -170,4 +170,4 @@ const ItemReserva = ({ agendamento }: Props) => {
   );
 };
 
-export default ItemReserva;
+export default ItemAgendamento;
