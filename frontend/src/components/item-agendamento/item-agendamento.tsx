@@ -1,10 +1,12 @@
 "use client";
 
 import { useSession } from "@/hooks/useSession";
+import { putAgendamento } from "@/utils/put-agendamento";
 import { AlertDialog, AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
@@ -26,6 +28,7 @@ interface Props {
 }
 
 const ItemAgendamento = ({ agendamento }: Props) => {
+  const router = useRouter();
   const { data: usuario } = useSession();
   const [sheet, setSheet] = useState<boolean>(false);
   const dia = format(new Date(agendamento.dataAgendamento), "dd");
@@ -41,6 +44,14 @@ const ItemAgendamento = ({ agendamento }: Props) => {
       : agendamento.status.nome === "CANCELADO"
       ? "destructive"
       : "warning";
+
+  const handleConfirmarAgendamento = async (id: number) => {
+    await putAgendamento(id);
+    setSheet(false);
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
+  };
 
   return (
     <Sheet open={sheet} onOpenChange={setSheet}>
@@ -160,7 +171,12 @@ const ItemAgendamento = ({ agendamento }: Props) => {
           )}
 
           {agendamento.status.id == 1 && (
-            <Button variant="default" size="icon" className="w-full">
+            <Button
+              variant="default"
+              size="icon"
+              className="w-full"
+              onClick={() => handleConfirmarAgendamento(agendamento.id)}
+            >
               Confirmar reserva
             </Button>
           )}
