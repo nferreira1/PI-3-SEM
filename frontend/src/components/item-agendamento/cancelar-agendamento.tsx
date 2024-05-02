@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteAgendamento } from "@/utils/delete-agendamento";
+import { useRouter } from "next/navigation";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -18,9 +19,13 @@ const CancelarReserva = ({
   idAgendamento: number;
   onAbertoChange: (aberto: boolean) => void;
 }) => {
+  const router = useRouter();
   const handleCancelarReserva = async (id: number) => {
     await deleteAgendamento(id);
     onAbertoChange(false);
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
   };
 
   return (

@@ -1,4 +1,3 @@
-import { revalidateTag } from "next/cache";
 import { formatarFrase } from "./formatar-frase";
 import { getServerSession } from "./get-server-session";
 
@@ -46,7 +45,5 @@ export default async function getAgendamentos(
     return null;
   } catch (error) {
     return null;
-  } finally {
-    revalidateTag("POST_AGENDAMENTOS");
   }
 }

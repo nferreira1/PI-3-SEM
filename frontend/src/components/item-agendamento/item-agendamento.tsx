@@ -81,7 +81,7 @@ const ItemAgendamento = ({ agendamento }: Props) => {
           <div className="relative h-[180px] w-full mt-6">
             <Image
               src={agendamento.espaco.imagem ?? ""}
-              alt="imagem do clube"
+              alt="imagem do espaço"
               fill
               className="brightness-50 rounded-md object-cover"
             />
