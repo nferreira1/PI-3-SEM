@@ -1,5 +1,16 @@
 declare global {
   /**
+   * Enum para revalidações de tags.
+   * @type
+   * @see {@link https://nextjs.org/docs/app/api-reference/functions/revalidateTag}
+   */
+  enum Tags {
+    POST_AGENDAMENTOS,
+  }
+
+  type Tag = keyof typeof Tags;
+
+  /**
    * Identificar único UUID.
    * @interface
    * @type {string}
