@@ -23,7 +23,7 @@ import br.edu.senac.services.exceptions.ObjectNotFoundException;
 public class AgendamentoService {
 
   public static final Long ID_TEMPO_ANTES_DATA_PARA_CONFIRMAR_AGENDAMENTO = 4L;
-  public static final Long STATUS_CONFIRMADO = 2L;
+  public static final Long STATUS_AGUARDANDO_CONFIRMACAO = 1L;
   public static final Long STATUS_CANCELADO = 3L;
   public static final Long STATUS_FINALIZADO = 4L;
 
@@ -101,12 +101,12 @@ public class AgendamentoService {
   public void confirmarReserva(@NonNull Long id) {
     Agendamento agendamento = this.buscarPorId(id);
 
-    if (agendamento.getStatus().getId() != STATUS_CONFIRMADO) {
+    if (agendamento.getStatus().getId() != STATUS_AGUARDANDO_CONFIRMACAO) {
       throw new CancelarAgendamentoFinalizadoOuCancelado(
           "Agendamento finalizado ou cancelado não pode ser confirmado!");
     }
 
-    agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 4));
+    agendamento.setStatus(agendamentoStatusService.buscarPorId((byte) 2));
 
     this.agendamentoRepository.save(agendamento);
   }
