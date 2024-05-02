@@ -31,10 +31,20 @@ const ItemAgendamento = ({ agendamento }: Props) => {
   const router = useRouter();
   const { data: usuario } = useSession();
   const [sheet, setSheet] = useState<boolean>(false);
-  const dia = format(new Date(agendamento.dataAgendamento), "dd");
-  const mes = format(new Date(agendamento.dataAgendamento), "MMMM", {
-    locale: ptBR,
-  });
+  const dia = format(
+    new Date(agendamento.dataAgendamento + "T" + agendamento.horarioInicial),
+    "dd",
+    {
+      locale: ptBR,
+    }
+  );
+  const mes = format(
+    new Date(agendamento.dataAgendamento + "T" + agendamento.horarioInicial),
+    "MMMM",
+    {
+      locale: ptBR,
+    }
+  );
 
   const variant =
     agendamento.status.nome === "CONFIRMADO"
@@ -132,7 +142,17 @@ const ItemAgendamento = ({ agendamento }: Props) => {
               <div className="flex justify-between">
                 <h3 className="text-gray-400 text-sm">Data</h3>
                 <h4 className="text-sm">
-                  {format(new Date(agendamento.dataAgendamento), "dd/MM/yyyy")}
+                  {format(
+                    new Date(
+                      agendamento.dataAgendamento +
+                        "T" +
+                        agendamento.horarioInicial
+                    ),
+                    "dd/MM/yyyy",
+                    {
+                      locale: ptBR,
+                    }
+                  )}
                 </h4>
               </div>
 
