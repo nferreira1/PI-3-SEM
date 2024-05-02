@@ -47,6 +47,6 @@ export default async function getAgendamentos(
   } catch (error) {
     return null;
   } finally {
-    revalidateTag("post-agendamentos");
+    revalidateTag("POST_AGENDAMENTOS");
   }
 }

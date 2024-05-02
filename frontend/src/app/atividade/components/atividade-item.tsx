@@ -98,6 +98,9 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
           horarioId: horarioSelecionado?.id,
           espacoId: espaco.id,
         }),
+        next: {
+          tags: ["POST_AGENDAMENTOS"],
+        },
       });
 
       if (response.ok) {
