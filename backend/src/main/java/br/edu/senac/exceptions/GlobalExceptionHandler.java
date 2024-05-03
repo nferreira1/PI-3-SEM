@@ -93,9 +93,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleConstraintViolationException(
       ConstraintViolationException constraintViolationException, WebRequest request) {
 
-    log.error("Failed to validate element", constraintViolationException);
-
-    return buildErrorResponse(constraintViolationException, HttpStatus.UNPROCESSABLE_ENTITY, request);
+    return buildErrorResponse(constraintViolationException, "Conteúdo inválido!", HttpStatus.UNPROCESSABLE_ENTITY,
+        request);
   }
 
   @ExceptionHandler(UserPrincipalNotFoundException.class)
@@ -136,4 +135,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         cancelarAgendamentoFinalizadoOuCancelado.getMessage(),
         HttpStatus.CONFLICT, request);
   }
+
 }
