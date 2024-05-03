@@ -20,7 +20,7 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import AlertConfirmarReserva from "./alert-confirmar-reserva";
+import DialogConfirmarReserva from "./dialog-confirmar-reserva";
 import Horarios from "./horarios";
 import MotionDivDefault from "./motion-div-default";
 
@@ -273,7 +273,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                   </SheetFooter>
                 </SheetContent>
               </Sheet>
-              <AlertConfirmarReserva
+              <DialogConfirmarReserva
                 aberto={abertoModal}
                 onAbertoChange={setAbertoModal}
               />
