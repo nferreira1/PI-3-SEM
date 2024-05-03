@@ -1,6 +1,5 @@
 package br.edu.senac.services;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +41,13 @@ public class AvaliacaoAgendamentoService {
         return avaliacaoDTO = new AvaliacaoAgendamentoDTO(0L, 0F);
       }
 
+      // var quantidade = Long.parseLong(objects[0].toString());
+      // BigDecimal media = (BigDecimal) objects[1];
+      // float mediaFormatada = Math.round((media).floatValue() * 100) / 100f;
       var quantidade = Long.parseLong(objects[0].toString());
-      BigDecimal media = (BigDecimal) objects[1];
-      float mediaFormatada = Math.round((media).floatValue() * 100) / 100f;
+      var media = Float.parseFloat(objects[1].toString());
 
-      avaliacaoDTO = new AvaliacaoAgendamentoDTO(quantidade, mediaFormatada);
+      avaliacaoDTO = new AvaliacaoAgendamentoDTO(quantidade, media);
     }
 
     return avaliacaoDTO;

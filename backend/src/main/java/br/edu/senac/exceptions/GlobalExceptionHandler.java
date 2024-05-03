@@ -1,8 +1,10 @@
 package br.edu.senac.exceptions;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.HashMap;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -82,10 +84,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ResponseStatus(HttpStatus.CONFLICT)
   public ResponseEntity<Object> handleDataIntegrityViolationException(
       DataIntegrityViolationException dataIntegrityViolationException, WebRequest request) {
-
-    String errorMessage = dataIntegrityViolationException.getMostSpecificCause().getMessage();
-    log.error("Failed to save entity with integrity problems: " + errorMessage, dataIntegrityViolationException);
-    return buildErrorResponse(dataIntegrityViolationException, errorMessage, HttpStatus.CONFLICT, request);
+    return buildErrorResponse(dataIntegrityViolationException,
+        "Erro de integridade, valores duplicados não são permitidos!",
+        HttpStatus.CONFLICT, request);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -93,7 +94,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleConstraintViolationException(
       ConstraintViolationException constraintViolationException, WebRequest request) {
 
-    return buildErrorResponse(constraintViolationException, "Conteúdo inválido!", HttpStatus.UNPROCESSABLE_ENTITY,
+    String message = "";
+
+    for (var violation : constraintViolationException.getConstraintViolations()) {
+      message = violation.getMessage();
+    }
+
+    return buildErrorResponse(constraintViolationException, message, HttpStatus.UNPROCESSABLE_ENTITY,
         request);
   }
 

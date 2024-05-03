@@ -32,8 +32,8 @@ public class AvaliacaoAgendamento {
 
   @Column(nullable = false)
   @NotNull
-  @Min(1)
-  @Max(5)
+  @Min(value = 1, message = "A nota deve ser maior ou igual a 1")
+  @Max(value = 5, message = "A nota deve ser menor ou igual a 5")
   private byte nota;
 
   @Column(nullable = false)
