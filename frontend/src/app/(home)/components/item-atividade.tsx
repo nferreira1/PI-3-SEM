@@ -4,28 +4,49 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/hooks/useSession";
+import { getAvaliacoesAtividade } from "@/utils/get-avaliacoes";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Props {
   atividade: Atividade;
 }
 
 const ItemAtividade = ({ atividade }: Props) => {
+  const [avaliacao, setAvaliacao] = useState<AvaliacaoAtividade | null>(null);
   const { status } = useSession();
+
+  useEffect(() => {
+    (async () => {
+      const avaliacao = await getAvaliacoesAtividade(atividade.id);
+
+      if (avaliacao) {
+        setAvaliacao(avaliacao);
+      }
+    })();
+  }, [atividade.id]);
+
   return (
     <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
       <CardContent className="p-1">
         <div className="relative w-full h-[159px]">
           <div className="absolute top-1 left-1 z-50">
-            <Badge
-              variant="secondary"
-              className="flex items-center gap-1 opacity-90"
-            >
-              <StarIcon size={12} className="fill-primary text-primary" />
-              <span className="">5,0</span>
-            </Badge>
+            {avaliacao?.quantidade !== 0 && (
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 opacity-90"
+              >
+                <StarIcon size={12} className="fill-primary text-primary" />
+                <span className="">
+                  {Intl.NumberFormat("pt-BR", {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  }).format(avaliacao?.media ?? 0)}
+                </span>
+              </Badge>
+            )}
           </div>
 
           <Image

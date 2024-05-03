@@ -74,7 +74,11 @@ const AtividadeInfo = ({ atividade }: Props) => {
             <>
               <Star className="text-primary fill-primary" size={18} />
               <p className="text-sm">
-                {avaliacao?.media} ({avaliacao?.quantidade}
+                {Intl.NumberFormat("pt-BR", {
+                  minimumFractionDigits: 1,
+                  maximumFractionDigits: 1,
+                }).format(avaliacao?.media ?? 0)}{" "}
+                ({avaliacao?.quantidade}
                 {avaliacao?.quantidade && avaliacao?.quantidade > 1
                   ? " avaliações"
                   : " avaliação"}
