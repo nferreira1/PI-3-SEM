@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 
-const CancelarReserva = ({
+const AlertCancelarReserva = ({
   idAgendamento,
   onAbertoChange,
 }: {
@@ -52,4 +52,4 @@ const CancelarReserva = ({
   );
 };
 
-export default CancelarReserva;
+export default AlertCancelarReserva;

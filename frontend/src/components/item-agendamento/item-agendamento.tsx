@@ -20,8 +20,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import AlertCancelarReserva from "./alert-cancelar-agendamento";
 import AvaliarAtividade from "./avaliar-atividade";
-import CancelarReserva from "./cancelar-agendamento";
 import Telefone from "./telefone";
 
 interface Props {
@@ -184,7 +184,7 @@ const ItemAgendamento = ({ agendamento }: Props) => {
                   Cancelar reserva
                 </Button>
               </AlertDialogTrigger>
-              <CancelarReserva
+              <AlertCancelarReserva
                 onAbertoChange={setSheet}
                 idAgendamento={agendamento.id}
               />
