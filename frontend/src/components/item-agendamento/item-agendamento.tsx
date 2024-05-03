@@ -20,6 +20,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import AvaliarAtividade from "./avaliar-atividade";
 import CancelarReserva from "./cancelar-agendamento";
 import Telefone from "./telefone";
 
@@ -187,6 +188,17 @@ const ItemAgendamento = ({ agendamento }: Props) => {
                 onAbertoChange={setSheet}
                 idAgendamento={agendamento.id}
               />
+            </AlertDialog>
+          )}
+
+          {agendamento.status.id == 4 && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="secondary" size="icon" className="w-full">
+                  Avaliar
+                </Button>
+              </AlertDialogTrigger>
+              <AvaliarAtividade idAgendamento={agendamento.id} />
             </AlertDialog>
           )}
 
