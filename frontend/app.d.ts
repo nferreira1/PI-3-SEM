@@ -247,6 +247,26 @@ declare global {
      */
     descricao: string;
   }
+
+  /**
+   * Interface para informações de avaliação de uma atividade.
+   * @interface
+   * @see {@link Atividade}
+   * @see {@link Agendamento}
+   */
+  interface AvaliacaoAtividade {
+    /**
+     * Quantidade de avaliações.
+     * @type {number}
+     */
+    quantidade: number;
+
+    /**
+     * Média das avaliações.
+     * @type {number}
+     */
+    media: number;
+  }
 }
 
 export {};
