@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 
-const AlertConfirmarReserva = ({
+const DialogConfirmarReserva = ({
   aberto,
   onAbertoChange,
 }: {
@@ -45,4 +45,4 @@ const AlertConfirmarReserva = ({
   );
 };
 
-export default AlertConfirmarReserva;
+export default DialogConfirmarReserva;
