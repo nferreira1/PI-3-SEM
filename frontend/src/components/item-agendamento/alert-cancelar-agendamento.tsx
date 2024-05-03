@@ -3,6 +3,7 @@
 import { deleteAgendamento } from "@/utils/delete-agendamento";
 import { useRouter } from "next/navigation";
 import {
+  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
@@ -10,7 +11,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { Button } from "../ui/button";
 
 const AlertCancelarReserva = ({
   idAgendamento,
@@ -29,26 +32,35 @@ const AlertCancelarReserva = ({
   };
 
   return (
-    <AlertDialogContent className="rounded-2xl w-min">
-      <AlertDialogHeader>
-        <AlertDialogTitle className="text-center font-bold">
-          Cancelamento
-        </AlertDialogTitle>
-        <AlertDialogDescription className="text-center text-muted-foreground">
-          Deseja mesmo cancelar este agendamento?
-        </AlertDialogDescription>
-      </AlertDialogHeader>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" size="icon" className="w-full">
+          Cancelar reserva
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="rounded-2xl w-min">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-center font-bold">
+            Cancelamento
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-center text-muted-foreground">
+            Deseja mesmo cancelar este agendamento?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-      <AlertDialogFooter className="flex-row justify-center items-center mt-2 gap-3">
-        <AlertDialogCancel className="w-[134px] mt-0">Voltar</AlertDialogCancel>
-        <AlertDialogAction
-          className="w-[134px] bg-destructive hover:bg-destructive/80"
-          onClick={() => handleCancelarReserva(idAgendamento)}
-        >
-          Cancelar
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
+        <AlertDialogFooter className="flex-row justify-center items-center mt-2 gap-3">
+          <AlertDialogCancel className="w-[134px] mt-0">
+            Voltar
+          </AlertDialogCancel>
+          <AlertDialogAction
+            className="w-[134px] bg-destructive hover:bg-destructive/80"
+            onClick={() => handleCancelarReserva(idAgendamento)}
+          >
+            Cancelar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

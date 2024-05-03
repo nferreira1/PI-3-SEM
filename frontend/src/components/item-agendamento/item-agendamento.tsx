@@ -2,7 +2,6 @@
 
 import { useSession } from "@/hooks/useSession";
 import { putAgendamento } from "@/utils/put-agendamento";
-import { AlertDialog, AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
@@ -178,28 +177,14 @@ const ItemAgendamento = ({ agendamento }: Props) => {
 
         <SheetFooter className="absolute bottom-4 w-full flex-row gap-3 px-5">
           {(agendamento.status.id == 1 || agendamento.status.id == 2) && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="icon" className="w-full">
-                  Cancelar reserva
-                </Button>
-              </AlertDialogTrigger>
-              <AlertCancelarReserva
-                onAbertoChange={setSheet}
-                idAgendamento={agendamento.id}
-              />
-            </AlertDialog>
+            <AlertCancelarReserva
+              onAbertoChange={setSheet}
+              idAgendamento={agendamento.id}
+            />
           )}
 
           {agendamento.status.id == 4 && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="secondary" size="icon" className="w-full">
-                  Avaliar
-                </Button>
-              </AlertDialogTrigger>
-              <AvaliarAtividade idAgendamento={agendamento.id} />
-            </AlertDialog>
+            <AvaliarAtividade idAgendamento={agendamento.id} />
           )}
 
           {agendamento.status.id == 1 && (
