@@ -8,16 +8,16 @@ export default async function Agendamento() {
   const agendamentos = await getAgendamentos(usuario!.id);
 
   const aguardando = agendamentos?.filter(
-    (agendamento) => agendamento.status.nome === "AGUARDANDO CONFIRMAÇÃO"
+    (agendamento) => agendamento.status.id === 1
   );
   const confirmados = agendamentos?.filter(
-    (agendamento) => agendamento.status.nome === "CONFIRMADO"
+    (agendamento) => agendamento.status.id === 2
   );
   const cancelados = agendamentos?.filter(
-    (agendamento) => agendamento.status.nome === "CANCELADO"
+    (agendamento) => agendamento.status.id === 3
   );
   const finalizados = agendamentos?.filter(
-    (agendamento) => agendamento.status.nome === "FINALIZADO"
+    (agendamento) => agendamento.status.id === 4
   );
 
   return (
