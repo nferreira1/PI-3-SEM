@@ -29,6 +29,7 @@ public class AgendamentoDTO {
   private String horarioInicial;
   @Schema(example = "09:00")
   private String horarioFinal;
+  private boolean avaliado;
   private AgendamentoStatus status;
   private EspacoDTO espaco;
   private AtividadeDTO atividade;

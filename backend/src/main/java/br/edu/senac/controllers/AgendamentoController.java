@@ -22,7 +22,6 @@ import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoDTO;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoUsuarioDTO;
 import br.edu.senac.services.AgendamentoService;
-import br.edu.senac.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -35,9 +34,6 @@ public class AgendamentoController {
   @Autowired
   private AgendamentoService agendamentoService;
 
-  @Autowired
-  private UsuarioService usuarioService;
-
   @GetMapping("/{id}")
   public ResponseEntity<AgendamentoUsuarioDTO> buscarPorId(@PathVariable @NonNull Long id) {
 
@@ -49,10 +45,9 @@ public class AgendamentoController {
   @GetMapping("/usuario/{id}")
   public ResponseEntity<List<AgendamentoDTO>> buscarTodosPorIdUsuario(@PathVariable @NonNull Long id) {
 
-    this.usuarioService.buscarPorId(id);
-    List<Agendamento> agendamentos = this.agendamentoService.buscarTodosPorIdUsuario(id);
+    List<AgendamentoDTO> agendamentos = this.agendamentoService.buscarTodosPorIdUsuario(id);
 
-    return ResponseEntity.ok().body(agendamentos.stream().map(AgendamentoDTO::new).toList());
+    return ResponseEntity.ok().body(agendamentos);
   }
 
   @PostMapping

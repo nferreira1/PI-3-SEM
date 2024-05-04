@@ -18,6 +18,13 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
 
   public List<Agendamento> findAllByStatusId(Long id);
 
+  @Query(nativeQuery = true, value = """
+        SELECT agendamento_id FROM agendamentos AS A
+        INNER JOIN avaliacoes_agendamentos AS AA ON A.id = AA.agendamento_id
+        WHERE A.usuario_id = :id
+      """)
+  public List<Long> findAvaliadosStatusByUsuarioId(@Param("id") Long id);
+
   @Modifying
   @Transactional
   @Query(nativeQuery = true, value = "UPDATE agendamentos SET status_id = :idStatus WHERE id = :idAgendamento")

@@ -13,6 +13,7 @@ import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.EspacoHorario;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.models.dtos.Agendamento.AgendamentoCriarDTO;
+import br.edu.senac.models.dtos.Agendamento.AgendamentoDTO;
 import br.edu.senac.repositories.AgendamentoRepository;
 import br.edu.senac.repositories.ConfiguracaoRepository;
 import br.edu.senac.repositories.EspacoHorarioRepository;
@@ -48,8 +49,18 @@ public class AgendamentoService {
     return agendamento.orElseThrow(() -> new ObjectNotFoundException("Agendamento não encontrado!"));
   }
 
-  public List<Agendamento> buscarTodosPorIdUsuario(@NonNull Long id) {
-    return this.agendamentoRepository.findAllByUsuarioId(id);
+  public List<AgendamentoDTO> buscarTodosPorIdUsuario(@NonNull Long id) {
+
+    this.usuarioService.buscarPorId(id);
+
+    var agendamentos = this.agendamentoRepository.findAllByUsuarioId(id);
+    var agendamentosDto = agendamentos.stream().map(AgendamentoDTO::new).toList();
+    var idAvaliados = this.agendamentoRepository.findAvaliadosStatusByUsuarioId(id);
+    System.out.println(idAvaliados);
+
+    agendamentosDto.forEach(agendamento -> agendamento.setAvaliado(idAvaliados.contains(agendamento.getId())));
+
+    return agendamentosDto;
   }
 
   @Transactional
