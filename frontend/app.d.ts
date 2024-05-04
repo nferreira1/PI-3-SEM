@@ -185,6 +185,14 @@ declare global {
     status: StatusAgendamento;
 
     /**
+     * Se já foi avaliado ou não.
+     * @type {booleean}
+     * @default false
+     * @see {@link AvaliacaoAtividade}
+     */
+    avaliado: booleean;
+
+    /**
      * Atividade que o agendamento está relacionado.
      * @type {Pick<Atividade, "nome" | "local" | "imagem" | "telefone">}
      * @see {@link Atividade}
