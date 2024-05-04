@@ -15,7 +15,7 @@ import {
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 
-const AvaliarAtividade = ({ idAgendamento }: { idAgendamento: number }) => {
+const AvaliarAgendamento = ({ idAgendamento }: { idAgendamento: number }) => {
   const [nota, setNota] = useState<number>(0);
   return (
     <AlertDialog>
@@ -63,4 +63,4 @@ const AvaliarAtividade = ({ idAgendamento }: { idAgendamento: number }) => {
   );
 };
 
-export default AvaliarAtividade;
+export default AvaliarAgendamento;

@@ -20,7 +20,7 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import AlertCancelarReserva from "./alert-cancelar-agendamento";
-import AvaliarAtividade from "./avaliar-atividade";
+import AvaliarAgendamento from "./avaliar-agendamento";
 import Telefone from "./telefone";
 
 interface Props {
@@ -184,7 +184,7 @@ const ItemAgendamento = ({ agendamento }: Props) => {
           )}
 
           {agendamento.status.id == 4 && (
-            <AvaliarAtividade idAgendamento={agendamento.id} />
+            <AvaliarAgendamento idAgendamento={agendamento.id} />
           )}
 
           {agendamento.status.id == 1 && (
