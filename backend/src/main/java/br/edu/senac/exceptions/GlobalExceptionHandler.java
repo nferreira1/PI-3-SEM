@@ -1,10 +1,8 @@
 package br.edu.senac.exceptions;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.HashMap;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import br.edu.senac.services.exceptions.CancelarAgendamentoFinalizadoOuCancelado;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
+import br.edu.senac.services.exceptions.AvaliacaoAgendamentoComStatusNaoFinalizadoException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -141,6 +140,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return buildErrorResponse(cancelarAgendamentoFinalizadoOuCancelado,
         cancelarAgendamentoFinalizadoOuCancelado.getMessage(),
         HttpStatus.CONFLICT, request);
+  }
+
+  @ExceptionHandler(AvaliacaoAgendamentoComStatusNaoFinalizadoException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  public ResponseEntity<Object> handleAvaliacaoAgendamentoComStatusNaoFinalizadoException(
+      AvaliacaoAgendamentoComStatusNaoFinalizadoException avaliacaoAgendamentoComStatusNaoFinalizadoException,
+      WebRequest request) {
+    return buildErrorResponse(avaliacaoAgendamentoComStatusNaoFinalizadoException,
+        avaliacaoAgendamentoComStatusNaoFinalizadoException.getMessage(),
+        HttpStatus.FORBIDDEN, request);
   }
 
 }

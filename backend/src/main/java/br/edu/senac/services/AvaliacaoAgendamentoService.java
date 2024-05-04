@@ -13,6 +13,7 @@ import br.edu.senac.repositories.AgendamentoRepository;
 import br.edu.senac.repositories.AtividadeRepository;
 import br.edu.senac.repositories.AvaliacaoAgendamentoRepository;
 import br.edu.senac.services.exceptions.ObjectNotFoundException;
+import br.edu.senac.services.exceptions.AvaliacaoAgendamentoComStatusNaoFinalizadoException;
 
 @Service
 public class AvaliacaoAgendamentoService {
@@ -58,6 +59,11 @@ public class AvaliacaoAgendamentoService {
     Agendamento agendamento = this.agendamentoRepository.findById(obj.getIdAgendamento())
         .orElseThrow(
             () -> new ObjectNotFoundException("Agendamento não encontrado"));
+
+    if (agendamento.getStatus().getId() != 4) {
+      throw new AvaliacaoAgendamentoComStatusNaoFinalizadoException(
+          "Não é possível avaliar um agendamento que não foi finalizado");
+    }
 
     AvaliacaoAgendamento avaliacao = new AvaliacaoAgendamento();
 
