@@ -61,10 +61,10 @@ const ItemAtividade = ({ atividade }: Props) => {
         </div>
 
         <div className="px-2 pb-3">
-          <h2 className="font-bold mt-2 overflow-hidden text-ellipsis text-nowrap">
+          <h2 className="font-bold mt-2 overflow-hidden text-ellipsis whitespace-nowrap">
             {atividade?.nome}
           </h2>
-          <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis text-nowrap">
+          <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">
             {atividade?.local}
           </p>
           <Link href={`/atividade/${atividade.id}`} legacyBehavior>
