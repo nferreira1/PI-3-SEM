@@ -195,7 +195,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: 100 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5 py-6"
+                            className="flex gap-3 overflow-x-auto px-5 py-6"
                           >
                             <Horarios
                               horarios={horarios}
