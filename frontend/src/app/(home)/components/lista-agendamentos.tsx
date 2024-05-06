@@ -1,6 +1,11 @@
 "use client";
 
 import ItemReserva from "@/components/item-agendamento/item-agendamento";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
 
@@ -38,9 +43,15 @@ const ListaAgendamentos = ({
         </h2>
 
         <div className={className}>
-          {agendamentos?.map((agendamento) => (
-            <ItemReserva key={agendamento.id} agendamento={agendamento} />
-          ))}
+          <Carousel className="w-full">
+            <CarouselContent>
+              {agendamentos?.map((agendamento) => (
+                <CarouselItem key={agendamento.id}>
+                  <ItemReserva agendamento={agendamento} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </>
     )
