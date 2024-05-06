@@ -56,8 +56,6 @@ public class AgendamentoService {
     var agendamentos = this.agendamentoRepository.findAllByUsuarioId(id);
     var agendamentosDto = agendamentos.stream().map(AgendamentoDTO::new).toList();
     var idAvaliados = this.agendamentoRepository.findAvaliadosStatusByUsuarioId(id);
-    System.out.println(idAvaliados);
-
     agendamentosDto.forEach(agendamento -> agendamento.setAvaliado(idAvaliados.contains(agendamento.getId())));
 
     return agendamentosDto;
