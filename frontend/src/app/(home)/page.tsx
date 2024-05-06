@@ -1,5 +1,4 @@
 import Buscar from "@/components/buscar";
-import Header from "@/components/header/header";
 import getAgendamentos from "@/utils/get-agendamentos";
 import { getAtividades } from "@/utils/get-atividades";
 import { getServerSession } from "@/utils/get-server-session";
@@ -18,9 +17,7 @@ export default async function Home() {
   const atividades = await getAtividades();
 
   return (
-    <>
-      <Header />
-
+    <div className="lg:px-32">
       <div className="px-5 pt-5 space-y-6">
         <BoasVindas />
         <Buscar />
@@ -33,6 +30,6 @@ export default async function Home() {
       <div className="mt-6">
         <ListaItemAtividades atividades={atividades} />
       </div>
-    </>
+    </div>
   );
 }
