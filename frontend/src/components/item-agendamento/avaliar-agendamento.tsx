@@ -1,6 +1,7 @@
 "use client";
 
-import { Star } from "lucide-react";
+import { postAvaliacao } from "@/utils/post-avaliacao";
+import { Loader2, Star } from "lucide-react";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -15,8 +16,31 @@ import {
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 
-const AvaliarAgendamento = ({ idAgendamento }: { idAgendamento: number }) => {
+const AvaliarAgendamento = ({
+  idAgendamento,
+  setResponse,
+}: {
+  idAgendamento: number;
+  setResponse: (response: boolean) => void;
+}) => {
   const [nota, setNota] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleAvaliarAgendamento = async (
+    idAgendamento: number,
+    nota: number
+  ) => {
+    setLoading(true);
+    const response = await postAvaliacao(idAgendamento, nota);
+    setLoading(false);
+
+    if (response) {
+      return setResponse(true);
+    }
+
+    return setResponse(false);
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -48,14 +72,16 @@ const AvaliarAgendamento = ({ idAgendamento }: { idAgendamento: number }) => {
         </AlertDialogHeader>
 
         <AlertDialogFooter className="flex-row justify-center items-center mt-2 gap-3">
-          <AlertDialogCancel className="w-[134px] mt-0">
+          <AlertDialogCancel className="w-[134px] mt-0" disabled={loading}>
             Voltar
           </AlertDialogCancel>
           <AlertDialogAction
-            className="w-[134px] bg-primary"
-            disabled={nota === 0}
+            className="w-[134px] bg-primary space-x-2"
+            disabled={nota === 0 || loading}
+            onClick={() => handleAvaliarAgendamento(idAgendamento, nota)}
           >
-            Confirmar
+            {loading && <Loader2 className="animate-spin" />}
+            <p>{loading ? "Aguarde..." : "Avaliar"}</p>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

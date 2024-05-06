@@ -4,6 +4,7 @@ import { useSession } from "@/hooks/useSession";
 import { putAgendamento } from "@/utils/put-agendamento";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Bookmark } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +22,7 @@ import {
 } from "../ui/sheet";
 import AlertCancelarReserva from "./alert-cancelar-agendamento";
 import AvaliarAgendamento from "./avaliar-agendamento";
+import DialogConfirmarAvaliacao from "./dialog-confirmar-avaliacao";
 import Telefone from "./telefone";
 
 interface Props {
@@ -31,6 +33,8 @@ const ItemAgendamento = ({ agendamento }: Props) => {
   const router = useRouter();
   const { data: usuario } = useSession();
   const [sheet, setSheet] = useState<boolean>(false);
+  const [responseAvaliarAgendamento, setResponseAvaliarAgendamento] =
+    useState<boolean>(false);
   const dia = format(
     new Date(agendamento.dataAgendamento + "T" + agendamento.horarioInicial),
     "dd",
@@ -63,11 +67,19 @@ const ItemAgendamento = ({ agendamento }: Props) => {
     }, 1000);
   };
 
+  const handleConfimarAvaliacao = () => {
+    setSheet(false);
+    setResponseAvaliarAgendamento(false);
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
+  };
+
   return (
     <Sheet open={sheet} onOpenChange={setSheet}>
       <SheetTrigger asChild>
         <Card className="min-w-full">
-          <CardContent className="p-0 flex">
+          <CardContent className="p-0 flex relative">
             <div className="w-9/12 flex flex-col gap-2 py-5 pl-5">
               <Badge variant={variant} className="w-fit">
                 {agendamento.status.nome}
@@ -84,6 +96,17 @@ const ItemAgendamento = ({ agendamento }: Props) => {
                 <h3 className="text-sm">{usuario?.nome}</h3>
               </div>
             </div>
+
+            {agendamento.status.id == 4 && (
+              <Bookmark
+                className={`absolute right-32 -top-1 ${
+                  agendamento.avaliado
+                    ? "fill-green-500 text-green-500"
+                    : "fill-red-500 text-red-500"
+                }`}
+                strokeWidth={1}
+              />
+            )}
 
             <div className="w-3/12 flex flex-col items-center justify-center border-solid border-l border-secondary">
               <p className="text-sm capitalize">{mes}</p>
@@ -183,8 +206,11 @@ const ItemAgendamento = ({ agendamento }: Props) => {
             />
           )}
 
-          {agendamento.status.id == 4 && (
-            <AvaliarAgendamento idAgendamento={agendamento.id} />
+          {agendamento.status.id == 4 && !agendamento.avaliado && (
+            <AvaliarAgendamento
+              setResponse={setResponseAvaliarAgendamento}
+              idAgendamento={agendamento.id}
+            />
           )}
 
           {agendamento.status.id == 1 && (
@@ -197,6 +223,11 @@ const ItemAgendamento = ({ agendamento }: Props) => {
               Confirmar reserva
             </Button>
           )}
+
+          <DialogConfirmarAvaliacao
+            aberto={responseAvaliarAgendamento}
+            onAbertoChange={handleConfimarAvaliacao}
+          />
         </SheetFooter>
       </SheetContent>
     </Sheet>
