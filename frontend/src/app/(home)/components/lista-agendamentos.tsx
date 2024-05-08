@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
-import Autoplay from "embla-carousel-autoplay";
+import AutoScroll from "embla-carousel-auto-scroll";
 
 const ListaAgendamentos = ({
   agendamentos,
@@ -48,10 +48,11 @@ const ListaAgendamentos = ({
             className="w-full"
             opts={{
               dragFree: true,
+              loop: true,
             }}
             plugins={[
-              Autoplay({
-                delay: 3000,
+              AutoScroll({
+                speed: 1,
               }),
             ]}
           >
