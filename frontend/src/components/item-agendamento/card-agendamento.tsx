@@ -1,3 +1,5 @@
+"use client";
+
 import { useSession } from "@/hooks/useSession";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
