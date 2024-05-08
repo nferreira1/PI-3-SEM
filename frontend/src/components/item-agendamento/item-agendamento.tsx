@@ -1,10 +1,8 @@
 "use client";
 
-import { useSession } from "@/hooks/useSession";
 import { putAgendamento } from "@/utils/put-agendamento";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Bookmark } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,6 +20,7 @@ import {
 } from "../ui/sheet";
 import AlertCancelarReserva from "./alert-cancelar-agendamento";
 import AvaliarAgendamento from "./avaliar-agendamento";
+import CardAgendamento from "./card-agendamento";
 import DialogConfirmarAvaliacao from "./dialog-confirmar-avaliacao";
 import Telefone from "./telefone";
 
@@ -31,31 +30,16 @@ interface Props {
 
 const ItemAgendamento = ({ agendamento }: Props) => {
   const router = useRouter();
-  const { data: usuario } = useSession();
   const [sheet, setSheet] = useState<boolean>(false);
   const [responseAvaliarAgendamento, setResponseAvaliarAgendamento] =
     useState<boolean>(false);
-  const dia = format(
-    new Date(agendamento.dataAgendamento + "T" + agendamento.horarioInicial),
-    "dd",
-    {
-      locale: ptBR,
-    }
-  );
-  const mes = format(
-    new Date(agendamento.dataAgendamento + "T" + agendamento.horarioInicial),
-    "MMMM",
-    {
-      locale: ptBR,
-    }
-  );
 
   const variant =
-    agendamento.status.nome === "CONFIRMADO"
+    agendamento.status.id === 2
       ? "default"
-      : agendamento.status.nome === "FINALIZADO"
+      : agendamento.status.id === 4
       ? "secondary"
-      : agendamento.status.nome === "CANCELADO"
+      : agendamento.status.id === 3
       ? "destructive"
       : "warning";
 
@@ -77,44 +61,8 @@ const ItemAgendamento = ({ agendamento }: Props) => {
 
   return (
     <Sheet open={sheet} onOpenChange={setSheet}>
-      <SheetTrigger asChild>
-        <Card className="min-w-full">
-          <CardContent className="p-0 flex relative">
-            <div className="w-9/12 flex flex-col gap-2 py-5 pl-5">
-              <Badge variant={variant} className="w-fit">
-                {agendamento.status.nome}
-              </Badge>
-              <h2 className="font-bold">{agendamento.atividade.nome}</h2>
-
-              <div className="flex items-center gap-2">
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src="" />
-                  <AvatarFallback className="text-[8px]">
-                    {usuario?.nome[0]}
-                  </AvatarFallback>
-                </Avatar>
-                <h3 className="text-sm">{usuario?.nome}</h3>
-              </div>
-            </div>
-
-            {agendamento.status.id == 4 && (
-              <Bookmark
-                className={`absolute right-32 -top-1 ${
-                  agendamento.avaliado
-                    ? "fill-green-500 text-green-500"
-                    : "fill-red-500 text-red-500"
-                }`}
-                strokeWidth={1}
-              />
-            )}
-
-            <div className="w-3/12 flex flex-col items-center justify-center border-solid border-l border-secondary">
-              <p className="text-sm capitalize">{mes}</p>
-              <p className="text-2xl">{dia}</p>
-              <p className="text-sm">{agendamento.horarioInicial}</p>
-            </div>
-          </CardContent>
-        </Card>
+      <SheetTrigger>
+        <CardAgendamento agendamento={agendamento} />
       </SheetTrigger>
       <SheetContent className="p-0">
         <SheetHeader>
