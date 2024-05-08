@@ -2,9 +2,8 @@
 
 import SideMenu from "@/components/header/side-menu";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getAvaliacoesAtividade } from "@/utils/get-avaliacoes";
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, Star } from "lucide-react";
+import { ChevronLeftIcon, MapPinIcon, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -39,21 +38,9 @@ const AtividadeInfo = ({ atividade }: Props) => {
           </Button>
         </Link>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              size="icon"
-              variant="outline"
-              className="z-50 absolute top-4 right-4"
-            >
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-
-          <SheetContent className="p-0">
-            <SideMenu />
-          </SheetContent>
-        </Sheet>
+        <div className="z-50 absolute top-4 right-4">
+          <SideMenu />
+        </div>
 
         <Image
           src={atividade?.imagem ?? ""}
