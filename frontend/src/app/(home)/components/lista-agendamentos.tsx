@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
+import Autoplay from "embla-carousel-autoplay";
 
 const ListaAgendamentos = ({
   agendamentos,
@@ -43,7 +44,17 @@ const ListaAgendamentos = ({
         </h2>
 
         <div className={className}>
-          <Carousel className="w-full">
+          <Carousel
+            className="w-full"
+            opts={{
+              dragFree: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 3000,
+              }),
+            ]}
+          >
             <CarouselContent>
               {agendamentos?.map((agendamento) => (
                 <CarouselItem key={agendamento.id}>

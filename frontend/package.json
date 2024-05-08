@@ -19,6 +19,7 @@
     "clsx": "^2.1.0",
     "cookie": "^0.6.0",
     "date-fns": "^3.6.0",
+    "embla-carousel-autoplay": "^8.0.4",
     "embla-carousel-react": "^8.0.4",
     "framer-motion": "^11.0.24",
     "jose": "^5.2.3",
