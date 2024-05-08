@@ -30,7 +30,7 @@ const SideMenu = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="flex lg:hidden">
+        <Button variant="outline" size="icon" className="flex">
           <MenuIcon size={20} />
         </Button>
       </SheetTrigger>

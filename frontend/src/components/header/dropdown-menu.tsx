@@ -69,7 +69,7 @@ const DropdownMenu = () => {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem disabled>
                   <Github className="mr-2 h-4 w-4" />
                   <span>GitHub</span>
                 </DropdownMenuItem>

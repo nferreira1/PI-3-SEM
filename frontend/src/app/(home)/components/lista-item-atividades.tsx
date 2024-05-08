@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
 import ItemAtividade from "./item-atividade";
@@ -11,19 +18,16 @@ const ListaItemAtividades = ({
 }) => {
   const { status } = useSession();
 
-  const className =
-    "px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden";
-
   if (status === "loading") {
     return (
       <>
         <Skeleton className="mx-5 h-4 w-32 mb-3.5" />
 
-        <div className={className}>
+        <div className="px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {Array.from({ length: 8 }).map((_, index) => (
             <Skeleton
               key={index}
-              className="min-w-[167px] h-[275px] rounded-2xl"
+              className="min-w-[167px] h-[275px] rounded-2xl lg:min-w-[220px] lg:max-w-[295px]"
             />
           ))}
         </div>
@@ -37,10 +41,22 @@ const ListaItemAtividades = ({
         Recomendados
       </h2>
 
-      <div className={className}>
-        {atividades?.map((atividade) => (
-          <ItemAtividade key={atividade.id} atividade={atividade} />
-        ))}
+      <div className="px-5">
+        <Carousel
+          opts={{
+            dragFree: true,
+          }}
+        >
+          <CarouselPrevious className="hidden lg:flex" />
+          <CarouselContent className="flex">
+            {atividades?.map((atividade) => (
+              <CarouselItem key={atividade.id} className="basis-auto">
+                <ItemAtividade atividade={atividade} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselNext className="hidden lg:flex" />
+        </Carousel>
       </div>
     </>
   );
