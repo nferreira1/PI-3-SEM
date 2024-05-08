@@ -29,9 +29,9 @@ const ItemAtividade = ({ atividade }: Props) => {
   }, [atividade.id]);
 
   return (
-    <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
+    <Card className="min-w-[167px] max-w-[167px] rounded-2xl lg:min-w-[220px] lg:max-w-[220px]">
       <CardContent className="p-1">
-        <div className="relative w-full h-[159px]">
+        <div className="relative min-w-full h-[159px]">
           <div className="absolute top-1 left-1 z-50">
             {avaliacao?.quantidade !== 0 && (
               <Badge
