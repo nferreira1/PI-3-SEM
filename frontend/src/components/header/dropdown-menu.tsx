@@ -62,9 +62,11 @@ const DropdownMenu = () => {
                   <User className="mr-2 h-4 w-4" />
                   <span>Perfil</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Calendar className="mr-2 h-4 w-4" />
-                  <span>Agendamentos</span>
+                <DropdownMenuItem asChild>
+                  <Link href="/agendamentos">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <span>Agendamentos</span>
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
