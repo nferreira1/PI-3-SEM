@@ -61,7 +61,7 @@ const ItemAgendamento = ({ agendamento }: Props) => {
 
   return (
     <Sheet open={sheet} onOpenChange={setSheet}>
-      <SheetTrigger>
+      <SheetTrigger className="w-full">
         <CardAgendamento agendamento={agendamento} />
       </SheetTrigger>
       <SheetContent className="p-0">
