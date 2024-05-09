@@ -3,7 +3,7 @@
 import { putAgendamento } from "@/utils/put-agendamento";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,12 +20,14 @@ import Telefone from "./telefone";
 interface Props {
   agendamento: Agendamento;
   saidaAnimacao: boolean;
+  variants: Variants | undefined;
   setAgendamentoSelecionado: (agendamento: Agendamento | null) => void;
 }
 
 const CardContentAgendamento = ({
   agendamento,
   saidaAnimacao,
+  variants,
   setAgendamentoSelecionado,
 }: Props) => {
   const router = useRouter();
@@ -67,9 +69,10 @@ const CardContentAgendamento = ({
                 ? `${agendamento.id}-${agendamento.atividade}-${agendamento.avaliado}-${agendamento.dataAgendamento}-${agendamento.espaco}-${agendamento.horarioFinal}-${agendamento.horarioInicial}-${agendamento.status}`
                 : "empty"
             }
-            initial={{ x: -500 }}
-            animate={{ x: 0 }}
-            exit={{ x: 500 }}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={variants}
             transition={{ duration: 0.5 }}
           >
             <CardContent className="space-y-4">

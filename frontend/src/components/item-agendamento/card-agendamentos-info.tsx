@@ -1,5 +1,6 @@
 "use client";
 
+import { Variants } from "framer-motion";
 import { useState } from "react";
 import CardAgendamento from "./card-agendamento";
 import CardContentAgendamento from "./card-content-agendamento";
@@ -12,12 +13,27 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
   const [agendamentoSelecionado, setAgendamentoSelecionado] =
     useState<Agendamento | null>();
   const [saidaAnimacao, setSaidaAnimacao] = useState(false);
+  const [variants, setVariants] = useState<Variants | undefined>(undefined);
 
   const handleSetAgendamentoSelecionado = (agendamento: Agendamento) => {
     if (agendamentoSelecionado?.id === agendamento.id) {
       return;
     }
 
+    if (agendamentoSelecionado == null) {
+      setVariants({
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { x: 500 },
+      });
+    } else {
+      setVariants({
+        initial: { x: -500 },
+        animate: { x: 0 },
+        exit: { x: 500 },
+      });
+    }
+    console.log(variants);
     setSaidaAnimacao(true);
     setTimeout(() => {
       setAgendamentoSelecionado(agendamento);
@@ -60,7 +76,7 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
                   <div
                     key={`${i}-${agendamento.id}-${agendamento.atividade}-${agendamento.avaliado}-${agendamento.dataAgendamento}-${agendamento.espaco}-${agendamento.horarioFinal}-${agendamento.horarioInicial}-${agendamento.status}`}
                     onClick={() => handleSetAgendamentoSelecionado(agendamento)}
-                    className="cursor-pointer max-w-[524px]"
+                    className="cursor-pointer"
                   >
                     <CardAgendamento agendamento={agendamento} />
                   </div>
@@ -77,6 +93,7 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
             <CardContentAgendamento
               agendamento={agendamentoSelecionado}
               saidaAnimacao={saidaAnimacao}
+              variants={variants}
               setAgendamentoSelecionado={setAgendamentoSelecionado}
             />
           </div>
