@@ -19,8 +19,8 @@ export interface AuthContext {
     senha: string;
     imagem?: string;
   }) => Promise<Response>;
-  login: (data: { email: string; senha: string }) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (data: { email: string; senha: string }) => Promise<Status>;
+  logout: () => Promise<Status>;
 }
 
 /**
@@ -38,8 +38,8 @@ export const AuthContext: React.Context<AuthContext> =
     status: Status.LOADING,
     data: null,
     criarConta: async () => new Promise<Response>(() => {}),
-    login: async () => {},
-    logout: async () => {},
+    login: async () => Status.UNAUTHENTICATED,
+    logout: async () => Status.UNAUTHENTICATED,
   });
 
 /**
@@ -86,12 +86,12 @@ export const AuthProvider = ({
    * @see {@link AuthContext}
    * @function
    * @param {Object} data Dados do usuário.
-   * @returns {Promise<void>} Retorna uma promessa vazia.
+   * @returns {Promise<Status>} Retorna o status da autenticação.
    */
   const login = async (data: {
     email: string;
     senha: string;
-  }): Promise<void> => {
+  }): Promise<Status> => {
     const response = await fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -109,26 +109,28 @@ export const AuthProvider = ({
         imagem: data.imagem,
       });
       setStatus(Status.AUTHENTICATED);
+      return Status.AUTHENTICATED;
     }
 
-    return router.replace("/");
+    return Status.UNAUTHENTICATED;
   };
 
   /**
    * Função que realiza o logout do usuário.
    * @see {@link AuthContext}
    * @function
-   * @returns {Promise<void>} Retorna uma promessa vazia.
+   * @returns {Promise<Status>} Retorna uma promessa vazia.
    */
-  const logout = async (): Promise<void> => {
+  const logout = async (): Promise<Status> => {
     const response = await fetch("/api/auth");
 
     if (response.status === 200) {
       setData(null);
       setStatus(Status.UNAUTHENTICATED);
+      return Status.UNAUTHENTICATED;
     }
 
-    return router.replace("/");
+    return Status.AUTHENTICATED;
   };
 
   useEffect(() => {

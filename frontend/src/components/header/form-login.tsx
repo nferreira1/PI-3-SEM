@@ -2,6 +2,7 @@ import { useSession } from "@/hooks/useSession";
 import { loginSchema } from "@/validators/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
@@ -26,8 +27,9 @@ const FormLogin = ({
   setIsLogin: ({ isLogin, email }: { isLogin: boolean; email: string }) => void;
 }) => {
   const [tipoSenha, setTipoSenha] = useState<"text" | "password">("password");
+  const router = useRouter();
 
-  const { login, status } = useSession();
+  const { login } = useSession();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -41,16 +43,19 @@ const FormLogin = ({
 
   const handleSubmit = async (data: LoginRequest) => {
     // await new Promise((resolve) => setTimeout(resolve, 10000));
-    await login(data);
+    const response = await login(data);
 
-    if (status === "unauthenticated") {
+    if (response === "unauthenticated") {
       form.setError("email", {
         message: "E-mail ou senha inválidos.",
       });
       form.setError("senha", {
         message: "E-mail ou senha inválidos.",
       });
+      return;
     }
+
+    return router.refresh();
   };
 
   const handleAlterarTipoSenha = () =>
