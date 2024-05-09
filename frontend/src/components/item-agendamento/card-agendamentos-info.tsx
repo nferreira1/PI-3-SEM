@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
 import CardAgendamento from "./card-agendamento";
 import CardContentAgendamento from "./card-content-agendamento";
@@ -12,6 +11,19 @@ interface Props {
 const CardAgendamentosInfo = ({ agendamentos }: Props) => {
   const [agendamentoSelecionado, setAgendamentoSelecionado] =
     useState<Agendamento | null>();
+  const [saidaAnimacao, setSaidaAnimacao] = useState(false);
+
+  const handleSetAgendamentoSelecionado = (agendamento: Agendamento) => {
+    if (agendamentoSelecionado?.id === agendamento.id) {
+      return;
+    }
+
+    setSaidaAnimacao(true);
+    setTimeout(() => {
+      setAgendamentoSelecionado(agendamento);
+      setSaidaAnimacao(false);
+    }, 500);
+  };
 
   const agendamentosAgrupados = agendamentos?.reduce(
     (acc: { [key: number]: Agendamento[] }, agendamento) => {
@@ -44,10 +56,10 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
               </h2>
 
               <div className="space-y-4">
-                {agendamentosPorStatus?.map((agendamento) => (
+                {agendamentosPorStatus?.map((agendamento, i) => (
                   <div
-                    key={agendamento.id}
-                    onClick={() => setAgendamentoSelecionado(agendamento)}
+                    key={`${i}-${agendamento.id}-${agendamento.atividade}-${agendamento.avaliado}-${agendamento.dataAgendamento}-${agendamento.espaco}-${agendamento.horarioFinal}-${agendamento.horarioInicial}-${agendamento.status}`}
+                    onClick={() => handleSetAgendamentoSelecionado(agendamento)}
                     className="cursor-pointer max-w-[524px]"
                   >
                     <CardAgendamento agendamento={agendamento} />
@@ -61,12 +73,13 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
 
       <div className="w-1/2 pt-6">
         {agendamentoSelecionado ? (
-          <motion.div className="sticky top-6">
+          <div className="sticky top-6">
             <CardContentAgendamento
-              setAgendamentoSelecionado={setAgendamentoSelecionado}
               agendamento={agendamentoSelecionado}
+              saidaAnimacao={saidaAnimacao}
+              setAgendamentoSelecionado={setAgendamentoSelecionado}
             />
-          </motion.div>
+          </div>
         ) : (
           <div className="sticky top-6 flex flex-col justify-center items-center min-h-[635px] mt-8 rounded-md border-2 border-dashed">
             <p className="px-4 text-center text-md text-muted-foreground">
