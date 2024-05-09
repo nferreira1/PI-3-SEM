@@ -3,21 +3,15 @@ import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export interface Payload {
-  data?: Usuario;
-  error?: string;
-  status?: number;
-}
-
 /**
  * @function
  * @description
  * Função responsável por realizar a requisição de login na API.
  * @param {Request} request
- * @returns {Promise<Payload>}
+ * @returns {Promise<Response | void>}
  * @async
  */
-export async function POST(request: Request): Promise<Payload> {
+export async function POST(request: Request): Promise<Response | void> {
   const body = await request.json();
   const { email, senha } = body;
 
@@ -65,9 +59,9 @@ export async function POST(request: Request): Promise<Payload> {
  * @function
  * @description
  * Função responsável por realizar a requisição de logout na API.
- * @returns {Payload}
+ * @returns {Response}
  */
-export function GET(): Payload {
+export function GET(): Response {
   const cookieStore = cookies();
   try {
     const token = cookieStore.get(process.env.COOKIE_NAME as string);

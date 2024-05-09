@@ -1,19 +1,14 @@
 import { NextResponse } from "next/server";
 
-export interface Payload {
-  error?: string;
-  status?: number;
-}
-
 /**
  * @function
  * @description
  * Função responsável por realizar a requisição de criação de conta de usuário na API.
  * @param {Request} request
- * @returns {Promise<Payload>}
+ * @returns {Promise<Response>}
  * @async
  */
-export async function POST(request: Request): Promise<Payload> {
+export async function POST(request: Request): Promise<Response> {
   const body = await request.json();
   const { nome, email, senha, imagem } = body;
 

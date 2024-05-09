@@ -1,17 +1,15 @@
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { Payload } from "../route";
 
 /**
- * @see {@link Payload}
  * @function GET
  * @description
  * Função responsável por realizar a requisição de verificação de autenticação na API.
- * @returns {Promise<Payload>}
+ * @returns {Promise<Response | void>}
  * @async
  */
-export async function GET(): Promise<Payload> {
+export async function GET(): Promise<Response | void> {
   const cookieStore = cookies();
   const token = cookieStore.get(process.env.COOKIE_NAME as string);
 
