@@ -29,40 +29,66 @@ export default async function Agendamento() {
         <h1 className="px-5 text-xl font-bold">Agendamentos</h1>
 
         <div className="px-5 md:hidden">
-          <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase text-gray-400 mt-6 mb-3">
+          <div>
+            <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
               Aguardando Confirmação
             </h2>
-            {aguardando?.map((agendamento) => (
-              <ItemAgendamento key={agendamento.id} agendamento={agendamento} />
-            ))}
+            <div className="flex flex-col sm:grid grid-cols-2 gap-3">
+              {aguardando?.map((agendamento) => (
+                <ItemAgendamento
+                  key={agendamento.id}
+                  agendamento={agendamento}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase text-gray-400 mt-6 mb-3">
-              Confirmados
-            </h2>
-            {confirmados?.map((agendamento) => (
-              <ItemAgendamento key={agendamento.id} agendamento={agendamento} />
-            ))}
+            <div>
+              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
+                Confirmados
+              </h2>
+              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
+                {confirmados?.map((agendamento) => (
+                  <ItemAgendamento
+                    key={agendamento.id}
+                    agendamento={agendamento}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase text-gray-400 mt-6 mb-3">
-              Finalizados
-            </h2>
-            {finalizados?.map((agendamento) => (
-              <ItemAgendamento key={agendamento.id} agendamento={agendamento} />
-            ))}
+            <div>
+              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
+                Finalizados
+              </h2>
+              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
+                {finalizados?.map((agendamento) => (
+                  <ItemAgendamento
+                    key={agendamento.id}
+                    agendamento={agendamento}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-bold uppercase text-gray-400 mt-6 mb-3">
-              Cancelados
-            </h2>
-            {cancelados?.map((agendamento) => (
-              <ItemAgendamento key={agendamento.id} agendamento={agendamento} />
-            ))}
+            <div>
+              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
+                Cancelados
+              </h2>
+              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
+                {cancelados?.map((agendamento) => (
+                  <ItemAgendamento
+                    key={agendamento.id}
+                    agendamento={agendamento}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
