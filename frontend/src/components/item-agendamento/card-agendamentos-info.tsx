@@ -60,13 +60,19 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
       </div>
 
       <div className="w-1/2 pt-6">
-        {agendamentoSelecionado && (
+        {agendamentoSelecionado ? (
           <motion.div className="sticky top-6">
             <CardContentAgendamento
               setAgendamentoSelecionado={setAgendamentoSelecionado}
               agendamento={agendamentoSelecionado}
             />
           </motion.div>
+        ) : (
+          <div className="sticky top-6 flex flex-col justify-center items-center min-h-[635px] mt-8 rounded-md border-2 border-dashed">
+            <p className="px-4 text-center text-md text-muted-foreground">
+              Selecione um agendamento para obter mais informações
+            </p>
+          </div>
         )}
       </div>
     </div>

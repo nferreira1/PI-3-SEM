@@ -42,7 +42,10 @@ const CardAgendamento = ({ agendamento }: Props) => {
     <Card className="min-w-full">
       <CardContent className="p-0 flex relative">
         <div className="w-9/12 flex flex-col gap-2 py-5 pl-5">
-          <Badge variant={variant} className="w-fit">
+          <Badge
+            variant={variant}
+            className="w-fit whitespace-nowrap text-ellipsis"
+          >
             {agendamento.status.nome}
           </Badge>
           <h2 className="font-bold text-left">{agendamento.atividade.nome}</h2>
