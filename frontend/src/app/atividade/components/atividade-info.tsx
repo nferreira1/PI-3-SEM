@@ -57,7 +57,7 @@ const AtividadeInfo = ({ atividade }: Props) => {
           <p className="text-sm">{atividade?.local}</p>
         </div>
         <div className="flex items-center gap-x-1">
-          {avaliacao?.quantidade !== 0 && (
+          {avaliacao?.quantidade && avaliacao?.quantidade !== 0 && (
             <>
               <Star className="text-primary fill-primary" size={18} />
               <p className="text-sm">

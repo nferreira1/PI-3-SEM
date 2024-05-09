@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "@/hooks/useSession";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -10,15 +9,6 @@ const BoasVindas = () => {
     locale: ptBR,
   });
   const { data: usuario, status } = useSession();
-
-  if (status === "loading") {
-    return (
-      <div className="space-y-2">
-        <Skeleton className="w-24 h-6" />
-        <Skeleton className="w-40 h-4" />
-      </div>
-    );
-  }
 
   return (
     <div>

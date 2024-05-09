@@ -33,7 +33,7 @@ const ItemAtividade = ({ atividade }: Props) => {
       <CardContent className="p-1">
         <div className="relative min-w-full h-[159px]">
           <div className="absolute top-1 left-1 z-50">
-            {avaliacao?.quantidade !== 0 && (
+            {avaliacao && avaliacao?.quantidade !== 0 && (
               <Badge
                 variant="secondary"
                 className="flex items-center gap-1 opacity-90"
