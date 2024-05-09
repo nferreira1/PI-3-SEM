@@ -17,15 +17,18 @@ import { Button } from "../ui/button";
 
 const AlertCancelarReserva = ({
   idAgendamento,
+  setAgendamentoSelecionado,
   onAbertoChange,
 }: {
   idAgendamento: number;
+  setAgendamentoSelecionado?: (agendamento: Agendamento | null) => void;
   onAbertoChange: (aberto: boolean) => void;
 }) => {
   const router = useRouter();
   const handleCancelarReserva = async (id: number) => {
     await deleteAgendamento(id);
     onAbertoChange(false);
+    setAgendamentoSelecionado && setAgendamentoSelecionado(null);
     setTimeout(() => {
       router.refresh();
     }, 1000);

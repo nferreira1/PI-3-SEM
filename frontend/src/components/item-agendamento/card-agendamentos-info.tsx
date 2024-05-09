@@ -33,7 +33,6 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
         exit: { x: 500 },
       });
     }
-    console.log(variants);
     setSaidaAnimacao(true);
     setTimeout(() => {
       setAgendamentoSelecionado(agendamento);
@@ -64,6 +63,8 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
         {statusAgendamento.map((status, index) => {
           const agendamentosPorStatus =
             (agendamentosAgrupados && agendamentosAgrupados[index]) ?? [];
+
+          if (agendamentosPorStatus.length === 0) return null;
 
           return (
             <div key={`${status}-${index}`}>

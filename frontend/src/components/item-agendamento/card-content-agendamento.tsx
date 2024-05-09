@@ -159,6 +159,7 @@ const CardContentAgendamento = ({
               {(agendamento.status.id == 1 || agendamento.status.id == 2) && (
                 <AlertCancelarReserva
                   onAbertoChange={() => false}
+                  setAgendamentoSelecionado={setAgendamentoSelecionado}
                   idAgendamento={agendamento.id}
                 />
               )}
