@@ -8,88 +8,53 @@ export default async function Agendamento() {
   const { usuario } = await getServerSession();
   const agendamentos = await getAgendamentos(usuario!.id);
 
-  const aguardando = agendamentos?.filter(
-    (agendamento) => agendamento.status.id === 1
+  const agendamentosAgrupados = agendamentos?.reduce(
+    (acc: { [key: number]: Agendamento[] }, agendamento) => {
+      const statusId = agendamento.status.id - 1;
+      acc[statusId] = acc[statusId] || [];
+      acc[statusId].push(agendamento);
+      return acc;
+    },
+    {}
   );
-  const confirmados = agendamentos?.filter(
-    (agendamento) => agendamento.status.id === 2
-  );
-  const cancelados = agendamentos?.filter(
-    (agendamento) => agendamento.status.id === 3
-  );
-  const finalizados = agendamentos?.filter(
-    (agendamento) => agendamento.status.id === 4
-  );
+
+  const statusAgendamento = [
+    "Aguardando Confirmação",
+    "Confirmados",
+    "Cancelados",
+    "Finalizados",
+  ];
 
   return (
     <>
       <Header />
-
       <div className="max-w-screen-lg mx-auto py-6">
         <h1 className="px-5 text-xl font-bold">Agendamentos</h1>
 
         <div className="px-5 md:hidden">
-          <div>
-            <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
-              Aguardando Confirmação
-            </h2>
-            <div className="flex flex-col sm:grid grid-cols-2 gap-3">
-              {aguardando?.map((agendamento) => (
-                <ItemAgendamento
-                  key={agendamento.id}
-                  agendamento={agendamento}
-                />
-              ))}
-            </div>
-          </div>
+          {statusAgendamento.map((status, index) => {
+            const agendamentosPorStatus =
+              (agendamentosAgrupados && agendamentosAgrupados[index]) ?? [];
 
-          <div className="flex flex-col gap-3">
-            <div>
-              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
-                Confirmados
-              </h2>
-              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
-                {confirmados?.map((agendamento) => (
-                  <ItemAgendamento
-                    key={agendamento.id}
-                    agendamento={agendamento}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+            if (agendamentosPorStatus.length === 0) return null;
 
-          <div className="flex flex-col gap-3">
-            <div>
-              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
-                Finalizados
-              </h2>
-              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
-                {finalizados?.map((agendamento) => (
-                  <ItemAgendamento
-                    key={agendamento.id}
-                    agendamento={agendamento}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+            return (
+              <div key={`${status}-${index}`}>
+                <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
+                  {status}
+                </h2>
 
-          <div className="flex flex-col gap-3">
-            <div>
-              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
-                Cancelados
-              </h2>
-              <div className="flex flex-col sm:grid grid-cols-2 gap-3">
-                {cancelados?.map((agendamento) => (
-                  <ItemAgendamento
-                    key={agendamento.id}
-                    agendamento={agendamento}
-                  />
-                ))}
+                <div className="space-y-4">
+                  {agendamentosPorStatus?.map((agendamento) => (
+                    <ItemAgendamento
+                      key={agendamento.id}
+                      agendamento={agendamento}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
         <div className="px-5 hidden md:flex">
