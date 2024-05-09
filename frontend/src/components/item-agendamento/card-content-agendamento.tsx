@@ -104,7 +104,7 @@ const CardContentAgendamento = ({
             </div>
 
             <div className="flex justify-between">
-              <h3 className="text-gray-400 text-sm">Data</h3>
+              <h3 className="text-muted-foreground text-sm">Data</h3>
               <h4 className="text-sm">
                 {format(
                   new Date(
@@ -121,14 +121,14 @@ const CardContentAgendamento = ({
             </div>
 
             <div className="flex justify-between">
-              <h3 className="text-gray-400 text-sm">Horário</h3>
+              <h3 className="text-muted-foreground text-sm">Horário</h3>
               <h4 className="text-sm">
                 {agendamento.horarioInicial} - {agendamento.horarioFinal}
               </h4>
             </div>
 
             <div className="flex justify-between">
-              <h3 className="text-gray-400 text-sm">Local</h3>
+              <h3 className="text-muted-foreground text-sm">Local</h3>
               <h4 className="text-sm">{agendamento.espaco.nome}</h4>
             </div>
           </CardContent>

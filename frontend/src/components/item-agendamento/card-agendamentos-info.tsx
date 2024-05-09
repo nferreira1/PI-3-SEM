@@ -39,7 +39,7 @@ const CardAgendamentosInfo = ({ agendamentos }: Props) => {
 
           return (
             <div key={`${status}-${index}`}>
-              <h2 className="text-sm font-bold uppercase text-gray-400 mt-6 mb-3">
+              <h2 className="text-sm font-bold uppercase text-muted-foreground mt-6 mb-3">
                 {status}
               </h2>
 
