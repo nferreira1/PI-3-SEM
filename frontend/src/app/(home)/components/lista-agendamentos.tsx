@@ -58,7 +58,10 @@ const ListaAgendamentos = ({
           >
             <CarouselContent>
               {agendamentos?.map((agendamento) => (
-                <CarouselItem key={agendamento.id}>
+                <CarouselItem
+                  key={agendamento.id}
+                  className="basis-full sm:basis-1/2 lg:basis-full"
+                >
                   <ItemReserva agendamento={agendamento} />
                 </CarouselItem>
               ))}

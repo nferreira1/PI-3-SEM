@@ -13,8 +13,8 @@ export default async function Home() {
 
   const agendamentos =
     status === "authenticated" ? await getAgendamentos(usuario!.id) : [];
-  const aguardando = agendamentos?.filter(
-    (agendamento) => agendamento.status.nome === "AGUARDANDO CONFIRMAÇÃO"
+  const confirmados = agendamentos?.filter(
+    (agendamento) => agendamento.status.id === 2
   );
   const atividades = await getAtividades();
 
@@ -36,7 +36,7 @@ export default async function Home() {
             </div>
 
             <div className="mt-6">
-              <ListaAgendamentos agendamentos={aguardando} />
+              <ListaAgendamentos agendamentos={confirmados} />
             </div>
           </div>
 
