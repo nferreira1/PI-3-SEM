@@ -3,7 +3,6 @@ import getAgendamentos from "@/utils/get-agendamentos";
 import { getAtividades } from "@/utils/get-atividades";
 import { getServerSession } from "@/utils/get-server-session";
 import Image from "next/image";
-import background from "../../../public/background.jpg";
 import BoasVindas from "./components/boas-vindas";
 import ListaAgendamentos from "./components/lista-agendamentos";
 import ListaItemAtividades from "./components/lista-item-atividades";
@@ -22,7 +21,7 @@ export default async function Home() {
     <>
       <div className="relative py-6 xl:py-14">
         <Image
-          src={background}
+          src="/background.jpg"
           alt="imagem de fundo!"
           fill
           className="hidden object-cover object-center -z-10 brightness-50 opacity-10 lg:block"

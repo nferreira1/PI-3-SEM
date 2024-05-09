@@ -1,13 +1,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-import background from "../../../public/background.jpg";
 
 export default async function Loading() {
   return (
     <>
       <div className="relative py-6 xl:py-14">
         <Image
-          src={background}
+          src="/background.jpg"
           alt="imagem de fundo!"
           fill
           className="hidden object-cover object-center -z-10 brightness-50 opacity-10 lg:block"
