@@ -7,12 +7,12 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <div className="hidden lg:block">
         <Header />
       </div>
-      {children}
+      <div className="flex-grow">{children}</div>
       <Footer />
-    </>
+    </div>
   );
 }

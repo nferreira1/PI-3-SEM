@@ -26,9 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} dark flex flex-col min-h-screen`}>
-        <div className="flex-grow">
-          <Providers>{children}</Providers>
-        </div>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
