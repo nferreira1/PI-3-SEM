@@ -1,6 +1,7 @@
+import Footer from "@/components/footer";
 import Header from "@/components/header/header";
 
-export default function HomeLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -9,6 +10,7 @@ export default function HomeLayout({
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

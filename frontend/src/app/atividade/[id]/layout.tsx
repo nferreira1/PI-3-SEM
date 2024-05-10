@@ -1,6 +1,7 @@
+import Footer from "@/components/footer";
 import Header from "@/components/header/header";
 
-export default function AtividadeLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -11,6 +12,7 @@ export default function AtividadeLayout({
         <Header />
       </div>
       {children}
+      <Footer />
     </>
   );
 }
