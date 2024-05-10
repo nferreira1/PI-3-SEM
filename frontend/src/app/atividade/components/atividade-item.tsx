@@ -144,7 +144,7 @@ const AtividadeItem = ({ atividade, espaco }: Props) => {
     <Card>
       <CardContent className="p-3">
         <div className="flex items-center gap-4">
-          <div className="relative min-h-[110px] min-w-[110px]">
+          <div className="relative min-h-[110px] min-w-[110px] max-w-[758px]">
             <Image
               src={espaco?.imagem ?? ""}
               alt={`imagem de ${espaco?.nome}`}

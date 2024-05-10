@@ -1,7 +1,7 @@
 import { getAtividade } from "@/utils/get-atividade";
+import { redirect } from "next/navigation";
 import AtividadeInfo from "../components/atividade-info";
 import AtividadeItem from "../components/atividade-item";
-import { redirect } from "next/navigation";
 
 export default async function AtividadeDetalhes({
   params,
@@ -15,10 +15,10 @@ export default async function AtividadeDetalhes({
   }
 
   return (
-    <div>
+    <div className="max-w-screen-lg mx-auto lg:pt-6 lg:pb-12">
       <AtividadeInfo atividade={atividade} />
 
-      <div className="px-5 py-6 flex flex-col gap-4">
+      <div className="px-5 py-4 flex flex-col gap-4 lg:px-5 md:grid grid-cols-2">
         {atividade.espacos.map((espaco, i) => (
           <AtividadeItem
             key={`${i}-${espaco.nome}-${espaco.imagem}`}
