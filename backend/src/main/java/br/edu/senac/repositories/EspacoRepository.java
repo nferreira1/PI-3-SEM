@@ -21,7 +21,7 @@ public interface EspacoRepository extends JpaRepository<Espaco, Long> {
         SELECT H.id, H.horario_inicial, H.horario_final
         FROM horarios AS H
         INNER JOIN espacos_horarios AS EH ON H.id = EH.horario_id
-        INNER JOIN espacos AS E ON EH.espaco_id = e.id
+        INNER JOIN espacos AS E ON EH.espaco_id = E.id
         INNER JOIN atividades AS A ON E.atividade_id = A.id
         WHERE A.id = :atividadeId AND E.id = :espacoId
         AND NOT EXISTS (
