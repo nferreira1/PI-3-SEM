@@ -16,8 +16,9 @@ const AlertLogout = () => {
   const router = useRouter();
   const { logout } = useSession();
 
-  const handleLogoutClique = () => {
-    logout();
+  const handleLogoutClique = async () => {
+    await logout();
+    console.log("Logout");
     return router.refresh();
   };
 
