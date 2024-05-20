@@ -2,34 +2,33 @@ name: Publicação na Máquina Virtual Linux na Azure
 
 on:
   push:
-    branches:
-      - main
     paths-ignore:
       - backend/**
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checar o repositório
         uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
 
-      - name: Install dependencies
+      - name: Instalar dependências
         working-directory: ./frontend/
         run: npm install
 
-      - name: Build the project
+      - name: Buildar o projeto
         working-directory: ./frontend/
         run: npm run build
 
-      - name: Copy build to VM
+      - name: Copiar a build para a VM
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -39,7 +38,7 @@ jobs:
           source: "./frontend/.next"
           target: "~/PI-3-SEM/"
 
-      - name: Restart the server
+      - name: Reiniciar a VM
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
