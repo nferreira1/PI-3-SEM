@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          source: "frontend/.next"
+          source: "frontend/*"
           target: "~/PI-3-SEM/"
 
       - name: Reiniciar o serviço pi-3-sem-frontend na VM
