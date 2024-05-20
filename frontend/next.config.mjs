@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    API_BASE_URL: "http://191.233.251.252:8090",
+    API_BASE_URL: "http://191.233.251.252:8080",
     COOKIE_NAME: "SysClubAuthToken"
   },
   images: {
