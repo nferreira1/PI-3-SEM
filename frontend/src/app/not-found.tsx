@@ -15,11 +15,16 @@ interface Props {
   Icon: LucideIcon;
   titulo: string;
   texto: string;
+  target: boolean;
 }
 
-const ItemNotFound = ({ link, Icon, titulo, texto }: Props) => {
+const ItemNotFound = ({ link, Icon, titulo, texto, target }: Props) => {
   return (
-    <Link href={link} className="relative items-center flex py-3 sm:py-6">
+    <Link
+      href={link}
+      className="relative items-center flex py-3 sm:py-6"
+      target={target ? "_blank" : ""}
+    >
       <Button
         variant="outline"
         size="icon"
@@ -51,12 +56,14 @@ export default function NotFound() {
       Icon: Calendar,
       titulo: "Agendamentos",
       texto: "Visualize e gerencie seus agendamentos.",
+      target: false,
     },
     {
       link: "https://github.com/nferreira1/PI-3-SEM",
       Icon: Github,
       titulo: "GitHub",
       texto: "Visualize o código fonte do projeto.",
+      target: true,
     },
   ];
 
