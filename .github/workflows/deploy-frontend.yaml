@@ -47,4 +47,4 @@ jobs:
           port: 22
           script: |
             cd ~/PI-3-SEM/frontend
-            pm2 reload all
+            sudo pm2 reload all
