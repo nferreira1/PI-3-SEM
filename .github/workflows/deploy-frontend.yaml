@@ -28,6 +28,17 @@ jobs:
         working-directory: ./frontend/
         run: npm run build
 
+      - name: Preparar o servidor para novos arquivos
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            # Remove todos os arquivos antigos antes de receber novos
+            sudo rm -rf ~/PI-3-SEM/frontend/*
+
       - name: Copiar a build para a VM
         uses: appleboy/scp-action@master
         with:
@@ -35,8 +46,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          source: "frontend/*"
-          target: "~/PI-3-SEM/"
+          source: "frontend/build/*"
+          target: "~/PI-3-SEM/frontend/"
 
       - name: Reiniciar o serviço pi-3-sem-frontend na VM
         uses: appleboy/ssh-action@master
@@ -47,4 +58,5 @@ jobs:
           port: 22
           script: |
             cd ~/PI-3-SEM/frontend
-            sudo pm2 reload all
+            sudo pm2 start ecosystem.config.js
+            sudo pm2 save
