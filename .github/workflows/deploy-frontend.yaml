@@ -28,6 +28,16 @@ jobs:
         working-directory: ./frontend/
         run: npm run build
 
+      - name: Parar o serviço pm2 na VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            sudo pm2 stop Sysclub
+
       - name: Preparar o servidor para novos arquivos
         uses: appleboy/ssh-action@master
         with:
@@ -36,8 +46,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           script: |
-            # Remove todos os arquivos antigos antes de receber novos
-            sudo rm -rf ~/PI-3-SEM/frontend/*
+            sudo rm -rf ~/PI-3-SEM/frontend
 
       - name: Copiar a build para a VM
         uses: appleboy/scp-action@master
@@ -46,10 +55,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
-          source: "frontend/build/*"
+          source: "frontend/*"
           target: "~/PI-3-SEM/frontend/"
+          debug: true
 
-      - name: Reiniciar o serviço pi-3-sem-frontend na VM
+      - name: Iniciar o serviço pm2 na VM
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
