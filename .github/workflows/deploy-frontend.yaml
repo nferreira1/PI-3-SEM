@@ -36,7 +36,11 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           script: |
-            sudo pm2 stop Sysclub
+            output=$(pm2 show Sysclub 2>&1) 
+            if [[ "$output" != *"[PM2][WARN] Sysclub doesn't exist"* ]]; then
+              echo "Parando o serviço Sysclub..."
+              sudo pm2 stop Sysclub            
+            fi
 
       - name: Preparar o servidor para novos arquivos
         uses: appleboy/ssh-action@master
@@ -68,7 +72,8 @@ jobs:
           port: 22
           script: |
             cd ~/PI-3-SEM/frontend
-            if pm2 list | grep -q 'Sysclub'; then
+            output=$(pm2 show Sysclub 2>&1) 
+            if [[ "$output" != *"[PM2][WARN] Sysclub doesn't exist"* ]]; then
               sudo pm2 restart Sysclub
               sudo pm2 save --force
             else
