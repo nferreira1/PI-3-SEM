@@ -58,7 +58,6 @@ jobs:
           port: 22
           source: "frontend/*"
           target: "~/PI-3-SEM/"
-          debug: true
 
       - name: Iniciar o serviço pm2 na VM
         uses: appleboy/ssh-action@master
@@ -69,5 +68,10 @@ jobs:
           port: 22
           script: |
             cd ~/PI-3-SEM/frontend
-            sudo pm2 start ecosystem.config.js
-            sudo pm2 save
+            if pm2 list | grep -q 'Sysclub'; then
+              sudo pm2 restart Sysclub
+              sudo pm2 save --force
+            else
+              sudo pm2 start ecosystem.config.js
+              sudo pm2 save --force
+            fi
