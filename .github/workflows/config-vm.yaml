@@ -61,14 +61,14 @@ jobs:
 
       - name: Trigger Frontend Deploy Workflow
         if: ${{ success() }}
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: trigger-deploy-frontend
 
       - name: Trigger Backend Deploy Workflow
         if: ${{ success() }}
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: trigger-deploy-backend
