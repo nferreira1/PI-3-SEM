@@ -89,7 +89,7 @@ Nós usamos o [Git](https://git-scm.com/) para controle de versão.
 
 
 ## 6. ✒️ Autores
-* **Nathan Ferreira** - *Desenvolvimento* - [Auxiliar de Gestão em Informática](https://www.linkedin.com/in/nathan-ferreira-97a355231/)
+* **Nathan Ferreira** - *Desenvolvimento* - [Auxiliar de Gestão de Informática](https://www.linkedin.com/in/nathan-ferreira-97a355231/)
 * **Murilo Vieira** - *Documentação* - [Programador I](https://www.linkedin.com/in/murilo-augusto-vieira-957aab202/)
 * **Vinicius Sales** - *Documentação* - [Estagiário em Planejamento B2C/VP Négocios](https://www.linkedin.com/in/vinisl/)
 
