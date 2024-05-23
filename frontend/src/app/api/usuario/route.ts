@@ -12,8 +12,6 @@ export async function POST(request: Request): Promise<Response> {
   const body = await request.json();
   const { nome, email, senha, imagem } = body;
 
-  console.log(body);
-
   try {
     const response = await fetch(`${process.env.API_BASE_URL}/usuario`, {
       method: "POST",
