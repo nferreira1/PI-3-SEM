@@ -1,12 +1,8 @@
 name: Publicação na Máquina Virtual Linux na Azure
 
 on:
-  push:
-    paths-ignore:
-      - backend/**
-      - .github/workflows/deploy-backend.yaml
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
   build:
