@@ -100,7 +100,7 @@ export const AuthProvider = ({
       body: JSON.stringify(data),
     });
 
-    if (response.status === 200) {
+    if (response.ok) {
       const { data } = await response.json();
       setData({
         id: data.id,
@@ -109,6 +109,7 @@ export const AuthProvider = ({
         imagem: data.imagem,
       });
       setStatus(Status.AUTHENTICATED);
+      router.refresh();
       return Status.AUTHENTICATED;
     }
 
@@ -124,9 +125,10 @@ export const AuthProvider = ({
   const logout = async (): Promise<Status> => {
     const response = await fetch("/api/auth");
 
-    if (response.status === 200) {
+    if (response.ok) {
       setData(null);
       setStatus(Status.UNAUTHENTICATED);
+      router.refresh();
       return Status.UNAUTHENTICATED;
     }
 
@@ -139,7 +141,7 @@ export const AuthProvider = ({
       try {
         const response = await fetch("/api/auth/cookies");
 
-        if (response.status === 200) {
+        if (response.ok) {
           const { data } = await response.json();
           setData({
             id: data.id,
@@ -154,6 +156,12 @@ export const AuthProvider = ({
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (status === Status.UNAUTHENTICATED) {
+      router.push("/login");
+    }
+  }, [status, router]);
 
   return (
     <AuthContext.Provider value={{ data, status, criarConta, login, logout }}>
