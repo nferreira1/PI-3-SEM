@@ -1,4 +1,3 @@
-import { serialize } from "cookie";
 import { decodeJwt } from "jose";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -14,6 +13,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request): Promise<Response | void> {
   const body = await request.json();
   const { email, senha } = body;
+  const cookieStore = cookies();
 
   try {
     const response = await fetch(`${process.env.API_BASE_URL}/login`, {
@@ -35,7 +35,7 @@ export async function POST(request: Request): Promise<Response | void> {
     const data = decodeJwt(token);
     const maxAge = (data.exp as number) - (data.iat as number);
 
-    const serialized = serialize(process.env.COOKIE_NAME as string, token, {
+    cookieStore.set(process.env.COOKIE_NAME as string, token, {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
@@ -45,7 +45,7 @@ export async function POST(request: Request): Promise<Response | void> {
 
     return NextResponse.json(
       { data },
-      { status: 200, headers: { "Set-Cookie": serialized } }
+      { status: 200, headers: { "Set-Cookie": cookieStore.toString() } }
     );
   } catch (error) {
     return NextResponse.json(

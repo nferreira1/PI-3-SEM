@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
       - frontend/**
+      - .github/workflows/deploy-frontend.yaml
     branches:
       - main
 

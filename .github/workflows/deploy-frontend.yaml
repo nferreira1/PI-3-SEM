@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
       - backend/**
+      - .github/workflows/deploy-backend.yaml
     branches:
       - main
 
@@ -19,14 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Instalar dependências
-        working-directory: ./frontend/
-        run: npm install
-
-      - name: Buildar o projeto
-        working-directory: ./frontend/
-        run: npm run build
 
       - name: Parar o serviço pm2 na VM
         uses: appleboy/ssh-action@master
@@ -53,7 +46,7 @@ jobs:
             sudo rm -rf ~/PI-3-SEM/frontend
             mkdir -p ~/PI-3-SEM/frontend
 
-      - name: Copiar a build para a VM
+      - name: Copiar arquivos para a VM
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -63,7 +56,7 @@ jobs:
           source: "frontend/*"
           target: "~/PI-3-SEM/"
 
-      - name: Iniciar o serviço pm2 na VM
+      - name: Buildar e iniciar o serviço na VM
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -72,11 +65,16 @@ jobs:
           port: 22
           script: |
             cd ~/PI-3-SEM/frontend
-            output=$(pm2 show Sysclub 2>&1) 
+            echo "Instalando dependências..."
+            npm install
+            echo "Construindo o projeto..."
+            npm run build
+            output=$(pm2 show Sysclub 2>&1)
             if [[ "$output" != *"[PM2][WARN] Sysclub doesn't exist"* ]]; then
+              echo "Reiniciando o serviço Sysclub..."
               sudo pm2 restart Sysclub
-              sudo pm2 save --force
             else
+              echo "Iniciando o serviço Sysclub pela primeira vez..."
               sudo pm2 start ecosystem.config.js
-              sudo pm2 save --force
             fi
+            sudo pm2 save --force
