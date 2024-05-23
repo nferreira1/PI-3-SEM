@@ -1,0 +1,74 @@
+# .github/workflows/configure-vm.yml
+name: Configuração da Máquina Virtual
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for pre-release tags
+        run: |
+          if [[ "${GITHUB_REF}" == *"-alpha"* || "${GITHUB_REF}" == *"-beta"* || "${GITHUB_REF}" == *"-rc"* ]]; then
+            echo "This is a pre-release tag (${GITHUB_REF}). Exiting."
+            exit 1
+          else
+            echo "This is a stable release tag (${GITHUB_REF}). Proceeding."
+          fi
+
+  configure:
+    needs: check-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar e Instalar Node.js, PM2 e Java na VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            # Verificar e instalar Node.js
+            if ! command -v node &> /dev/null
+            then
+              echo "Node.js não está instalado. Instalando Node.js..."
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            else
+              echo "Node.js já está instalado."
+            fi
+
+            # Verificar e instalar PM2
+            if ! command -v pm2 &> /dev/null
+            then
+              echo "PM2 não está instalado. Instalando PM2..."
+              sudo npm install -g pm2
+            else
+              echo "PM2 já está instalado."
+            fi
+
+            # Verificar e instalar Java
+            if ! command -v java &> /dev/null
+            then
+              echo "Java não está instalado. Instalando Java..."
+              sudo apt-get update
+              sudo apt-get install -y openjdk-17-jdk
+            else
+              echo "Java já está instalado."
+            fi
+
+      - name: Trigger Frontend Deploy Workflow
+        if: ${{ success() }}
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-deploy-frontend
+
+      - name: Trigger Backend Deploy Workflow
+        if: ${{ success() }}
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-deploy-backend
