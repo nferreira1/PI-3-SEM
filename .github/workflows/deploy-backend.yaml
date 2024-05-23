@@ -1,8 +1,8 @@
-name: Deploy do Backend na Máquina Virtual
+name: Publicação na Máquina Virtual Linux, na cloud da Azure
 
 on:
-  repository_dispatch:
-    types: [trigger-deploy-backend]
+  release:
+    types: [published]
 
 jobs:
   build:
