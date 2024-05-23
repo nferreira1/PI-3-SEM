@@ -61,9 +61,6 @@ Agora você já pode rodar o programa no Visual Studio Code 😊.
 
 ### 3.3 Máquina Virtual:
 - Crie uma Máquina Virtual na [Azure](https://portal.azure.com/) ou na [AWS](https://aws.amazon.com/)
-- Instale o [Java SE Development Kit 17.0.7](https://www.oracle.com/br/java/technologies/downloads/#java17)
-- Instale o [NodeJS 18.20.3](https://nodejs.org/en/download/package-manager)
-- Instale o [PM2](https://pm2.keymetrics.io/)
 - Configure o GitHub com as seguintes chaves secretas:
   - SSH_HOST (IP público da Máquina Virtual)
   - SSH_HOSTNAME (Nome de usuáro para acessar a Máquina Virtual)
