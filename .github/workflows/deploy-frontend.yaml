@@ -66,9 +66,9 @@ jobs:
           script: |
             cd ~/PI-3-SEM/frontend
             echo "Instalando dependências..."
-            npm install
+            sudo npm install
             echo "Construindo o projeto..."
-            npm run build
+            sudo npm run build
             output=$(pm2 show Sysclub 2>&1)
             if [[ "$output" != *"[PM2][WARN] Sysclub doesn't exist"* ]]; then
               echo "Reiniciando o serviço Sysclub..."
