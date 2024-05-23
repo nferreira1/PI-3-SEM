@@ -54,8 +54,6 @@ const FormLogin = ({
       });
       return;
     }
-
-    return router.refresh();
   };
 
   const handleAlterarTipoSenha = () =>

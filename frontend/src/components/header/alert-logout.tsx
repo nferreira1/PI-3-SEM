@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession } from "@/hooks/useSession";
-import { useRouter } from "next/navigation";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -13,14 +12,9 @@ import {
 } from "../ui/alert-dialog";
 
 const AlertLogout = () => {
-  const router = useRouter();
   const { logout } = useSession();
 
-  const handleLogoutClique = async () => {
-    await logout();
-    console.log("Logout");
-    return router.refresh();
-  };
+  const handleLogoutClique = async () => await logout();
 
   return (
     <AlertDialogContent className="rounded-2xl w-min">
