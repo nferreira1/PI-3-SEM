@@ -1,8 +1,8 @@
-name: Publicação na Máquina Virtual Linux na Azure
+name: Deploy do Frontend na Máquina Virtual
 
 on:
-  release:
-    types: [published]
+  repository_dispatch:
+    types: [deploy-frontend]
 
 jobs:
   build:
