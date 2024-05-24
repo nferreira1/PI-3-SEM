@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.senac.email.UsuarioEmailComponente;
 import br.edu.senac.models.Role;
 import br.edu.senac.models.Usuario;
 import br.edu.senac.models.dtos.Usuario.UsuarioAtualizarDTO;
@@ -29,6 +30,9 @@ public class UsuarioService {
   @Autowired
   private BCryptPasswordEncoder senhaEncoder;
 
+  @Autowired
+  private UsuarioEmailComponente usuarioEmailComponente;
+
   public Usuario buscarPorId(@NonNull Long id) {
 
     Optional<Usuario> usuario = this.usuarioRepository.findByIdAndStatusTrue(id);
@@ -47,8 +51,10 @@ public class UsuarioService {
     usuario.setSenha(senhaEncoder.encode(obj.getSenha()));
     usuario.setImagem(obj.getImagem());
     usuario.setRoles(Set.of(roleBasica));
+    this.usuarioRepository.save(usuario);
 
-    return this.usuarioRepository.save(usuario);
+    this.usuarioEmailComponente.enviarEmailBoasVindas(usuario);
+    return usuario;
   }
 
   @Transactional
