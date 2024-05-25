@@ -34,7 +34,7 @@ public class UsuarioEmailComponente extends EmailComponente {
         Email email = Email.builder()
                 .destinatario(usuario.getEmail())
                 .remetente("sysclub.app@gmail.com")
-                .assunto("")
+                .assunto("Bem-vindo ao SysClub!")
                 .mensagem(templateHtml)
                 .build();
 
