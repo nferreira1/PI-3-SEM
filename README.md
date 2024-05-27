@@ -67,7 +67,11 @@ Agora você já pode rodar o programa no Visual Studio Code 😊.
 - Configure o GitHub com as seguintes chaves secretas:
   - SSH_HOST (IP público da Máquina Virtual)
   - SSH_HOSTNAME (Nome de usuáro para acessar a Máquina Virtual)
-  - SSH_PASSWORD  (Senha para acessar a Máquina Virtual)
+  - SSH_PASSWORD (Senha para acessar a Máquina Virtual)
+  - IP_PUBLICO (IP público da Máquina Virtual)
+  - PERSONAL_ACCESS_TOKEN (Token de acesso do GitHub com todos os privilégios)
+  - SPRING_DATASOURCE_USERNAME (Nome de usuário em que fará a conexão com o banco de dados)
+  - SPRING_DATASOURCE_PASSWORD (Senha de usuário em que fará a conexão com o banco de dados)
 - Basta apenas lançar uma nova release que ele irá automaticamente fazer a publicação na Máquina Virtual.
 
 Agora você já pode rodar o programa na sua Máquina Virtual 😊.
