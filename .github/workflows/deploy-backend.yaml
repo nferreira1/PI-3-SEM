@@ -17,6 +17,12 @@ jobs:
           java-version: "17"
           distribution: "temurin"
 
+      - name: Set Environment Variables
+        run: |
+          echo "IP_PUBLICO=${{ secrets.IP_PUBLICO }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Buildar com Maven
         working-directory: ./backend/
         run: mvn -B package --file pom.xml
@@ -43,6 +49,7 @@ jobs:
             rm -d ~/PI-3-SEM/backend/target
             JAR_PATH=$(find ~/PI-3-SEM/backend -type f -name "*.jar")
             SERVICE_FILE=/etc/systemd/system/pi-3-sem-api.service
+
             if [ ! -f $SERVICE_FILE ]; then
               echo "Criando o serviço pi-3-sem-api..."
               echo "[Unit]

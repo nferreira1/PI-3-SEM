@@ -59,6 +59,26 @@ jobs:
               echo "Java já está instalado."
             fi
 
+            # Remover variáveis duplicadas e definir novas variáveis de ambiente
+            echo "Removendo variáveis duplicadas e definindo novas variáveis de ambiente..."
+
+            # Remover todas as ocorrências de IP_PUBLICO
+            sudo sed -i '/^IP_PUBLICO=/d' /etc/environment
+
+            # Remover todas as ocorrências de SPRING_DATASOURCE_USERNAME
+            sudo sed -i '/^SPRING_DATASOURCE_USERNAME=/d' /etc/environment
+
+            # Remover todas as ocorrências de SPRING_DATASOURCE_PASSWORD
+            sudo sed -i '/^SPRING_DATASOURCE_PASSWORD=/d' /etc/environment
+
+            # Adicionar novas variáveis de ambiente
+            echo "IP_PUBLICO=${{ secrets.IP_PUBLICO }}" | sudo tee -a /etc/environment
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" | sudo tee -a /etc/environment
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" | sudo tee -a /etc/environment
+
+            # Atualizar o ambiente
+            source /etc/environment
+
       - name: Trigger Frontend Deploy Workflow
         if: ${{ success() }}
         uses: peter-evans/repository-dispatch@v3
