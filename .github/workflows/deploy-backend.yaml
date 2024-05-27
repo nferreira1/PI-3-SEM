@@ -17,6 +17,13 @@ jobs:
           java-version: "17"
           distribution: "temurin"
 
+      - name: Verificar e Definir Variáveis de Ambiente
+        run: |
+          set -e
+          echo "IP_PUBLICO=${{ secrets.IP_PUBLICO }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Buildar com Maven
         working-directory: ./backend/
         run: mvn -B package --file pom.xml
@@ -43,6 +50,14 @@ jobs:
             rm -d ~/PI-3-SEM/backend/target
             JAR_PATH=$(find ~/PI-3-SEM/backend -type f -name "*.jar")
             SERVICE_FILE=/etc/systemd/system/pi-3-sem-api.service
+
+            # Export environment variables
+            echo "Exportando variáveis de ambiente..."
+            echo "IP_PUBLICO=${IP_PUBLICO}" | sudo tee -a /etc/environment
+            echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}" | sudo tee -a /etc/environment
+            echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" | sudo tee -a /etc/environment
+            source /etc/environment
+
             if [ ! -f $SERVICE_FILE ]; then
               echo "Criando o serviço pi-3-sem-api..."
               echo "[Unit]
@@ -53,6 +68,9 @@ jobs:
               User=nathan
               WorkingDirectory=/home/nathan/PI-3-SEM/
               ExecStart=/usr/bin/java -jar $JAR_PATH
+              Environment=IP_PUBLICO=${IP_PUBLICO}
+              Environment=SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+              Environment=SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
               SuccessExitStatus=143
               TimeoutStopSec=10
               Restart=on-failure
@@ -69,6 +87,9 @@ jobs:
             else
               echo "Atualizando o caminho do ExecStart para o JAR atual..."
               sudo sed -i "s|ExecStart=.*|ExecStart=/usr/bin/java -jar $JAR_PATH|g" $SERVICE_FILE
+              sudo sed -i "s|Environment=IP_PUBLICO=.*|Environment=IP_PUBLICO=${IP_PUBLICO}|g" $SERVICE_FILE
+              sudo sed -i "s|Environment=SPRING_DATASOURCE_USERNAME=.*|Environment=SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}|g" $SERVICE_FILE
+              sudo sed -i "s|Environment=SPRING_DATASOURCE_PASSWORD=.*|Environment=SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}|g" $SERVICE_FILE
               sudo systemctl daemon-reload
               sudo systemctl enable pi-3-sem-api.service
               sudo systemctl restart pi-3-sem-api.service

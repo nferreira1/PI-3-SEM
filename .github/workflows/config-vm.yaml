@@ -59,6 +59,35 @@ jobs:
               echo "Java já está instalado."
             fi
 
+            # Verificar e definir variáveis de ambiente
+            echo "Verificando e definindo variáveis de ambiente..."
+
+            if grep -q "IP_PUBLICO" /etc/environment; then
+              echo "IP_PUBLICO já está definido. Substituindo com o valor dos secrets..."
+              sudo sed -i "s|^IP_PUBLICO=.*|IP_PUBLICO=${{ secrets.IP_PUBLICO }}|g" /etc/environment
+            else
+              echo "IP_PUBLICO não está definido. Definindo a partir dos secrets..."
+              echo "IP_PUBLICO=${{ secrets.IP_PUBLICO }}" | sudo tee -a /etc/environment
+            fi
+
+            if grep -q "SPRING_DATASOURCE_USERNAME" /etc/environment; then
+              echo "SPRING_DATASOURCE_USERNAME já está definido. Substituindo com o valor dos secrets..."
+              sudo sed -i "s|^SPRING_DATASOURCE_USERNAME=.*|SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}|g" /etc/environment
+            else
+              echo "SPRING_DATASOURCE_USERNAME não está definido. Definindo a partir dos secrets..."
+              echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" | sudo tee -a /etc/environment
+            fi
+
+            if grep -q "SPRING_DATASOURCE_PASSWORD" /etc/environment; then
+              echo "SPRING_DATASOURCE_PASSWORD já está definido. Substituindo com o valor dos secrets..."
+              sudo sed -i "s|^SPRING_DATASOURCE_PASSWORD=.*|SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}|g" /etc/environment
+            else
+              echo "SPRING_DATASOURCE_PASSWORD não está definido. Definindo a partir dos secrets..."
+              echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" | sudo tee -a /etc/environment
+            fi
+
+            source /etc/environment
+
       - name: Trigger Frontend Deploy Workflow
         if: ${{ success() }}
         uses: peter-evans/repository-dispatch@v3
