@@ -1,7 +1,9 @@
 package br.edu.senac.email;
 
-import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -12,6 +14,9 @@ import br.edu.senac.models.Usuario;
 @Component
 public class UsuarioEmailComponente extends EmailComponente {
 
+    @Value("${IP_PUBLICO}")
+    private String ipPublico;
+
     private TemplateEngine templateEngine;
 
     public UsuarioEmailComponente(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
@@ -21,14 +26,12 @@ public class UsuarioEmailComponente extends EmailComponente {
 
     public void enviarEmailBoasVindas(Usuario usuario) {
         Context context = new Context();
-        String primeiroNome = usuario.getNome().split(" ")[0];
-        String sobrenome = usuario.getNome().split(" ")[1];
-        String primeiroNomeFormatado = primeiroNome.substring(0, 1).toUpperCase()
-                + primeiroNome.substring(1).toLowerCase();
-        String sobrenomeFormatado = sobrenome.substring(0, 1).toUpperCase() + sobrenome.substring(1).toLowerCase();
-        context.setVariable("nome", primeiroNomeFormatado + " " + sobrenomeFormatado);
-        context.setVariable("email", usuario.getEmail());
-        context.setVariable("date", LocalDateTime.now());
+        String nome = Arrays.stream(usuario.getNome().split("\\s+"))
+                .filter(palavra -> !palavra.isEmpty())
+                .map(palavra -> palavra.substring(0, 1).toUpperCase() + palavra.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
+        context.setVariable("nome", nome);
+        context.setVariable("IP_PUBLICO", "http://" + ipPublico);
         String templateHtml = this.templateEngine.process("boas-vindas-template", context);
 
         Email email = Email.builder()
