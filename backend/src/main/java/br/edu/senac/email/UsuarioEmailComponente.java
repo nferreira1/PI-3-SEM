@@ -1,9 +1,9 @@
 package br.edu.senac.email;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -13,6 +13,9 @@ import br.edu.senac.models.Usuario;
 
 @Component
 public class UsuarioEmailComponente extends EmailComponente {
+
+    @Value("${IP_PUBLICO}")
+    private String ipPublico;
 
     private TemplateEngine templateEngine;
 
@@ -28,8 +31,7 @@ public class UsuarioEmailComponente extends EmailComponente {
                 .map(palavra -> palavra.substring(0, 1).toUpperCase() + palavra.substring(1).toLowerCase())
                 .collect(Collectors.joining(" "));
         context.setVariable("nome", nome);
-        context.setVariable("email", usuario.getEmail());
-        context.setVariable("date", LocalDateTime.now());
+        context.setVariable("IP_PUBLICO", "http://" + ipPublico);
         String templateHtml = this.templateEngine.process("boas-vindas-template", context);
 
         Email email = Email.builder()
