@@ -52,9 +52,6 @@ jobs:
               [Service]
               User=nathan
               WorkingDirectory=/home/nathan/PI-3-SEM/
-              Environment=IP_PUBLICO=${{ secrets.IP_PUBLICO }}
-              Environment=SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}
-              Environment=SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}
               ExecStart=/usr/bin/java -jar $JAR_PATH
               SuccessExitStatus=143
               TimeoutStopSec=10
