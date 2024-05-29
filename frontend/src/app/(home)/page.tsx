@@ -1,9 +1,9 @@
-import Buscar from "@/components/buscar";
 import getAgendamentos from "@/utils/get-agendamentos";
 import { getAtividades } from "@/utils/get-atividades";
 import { getServerSession } from "@/utils/get-server-session";
 import Image from "next/image";
 import BoasVindas from "./components/boas-vindas";
+import Buscar from "./components/buscar";
 import ListaAgendamentos from "./components/lista-agendamentos";
 import ListaItemAtividades from "./components/lista-item-atividades";
 
