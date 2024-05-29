@@ -30,7 +30,7 @@ export default async function Agendamento() {
 
   return (
     <div className="max-w-screen-lg mx-auto py-6">
-      <h1 className="px-5 text-xl font-bold">Agendamentos</h1>
+      <h1 className="px-5 text-xl font-bold mb-3 uppercase">Agendamentos</h1>
 
       <div className="px-5 md:hidden">
         {statusAgendamento.map((status, index) => {

@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.senac.email.AgendamentoEmailComponente;
 import br.edu.senac.models.Agendamento;
 import br.edu.senac.models.EspacoHorario;
 import br.edu.senac.models.Usuario;
@@ -42,6 +43,9 @@ public class AgendamentoService {
 
   @Autowired
   private ConfiguracaoRepository configuracaoRepository;
+
+  @Autowired
+  private AgendamentoEmailComponente agendamentoEmailComponente;
 
   public Agendamento buscarPorId(@NonNull Long id) {
     Optional<Agendamento> agendamento = this.agendamentoRepository.findById(id);
@@ -91,6 +95,10 @@ public class AgendamentoService {
     agendamento.setDataHorarioExpiracao(dataHorarioExpiracao);
 
     this.agendamentoRepository.save(agendamento);
+
+    if (agendamento.getStatus().getId() == STATUS_AGUARDANDO_CONFIRMACAO) {
+      this.agendamentoEmailComponente.enviarEmailConfirmacaoAgendamento(agendamento);
+    }
 
     return agendamento;
   }
